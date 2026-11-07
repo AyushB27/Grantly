@@ -7,6 +7,8 @@ import {
   ChevronLeft,
   FileText,
   Trash2,
+  Award,
+  XCircle,
 } from 'lucide-react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 
@@ -15,6 +17,8 @@ interface KanbanCardProps {
   application: TrackedApplication;
   onOpenWorkspace: (scholarshipId: string) => void;
 }
+
+const STAGES: ApplicationStage[] = ['saved', 'preparing', 'submitted', 'under_review', 'result'];
 
 export const KanbanCard: React.FC<KanbanCardProps> = ({
   scholarship,
@@ -26,24 +30,30 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
   const totalTasks = scholarship.requiredDocuments.length;
   const completedTasks = application.completedChecklist.length;
 
-  const stages: ApplicationStage[] = ['bookmarked', 'in_progress', 'submitted', 'awarded'];
-  const currentIndex = stages.indexOf(application.stage);
+  const currentIndex = STAGES.indexOf(application.stage);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs hover:shadow-md transition-all space-y-3">
+    <article
+      className="bg-[#141818] rounded-xl border border-[#222827] hover:border-[#38423f] p-4 transition-all space-y-3"
+      aria-labelledby={`kanban-card-${scholarship.id}`}
+    >
       {/* Title & Provider */}
       <div className="flex items-start justify-between gap-2">
         <div>
-          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+          <span className="eyebrow text-[#89918c] block text-[9px]">
             {scholarship.provider}
           </span>
-          <h4 className="text-sm font-bold text-slate-900 line-clamp-1 mt-0.5">
+          <h4
+            id={`kanban-card-${scholarship.id}`}
+            onClick={() => onOpenWorkspace(scholarship.id)}
+            className="text-xs sm:text-sm font-bold text-[#edf1ec] line-clamp-1 mt-0.5 hover:text-[#a9f46b] cursor-pointer"
+          >
             {scholarship.title}
           </h4>
         </div>
         <button
           onClick={() => removeTrackedApplication(scholarship.id)}
-          className="text-slate-400 hover:text-rose-600 p-1"
+          className="text-[#89918c] hover:text-[#ff8e91] p-1 transition-colors"
           title="Remove from tracking"
           aria-label={`Remove ${scholarship.title} from tracker`}
         >
@@ -52,52 +62,81 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
       </div>
 
       {/* Award & Urgency */}
-      <div className="flex items-center justify-between text-xs">
-        <span className="font-extrabold text-slate-900">
+      <div className="flex items-center justify-between text-xs font-mono">
+        <span className="font-bold text-[#a9f46b]">
           {formatCurrency(scholarship.amount)}
         </span>
-        <span className={`px-2 py-0.5 rounded-md font-semibold text-[10px] ${urgency.badgeBg}`}>
+        <span className="px-2 py-0.5 rounded text-[10px] bg-[#101313] border border-[#222827] text-[#89918c]">
           {urgency.label}
         </span>
       </div>
 
       {/* Requirements status */}
-      <div className="flex items-center justify-between text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100">
+      <div className="flex items-center justify-between text-[11px] font-mono text-[#89918c] bg-[#101313] px-2.5 py-1.5 rounded-lg border border-[#222827]">
         <span className="flex items-center gap-1.5">
-          <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
+          <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
           <span>Docs: {completedTasks}/{totalTasks}</span>
         </span>
         {application.essayDraft && (
-          <span className="text-emerald-700 font-medium">Draft started</span>
+          <span className="text-[#70b4ff]">Draft active</span>
         )}
       </div>
 
+      {/* Result outcome selector if in 'result' stage */}
+      {application.stage === 'result' && (
+        <div className="p-2 bg-[#101313] border border-[#222827] rounded-lg flex items-center justify-between text-xs">
+          <span className="eyebrow text-[#89918c] text-[9px]">OUTCOME:</span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setApplicationStage(scholarship.id, 'result', 'awarded')}
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors ${
+                application.resultOutcome === 'awarded'
+                  ? 'bg-[#a9f46b] text-[#090b0b]'
+                  : 'bg-[#141818] text-[#a9f46b] border border-[#a9f46b]/30'
+              }`}
+            >
+              <Award className="w-3 h-3" />
+              <span>Awarded</span>
+            </button>
+            <button
+              onClick={() => setApplicationStage(scholarship.id, 'result', 'regret')}
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors ${
+                application.resultOutcome === 'regret'
+                  ? 'bg-[#ff8e91] text-[#090b0b]'
+                  : 'bg-[#141818] text-[#ff8e91] border border-[#ff8e91]/30'
+              }`}
+            >
+              <XCircle className="w-3 h-3" />
+              <span>Regret</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Card Action Controls */}
-      <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+      <div className="flex items-center justify-between pt-2 border-t border-[#222827] text-xs">
         {/* Stage Navigation */}
         <div className="flex items-center gap-1">
           {currentIndex > 0 && (
             <button
-              onClick={() => setApplicationStage(scholarship.id, stages[currentIndex - 1])}
-              className="p-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md"
-              title={`Move back to ${stages[currentIndex - 1].replace('_', ' ')}`}
-              aria-label={`Move ${scholarship.title} back to ${stages[currentIndex - 1]}`}
+              onClick={() => setApplicationStage(scholarship.id, STAGES[currentIndex - 1])}
+              className="p-1 text-[#89918c] hover:text-[#edf1ec] hover:bg-[#191f1e] rounded-md transition-colors"
+              title={`Move back to ${STAGES[currentIndex - 1].replace('_', ' ')}`}
+              aria-label={`Move ${scholarship.title} back to ${STAGES[currentIndex - 1]}`}
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
           )}
 
-          {currentIndex < stages.length - 1 && (
+          {currentIndex < STAGES.length - 1 && (
             <button
-              onClick={() => setApplicationStage(scholarship.id, stages[currentIndex + 1])}
-              className="p-1 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-md font-medium flex items-center"
-              title={`Advance to ${stages[currentIndex + 1].replace('_', ' ')}`}
-              aria-label={`Advance ${scholarship.title} to ${stages[currentIndex + 1]}`}
+              onClick={() => setApplicationStage(scholarship.id, STAGES[currentIndex + 1])}
+              className="px-2 py-0.5 text-[#89918c] hover:text-[#a9f46b] hover:bg-[#191f1e] rounded-md font-mono text-[10px] flex items-center transition-colors"
+              title={`Advance to ${STAGES[currentIndex + 1].replace('_', ' ')}`}
+              aria-label={`Advance ${scholarship.title} to ${STAGES[currentIndex + 1]}`}
             >
-              <span className="text-[10px] mr-0.5 capitalize">
-                {stages[currentIndex + 1].replace('_', ' ')}
-              </span>
-              <ChevronRight className="w-4 h-4" />
+              <span className="capitalize">{STAGES[currentIndex + 1].replace('_', ' ')}</span>
+              <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
             </button>
           )}
         </div>
@@ -105,13 +144,13 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         {/* Open Workspace */}
         <button
           onClick={() => onOpenWorkspace(scholarship.id)}
-          className="inline-flex items-center gap-1 px-2.5 py-1 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-md font-bold text-xs transition-colors"
+          className="btn-mint inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-[11px]"
           aria-label={`Open application checklist and workspace for ${scholarship.title}`}
         >
           <FileText className="w-3 h-3" />
-          <span>Workspace</span>
+          <span>Work</span>
         </button>
       </div>
-    </div>
+    </article>
   );
 };

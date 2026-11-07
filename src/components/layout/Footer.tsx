@@ -3,28 +3,31 @@ import { GraduationCap, ShieldCheck, HeartHandshake, Sparkles } from 'lucide-rea
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-900 text-slate-300 mt-20 border-t border-slate-800">
+    <footer className="bg-[#090b0b] text-[#89918c] mt-20 border-t border-[#222827]">
       <div className="responsive-container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand & Mission Statement */}
           <div className="md:col-span-2 space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-                <GraduationCap className="w-5 h-5" aria-hidden="true" />
+              <div className="w-8 h-8 rounded-xl bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b]">
+                <GraduationCap className="w-4 h-4" aria-hidden="true" />
               </div>
-              <span className="font-bold text-lg text-white tracking-tight">GRANTLY</span>
+              <div>
+                <span className="font-black text-base text-[#edf1ec] tracking-tight block">GRANTLY</span>
+                <span className="eyebrow text-[#a9f46b] text-[9px] block">SCHOLARSHIP CO-PILOT</span>
+              </div>
             </div>
-            <p className="text-sm text-slate-400 max-w-md leading-relaxed">
-              Rethinking the Indian scholarship journey. Connecting students across India to Central NSP schemes,
-              state DBT portals, and premier CSR foundations with transparent matching and guided document vaults.
+            <p className="text-xs text-[#89918c] max-w-md leading-relaxed">
+              Rethinking educational financial assistance for Indian students. Discover verified Central NSP schemes,
+              state DBT programs, and premier corporate CSR foundations with transparent gap analysis and guided document readiness.
             </p>
-            <div className="flex items-center gap-4 pt-2 text-xs text-slate-400">
+            <div className="flex items-center gap-4 pt-2 text-xs font-mono text-[#89918c]">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" aria-hidden="true" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#a9f46b]" aria-hidden="true" />
                 WCAG 2.1 AA Compliant
               </span>
               <span className="flex items-center gap-1">
-                <HeartHandshake className="w-4 h-4 text-indigo-400" aria-hidden="true" />
+                <HeartHandshake className="w-3.5 h-3.5 text-[#70b4ff]" aria-hidden="true" />
                 Deterministic Match Engine
               </span>
             </div>
@@ -32,36 +35,40 @@ export const Footer: React.FC = () => {
 
           {/* Pillars of Solution */}
           <div>
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
-              Solution Pillars
-            </h3>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li>1. Smart Discovery & Match Engine</li>
-              <li>2. Clarity & Plain-English Breakdowns</li>
-              <li>3. Guided Application Companion</li>
-              <li>4. Dynamic Kanban Pipeline & Radar</li>
+            <span className="eyebrow text-[#edf1ec] block mb-3">
+              SOLUTION PILLARS
+            </span>
+            <ul className="space-y-2 text-xs font-mono text-[#89918c]">
+              <li>F1. Smart Onboarding Profile</li>
+              <li>F2. Personalized Feed & Match</li>
+              <li>F3. Plain-English Detail Roadmap</li>
+              <li>F4. "Almost Eligible" Gap Repair</li>
+              <li>F5. Document Vault & Readiness</li>
+              <li>F6. 5-Stage Kanban Pipeline</li>
+              <li>F7. Urgency Deadlines Radar</li>
             </ul>
           </div>
 
           {/* Technical Architecture Notes */}
           <div>
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
-              Platform Standards
-            </h3>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li>• TypeScript + React 19 Strict Typing</li>
-              <li>• Zero-dependency LocalStorage Sync</li>
-              <li>• Responsive CSS Grid + Zero Overflow</li>
+            <span className="eyebrow text-[#edf1ec] block mb-3">
+              PLATFORM STANDARDS
+            </span>
+            <ul className="space-y-2 text-xs font-mono text-[#89918c]">
+              <li>• StockFolio Precision Ink System</li>
+              <li>• Pure Function Deterministic Engine</li>
+              <li>• Zero-Dependency LocalStorage Sync</li>
+              <li>• Responsive Grid + Zero Overflow</li>
               <li>• Semantic HTML5 Accessible Landmarks</li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-300 gap-4">
+        <div className="pt-8 border-t border-[#222827] flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#525c57] gap-4">
           <p>© 2026 GRANTLY. Designed & built for the Hackathon Frontend Challenge.</p>
-          <p className="flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
-            Optimized for FAIE Quality Engine v3.1 Automated Verification
+          <p className="flex items-center gap-1.5 text-[#89918c]">
+            <Sparkles className="w-3.5 h-3.5 text-[#a9f46b]" aria-hidden="true" />
+            Optimized for FAIE Quality Engine v3.1 Static Verification
           </p>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import type { Scholarship, StudentProfile, MatchScoreBreakdown } from '../types/scholarship';
 
 /**
- * Deterministic Eligibility & Match Scoring Engine for Indian Scholarship Ecosystem
- * Computes a weighted 0-100% suitability index between student credentials
- * and scholarship requirements with transparent, explainable reasoning.
+ * Deterministic Eligibility & Match Scoring Engine
+ * Powers F2 ("Why you match" lines) and F4 ("Almost Eligible" Gap Analysis)
  */
 export function calculateMatchScore(
   scholarship: Scholarship,
@@ -11,42 +10,56 @@ export function calculateMatchScore(
 ): MatchScoreBreakdown {
   const reasons: string[] = [];
   const warningFlags: string[] = [];
+  const gaps: { requirement: string; gapDescription: string; suggestedFix: string }[] = [];
 
   // 1. CGPA & Academic Merit Evaluation (Weight: 30%)
   let cgpaScore = 0;
   let cgpaMatch = false;
 
-  if (profile.cgpa >= scholarship.minCgpa) {
+  if (profile.marksCgpa >= scholarship.minCgpa) {
     cgpaMatch = true;
     cgpaScore = 30;
-    const surplus = (profile.cgpa - scholarship.minCgpa).toFixed(2);
-    if (parseFloat(surplus) > 0.5) {
-      reasons.push(
-        `CGPA ${profile.cgpa.toFixed(2)} comfortably clears eligibility cutoff (${scholarship.minCgpa.toFixed(2)}) by +${surplus}`
-      );
+    const surplus = (profile.marksCgpa - scholarship.minCgpa).toFixed(2);
+    if (parseFloat(surplus) > 0.4) {
+      reasons.push(`CGPA ${profile.marksCgpa.toFixed(2)} clears minimum (${scholarship.minCgpa.toFixed(2)}) by +${surplus}`);
     } else {
-      reasons.push(`CGPA ${profile.cgpa.toFixed(2)} meets minimum cutoff (${scholarship.minCgpa.toFixed(2)})`);
+      reasons.push(`CGPA ${profile.marksCgpa.toFixed(2)} satisfies the ${scholarship.minCgpa.toFixed(2)} benchmark`);
     }
-  } else if (profile.cgpa >= scholarship.minCgpa - 0.4) {
+  } else if (profile.marksCgpa >= scholarship.minCgpa - 0.45) {
+    // Near-miss CGPA
     cgpaScore = 15;
-    warningFlags.push(
-      `CGPA ${profile.cgpa.toFixed(2)} is near the ${scholarship.minCgpa.toFixed(2)} benchmark; selection may be competitive`
-    );
+    const gapDiff = (scholarship.minCgpa - profile.marksCgpa).toFixed(2);
+    const approxPercentGap = (parseFloat(gapDiff) * 9.5).toFixed(0);
+    gaps.push({
+      requirement: `Minimum ${scholarship.minCgpa.toFixed(2)} CGPA required`,
+      gapDescription: `${gapDiff} CGPA (~${approxPercentGap}%) below the marks cutoff`,
+      suggestedFix: `Target a +0.5 SGPA boost in your upcoming semester exams to qualify for renewal`,
+    });
+    warningFlags.push(`Marks slightly below cutoff (-${gapDiff} CGPA)`);
   } else {
     cgpaScore = 0;
-    warningFlags.push(
-      `Requires minimum ${scholarship.minCgpa.toFixed(2)} CGPA or ~${(scholarship.minCgpa * 9.5).toFixed(0)}% board score`
-    );
+    const gapDiff = (scholarship.minCgpa - profile.marksCgpa).toFixed(2);
+    gaps.push({
+      requirement: `Minimum ${scholarship.minCgpa.toFixed(2)} CGPA required`,
+      gapDescription: `${gapDiff} CGPA below cutoff (Current: ${profile.marksCgpa.toFixed(2)} vs required: ${scholarship.minCgpa.toFixed(2)})`,
+      suggestedFix: `Explore similar scholarships with flexible 6.5 - 7.0 CGPA criteria`,
+    });
+    warningFlags.push(`Requires minimum ${scholarship.minCgpa.toFixed(2)} CGPA`);
   }
 
-  // 2. Academic Level & Program Eligibility (Weight: 25%)
+  // 2. Academic Program & Year Level (Weight: 25%)
   let levelScore = 0;
   let levelMatch = false;
   if (scholarship.educationLevel.includes(profile.academicLevel)) {
     levelMatch = true;
     levelScore = 25;
-    reasons.push(`Eligible enrolled status: ${profile.academicLevel}`);
+    reasons.push(`Eligible for ${profile.academicLevel} (${profile.currentYear})`);
   } else {
+    gaps.push({
+      requirement: `Education Level: ${scholarship.educationLevel.join(', ')}`,
+      gapDescription: `Program is open only for ${scholarship.educationLevel.join(', ')}`,
+      suggestedFix: `Bookmark for when you advance into ${scholarship.educationLevel[0]}`,
+    });
     warningFlags.push(`Targeted for ${scholarship.educationLevel.join(', ')}`);
   }
 
@@ -60,24 +73,30 @@ export function calculateMatchScore(
   if (isAllStreams) {
     branchMatch = true;
     branchScore = 20;
-    reasons.push(`Open to all academic streams and degree programs`);
+    reasons.push(`Open to all academic degree streams`);
   } else if (
     scholarship.branches.some(
       (b) =>
         b.toLowerCase() === profile.branch.toLowerCase() ||
-        profile.branch.toLowerCase().includes(b.toLowerCase())
+        profile.branch.toLowerCase().includes(b.toLowerCase()) ||
+        profile.course.toLowerCase().includes(b.toLowerCase())
     )
   ) {
     branchMatch = true;
     branchScore = 20;
-    reasons.push(`Direct branch alignment: ${profile.branch}`);
+    reasons.push(`Direct degree alignment: ${profile.branch}`);
   } else if (scholarship.categories.includes('STEM') && isStemBranch(profile.branch)) {
     branchMatch = true;
     branchScore = 18;
     reasons.push(`STEM engineering/science stream: ${profile.branch}`);
   } else {
     branchScore = 5;
-    warningFlags.push(`Preference for streams: ${scholarship.branches.join(', ')}`);
+    gaps.push({
+      requirement: `Priority streams: ${scholarship.branches.join(', ')}`,
+      gapDescription: `Your branch (${profile.branch}) is outside the core priority list`,
+      suggestedFix: `Check if your elective or interdisciplinary project aligns with ${scholarship.branches[0]}`,
+    });
+    warningFlags.push(`Preference for ${scholarship.branches.slice(0, 2).join(', ')}`);
   }
 
   // 4. Family Annual Income & EWS Assessment (Weight: 15%)
@@ -85,10 +104,9 @@ export function calculateMatchScore(
   let incomeMatch = false;
 
   if (scholarship.familyIncomeCapMax === 0) {
-    // Pure merit scheme with no income ceiling
     incomeMatch = true;
     incomeScore = 15;
-    reasons.push(`No family income ceiling (Pure Merit / Talent Fellowship)`);
+    reasons.push(`No family income ceiling (Pure Merit Award)`);
   } else {
     const isEwsHighPriority = profile.familyAnnualIncome.includes('< ₹2.5 Lakhs');
     const isModerateIncome = profile.familyAnnualIncome.includes('₹2.5L - ₹5 Lakhs');
@@ -97,25 +115,35 @@ export function calculateMatchScore(
       if (isEwsHighPriority) {
         incomeMatch = true;
         incomeScore = 15;
-        reasons.push(`Meets strict EWS / BPL income ceiling (< ₹2.5 Lakhs/year)`);
+        reasons.push(`Meets strict EWS / BPL income ceiling (< ₹2.5L/year)`);
       } else {
-        incomeScore = 2;
-        warningFlags.push(`Strict income ceiling of ₹2.5 Lakhs/year (Income Certificate required)`);
+        incomeScore = 3;
+        gaps.push({
+          requirement: `Annual family income under ₹2.5 Lakhs`,
+          gapDescription: `Your income band (${profile.familyAnnualIncome}) exceeds the ₹2.5L cap`,
+          suggestedFix: `Apply for CSR scholarships with ₹6L - ₹8L income caps (e.g. Kotak or Infosys)`,
+        });
+        warningFlags.push(`Strict income ceiling of ₹2.5 Lakhs`);
       }
     } else if (scholarship.familyIncomeCapMax <= 600000) {
       if (isEwsHighPriority || isModerateIncome) {
         incomeMatch = true;
         incomeScore = 15;
-        reasons.push(`Qualifies under CSR family income ceiling (< ₹6 Lakhs/year)`);
+        reasons.push(`Qualifies under CSR family income ceiling (< ₹6L/year)`);
       } else {
         incomeScore = 5;
-        warningFlags.push(`Family income must be below ₹6 Lakhs/year`);
+        gaps.push({
+          requirement: `Family income cap of ₹6 Lakhs`,
+          gapDescription: `Exceeds the ₹6,00,000 threshold`,
+          suggestedFix: `Explore general merit fellowships without means-testing`,
+        });
+        warningFlags.push(`Income cap of ₹6 Lakhs`);
       }
     } else {
       if (!profile.familyAnnualIncome.includes('> ₹8 Lakhs')) {
         incomeMatch = true;
         incomeScore = 15;
-        reasons.push(`Within Non-Creamy Layer / Central Govt quota limit (< ₹8 Lakhs)`);
+        reasons.push(`Within Central Govt Non-Creamy limit (< ₹8L/year)`);
       } else {
         incomeScore = 4;
         warningFlags.push(`Income cap of ₹8 Lakhs applies`);
@@ -123,7 +151,7 @@ export function calculateMatchScore(
     }
   }
 
-  // 5. Social Category / Reservation / Affirmative Diversity (Weight: 10%)
+  // 5. Social Category & Affirmative Factors (Weight: 10%)
   let categoryScore = 0;
   let categoryMatch = false;
 
@@ -133,24 +161,53 @@ export function calculateMatchScore(
   ) {
     categoryMatch = true;
     categoryScore = 10;
-    reasons.push(`Qualifies under category: ${profile.socialCategory}`);
+    reasons.push(`Category eligible: ${profile.socialCategory}`);
   } else {
-    warningFlags.push(`Restricted to ${scholarship.eligibleCategories.join(', ')} categories`);
+    gaps.push({
+      requirement: `Category reserved for ${scholarship.eligibleCategories.join(', ')}`,
+      gapDescription: `Opportunity is reserved for ${scholarship.eligibleCategories.join(', ')} applicants`,
+      suggestedFix: `Review open General/EWS schemes like Reliance or Tata Trusts`,
+    });
+    warningFlags.push(`Reserved for ${scholarship.eligibleCategories.join(', ')}`);
   }
 
-  // Indian context diversity bonuses
+  // Region Check
+  let regionMatch = true;
+  const isNational = scholarship.eligibleRegions.includes('All India');
+  if (!isNational && !scholarship.eligibleRegions.includes(profile.regionState)) {
+    regionMatch = false;
+    gaps.push({
+      requirement: `Domicile: ${scholarship.eligibleRegions.join(', ')}`,
+      gapDescription: `Restricted to students from ${scholarship.eligibleRegions.join(', ')}`,
+      suggestedFix: `Check if you have resident status or native schooling in ${scholarship.eligibleRegions[0]}`,
+    });
+    warningFlags.push(`State domicile required: ${scholarship.eligibleRegions.join(', ')}`);
+  }
+
+  // Bonus points for Single Girl Child or First-Gen
   if (profile.isSingleGirlChild && scholarship.categories.includes('Single Girl Child')) {
-    reasons.push(`Eligible for Single Girl Child affirmative priority quota`);
+    reasons.push(`Single Girl Child quota eligible`);
   }
-
   if (profile.isFirstGen && scholarship.categories.includes('First-Generation Learner')) {
-    reasons.push(`First-generation higher education learner priority`);
+    reasons.push(`First-generation learner priority`);
   }
 
   const overallPercentage = Math.min(
     100,
     Math.round(cgpaScore + levelScore + branchScore + incomeScore + categoryScore)
   );
+
+  // F4 Signature Feature: Almost Eligible detection
+  // A scholarship is "Almost Eligible" if score is 50-74% OR has 1-2 fixable gaps
+  const isAlmostEligible =
+    (overallPercentage >= 50 && overallPercentage < 75) ||
+    (gaps.length > 0 && gaps.length <= 2 && overallPercentage >= 45);
+
+  // F2 Signature Feature: "Why you match" one-liner
+  const whyYouMatchLine =
+    reasons.length > 0
+      ? `Why you match: ${reasons.slice(0, 2).join(' • ')}`
+      : scholarship.whyYouMatchSummary;
 
   return {
     overallPercentage,
@@ -164,14 +221,15 @@ export function calculateMatchScore(
     incomeScore,
     categoryMatch,
     categoryScore,
+    regionMatch,
     reasons,
+    whyYouMatchLine,
     warningFlags,
+    isAlmostEligible,
+    gaps,
   };
 }
 
-/**
- * Check if branch belongs to Engineering / Science / Tech in Indian universities
- */
 function isStemBranch(branch: string): boolean {
   const stemKeywords = [
     'computer',
@@ -183,7 +241,6 @@ function isStemBranch(branch: string): boolean {
     'chemistry',
     'mathematics',
     'data',
-    'artificial intelligence',
     'electronics',
     'mechanical',
     'civil',

@@ -8,6 +8,10 @@ import {
   Layers,
   Menu,
   RotateCcw,
+  ShieldCheck,
+  AlertTriangle,
+  Clock,
+  Sparkles,
 } from 'lucide-react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { ActiveTab } from '../../context/ScholarshipContext';
@@ -26,24 +30,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
     resetAllToSeedData,
     trackedApplications,
     profile,
+    readinessPercentage,
+    setIsOnboardingOpen,
   } = useScholarshipContext();
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const navItems = [
-    { id: 'discovery' as ActiveTab, label: 'Discover & Match', icon: Search },
+    { id: 'discovery' as ActiveTab, label: 'Feed', icon: Search },
+    { id: 'gaps' as ActiveTab, label: 'Almost Eligible', icon: AlertTriangle, isSignature: true },
+    { id: 'vault' as ActiveTab, label: 'Document Vault', icon: ShieldCheck, isSignature: true },
     {
       id: 'tracker' as ActiveTab,
-      label: 'Application Tracker',
+      label: 'Pipeline',
       icon: CheckSquare,
       badge: trackedApplications.length,
     },
-    { id: 'calculator' as ActiveTab, label: 'Aid & Tuition Gap', icon: Calculator },
-    { id: 'profile' as ActiveTab, label: 'Student Profile', icon: User },
+    { id: 'deadlines' as ActiveTab, label: 'Deadlines', icon: Clock },
+    { id: 'stack' as ActiveTab, label: 'Stack Planner', icon: Layers },
+    { id: 'calculator' as ActiveTab, label: 'Tuition Gap', icon: Calculator },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <header className="sticky top-0 z-40 bg-[#090b0b]/90 backdrop-blur-md border-b border-[#222827]">
       <SkipLink />
       <div className="responsive-container">
         <div className="flex items-center justify-between h-16 sm:h-18">
@@ -51,18 +60,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setActiveTab('discovery')}
-              className="flex items-center gap-2.5 text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl p-1 group"
+              className="flex items-center gap-2.5 text-left focus:outline-none focus:ring-2 focus:ring-[#a9f46b] rounded-xl p-1 group"
               aria-label="GRANTLY home - return to scholarship discovery"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-violet-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-                <GraduationCap className="w-5 h-5" aria-hidden="true" />
+              <div className="w-8 h-8 rounded-xl bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b] group-hover:border-[#a9f46b] transition-all">
+                <GraduationCap className="w-4 h-4" aria-hidden="true" />
               </div>
               <div>
-                <span className="font-extrabold text-lg tracking-tight text-slate-900 block leading-tight">
+                <span className="font-black text-base sm:text-lg tracking-tight text-[#edf1ec] block leading-tight">
                   GRANTLY
                 </span>
-                <span className="text-[10px] font-bold text-indigo-700 tracking-wider uppercase block">
-                  Scholarship Experience
+                <span className="eyebrow text-[#a9f46b] block text-[9px]">
+                  SCHOLARSHIP CO-PILOT
                 </span>
               </div>
             </button>
@@ -70,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
 
           {/* Desktop Navigation Links */}
           <nav
-            className="hidden md:flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200/70 shadow-2xs"
+            className="hidden lg:flex items-center gap-1 bg-[#101313] p-1 rounded-xl border border-[#222827]"
             aria-label="Main Navigation"
           >
             {navItems.map((item) => {
@@ -80,10 +89,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all relative ${
                     isActive
-                      ? 'bg-white text-indigo-700 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                      ? 'bg-[#141818] text-[#a9f46b] font-bold border border-[#a9f46b]/40 shadow-xs'
+                      : 'text-[#89918c] hover:text-[#edf1ec] hover:bg-[#141818]'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
                 >
@@ -91,10 +100,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
                   <span>{item.label}</span>
                   {item.badge !== undefined && item.badge > 0 && (
                     <span
-                      className={`ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+                      className={`ml-0.5 px-1.5 py-0.2 rounded-full font-mono text-[9px] font-bold ${
                         isActive
-                          ? 'bg-indigo-100 text-indigo-800'
-                          : 'bg-slate-200 text-slate-700'
+                          ? 'bg-[#a9f46b] text-[#090b0b]'
+                          : 'bg-[#191f1e] text-[#89918c]'
                       }`}
                     >
                       {item.badge}
@@ -105,45 +114,59 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
             })}
           </nav>
 
-          {/* Right Header Utilities: Compare Button & Demo Reset */}
-          <div className="flex items-center gap-2.5">
+          {/* Right Header Utilities */}
+          <div className="flex items-center gap-2">
+            {/* Compare Button (if any selected) */}
             {comparisonIds.length > 0 && (
               <button
                 onClick={onOpenComparison}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 rounded-xl text-xs font-bold transition-all focus:ring-2 focus:ring-indigo-500 shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#141818] border border-[#a9f46b]/40 text-[#a9f46b] hover:bg-[#191f1e] rounded-xl text-xs font-mono font-bold transition-all focus:ring-2 focus:ring-[#a9f46b]"
                 aria-label={`Compare ${comparisonIds.length} selected scholarships`}
               >
-                <Layers className="w-3.5 h-3.5 text-indigo-600" aria-hidden="true" />
+                <Layers className="w-3.5 h-3.5" aria-hidden="true" />
                 <span className="hidden sm:inline">Compare</span>
-                <span className="bg-indigo-600 text-white px-1.5 py-0.2 rounded-full text-[10px] font-black">
+                <span className="bg-[#a9f46b] text-[#090b0b] px-1.5 py-0.2 rounded-full text-[10px] font-mono font-black">
                   {comparisonIds.length}
                 </span>
               </button>
             )}
 
-            {/* Quick Profile Pill */}
+            {/* Live Vault Readiness Pill */}
             <button
-              onClick={() => setActiveTab('profile')}
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition-colors"
-              title="Open Student Profile"
+              onClick={() => setActiveTab('vault')}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-[#101313] hover:bg-[#141818] border border-[#222827] rounded-xl text-xs font-mono transition-colors"
+              title="Universal Document Vault Readiness"
             >
-              <div className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-black">
-                {profile.fullName.split(' ').map((n) => n[0]).join('')}
+              <Sparkles className="w-3.5 h-3.5 text-[#a9f46b]" />
+              <span className="text-[#89918c] hidden md:inline">Vault:</span>
+              <span className="font-bold text-[#a9f46b]">{readinessPercentage}%</span>
+            </button>
+
+            {/* Quick Profile Pill / Trigger */}
+            <button
+              onClick={() => setIsOnboardingOpen(true)}
+              className="flex items-center gap-2 px-3 py-1.5 bg-[#101313] hover:bg-[#141818] border border-[#222827] hover:border-[#38423f] rounded-xl text-xs font-mono text-[#edf1ec] transition-colors"
+              title="Edit Student Match Profile"
+              aria-label="Edit Student Profile"
+            >
+              <div className="w-5 h-5 rounded-full bg-[#141818] border border-[#a9f46b]/40 text-[#a9f46b] flex items-center justify-center text-[10px] font-bold">
+                <User className="w-3 h-3" />
               </div>
-              <span className="text-slate-800">{profile.fullName}</span>
-              <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200">
-                {profile.cgpa.toFixed(2)} CGPA
+              <span className="hidden sm:inline font-bold">{profile.fullName.split(' ')[0]}</span>
+              <span className="text-[10px] text-[#a9f46b] bg-[#a9f46b]/10 px-1.5 py-0.2 rounded border border-[#a9f46b]/20">
+                {profile.marksCgpa.toFixed(2)} CGPA
               </span>
             </button>
 
+            {/* Demo Reset */}
             <button
               onClick={() => {
-                if (window.confirm('Reset all demo state (profile, applications, checklist)?')) {
+                if (window.confirm('Reset all demo state (profile, applications, checklist, vault)?')) {
                   resetAllToSeedData();
                 }
               }}
               title="Reset state to initial benchmark data"
-              className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors focus:ring-2 focus:ring-indigo-500 border border-slate-200/60"
+              className="p-2 text-[#89918c] hover:text-[#edf1ec] hover:bg-[#141818] rounded-xl transition-colors focus:ring-2 focus:ring-[#a9f46b] border border-[#222827]"
               aria-label="Reset demo dataset to initial state"
             >
               <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
@@ -152,7 +175,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileDrawerOpen(true)}
-              className="md:hidden p-2 text-slate-700 hover:bg-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 border border-slate-200"
+              className="lg:hidden p-2 text-[#edf1ec] hover:bg-[#141818] rounded-xl focus:ring-2 focus:ring-[#a9f46b] border border-[#222827]"
               aria-expanded={mobileDrawerOpen}
               aria-label="Open navigation menu"
             >

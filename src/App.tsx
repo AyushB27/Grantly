@@ -9,9 +9,13 @@ import { ScholarshipGrid } from './components/discovery/ScholarshipGrid';
 import { ScholarshipDetailModal } from './components/details/ScholarshipDetailModal';
 import { ApplicationWorkspaceModal } from './components/companion/ApplicationWorkspaceModal';
 import { ComparisonModal } from './components/discovery/ComparisonModal';
+import { OnboardingModal } from './components/profile/OnboardingModal';
+import { GapAnalysisView } from './components/gaps/GapAnalysisView';
+import { DocumentVaultView } from './components/vault/DocumentVaultView';
 import { KanbanBoard } from './components/tracker/KanbanBoard';
+import { DeadlinesRadarView } from './components/deadlines/DeadlinesRadarView';
+import { ScholarshipStackPlanner } from './components/stack/ScholarshipStackPlanner';
 import { FinancialAidSummary } from './components/analytics/FinancialAidSummary';
-import { StudentProfileView } from './components/profile/StudentProfileView';
 import { useScholarships } from './hooks/useScholarships';
 import type { EnrichedScholarship } from './hooks/useScholarships';
 
@@ -24,6 +28,8 @@ const MainAppContent: React.FC = () => {
     workspaceScholarshipId,
     setWorkspaceScholarshipId,
     scholarships: allRawScholarships,
+    isOnboardingOpen,
+    setIsOnboardingOpen,
   } = useScholarshipContext();
 
   const { scholarships: filteredScholarships, aidAnalytics } = useScholarships();
@@ -50,27 +56,24 @@ const MainAppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 selection:bg-indigo-600 selection:text-white">
+    <div className="flex flex-col min-h-screen bg-[#090b0b] text-[#edf1ec] selection:bg-[#a9f46b] selection:text-[#090b0b]">
       {/* Accessible Navbar & Skip Landmark */}
       <Navbar onOpenComparison={() => setComparisonModalOpen(true)} />
 
       {/* Main Content Landmark */}
       <main id="main-content" className="flex-1 responsive-container py-6" tabIndex={-1}>
+        {/* F2: Personalized Scholarship Feed */}
         {activeTab === 'discovery' && (
           <>
-            {/* Inspiring Hero Banner */}
             <HeroSection
               totalAvailableFunding={aidAnalytics.totalPotentialFunding}
               totalGrantsCount={allRawScholarships.length}
             />
 
-            {/* Interactive Profile Simulator */}
             <QuickProfileBar />
 
-            {/* Faceted Filters & Search */}
             <SearchAndFilterBar totalResults={filteredScholarships.length} />
 
-            {/* Responsive Grid with a11y Live Announcer */}
             <ScholarshipGrid
               scholarships={filteredScholarships}
               onOpenDetails={handleOpenDetails}
@@ -79,6 +82,18 @@ const MainAppContent: React.FC = () => {
           </>
         )}
 
+        {/* F4: Almost Eligible Gap Analysis */}
+        {activeTab === 'gaps' && (
+          <GapAnalysisView
+            onOpenDetails={handleOpenDetails}
+            onOpenWorkspace={handleOpenWorkspace}
+          />
+        )}
+
+        {/* F5: Universal Document Vault & Readiness Score */}
+        {activeTab === 'vault' && <DocumentVaultView />}
+
+        {/* F6: 5-Stage Application Tracker */}
         {activeTab === 'tracker' && (
           <KanbanBoard
             onOpenWorkspace={handleOpenWorkspace}
@@ -86,25 +101,43 @@ const MainAppContent: React.FC = () => {
           />
         )}
 
+        {/* F7: Deadlines Radar View */}
+        {activeTab === 'deadlines' && (
+          <DeadlinesRadarView
+            onOpenDetails={handleOpenDetails}
+            onOpenWorkspace={handleOpenWorkspace}
+          />
+        )}
+
+        {/* Stretch: Scholarship Stack Planner */}
+        {activeTab === 'stack' && <ScholarshipStackPlanner />}
+
+        {/* Tuition Gap Visualizer */}
         {activeTab === 'calculator' && (
           <FinancialAidSummary onNavigateDiscovery={() => setActiveTab('discovery')} />
         )}
-
-        {activeTab === 'profile' && <StudentProfileView />}
       </main>
 
-      {/* Modals & Slide-Overs */}
+      {/* F1: Smart Onboarding Profile Modal */}
+      <OnboardingModal
+        isOpen={isOnboardingOpen}
+        onClose={() => setIsOnboardingOpen(false)}
+      />
+
+      {/* F3: Scholarship Detail View Modal */}
       <ScholarshipDetailModal
         scholarship={selectedScholarship}
         onClose={() => setSelectedScholarship(null)}
         onOpenWorkspace={handleOpenWorkspace}
       />
 
+      {/* Guided Application Workspace Modal */}
       <ApplicationWorkspaceModal
         scholarship={workspaceScholarship}
         onClose={() => setWorkspaceScholarshipId(null)}
       />
 
+      {/* Side-by-Side Comparison Modal */}
       <ComparisonModal
         isOpen={comparisonModalOpen}
         onClose={() => setComparisonModalOpen(false)}

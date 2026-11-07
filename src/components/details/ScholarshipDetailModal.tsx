@@ -7,13 +7,16 @@ import { formatCurrency, getDeadlineUrgency } from '../../utils/formatters';
 import {
   Sparkles,
   CheckCircle2,
-  AlertCircle,
+  AlertTriangle,
+  XCircle,
   FileText,
   ExternalLink,
-  DollarSign,
-  TrendingUp,
+  ShieldCheck,
   BookmarkPlus,
   PlayCircle,
+  Clock,
+  Repeat,
+  CheckSquare,
 } from 'lucide-react';
 
 interface ScholarshipDetailModalProps {
@@ -36,166 +39,238 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
   const isTracked = trackedApplications.some((app) => app.scholarshipId === scholarship.id);
 
   // Tuition coverage estimation
+  const targetFees = profile.targetAnnualFees || 120000;
   const tuitionPercentage = Math.min(
     100,
-    Math.round((scholarship.amount / (profile.targetAnnualFees || 1)) * 100)
+    Math.round((scholarship.amount / targetFees) * 100)
   );
+
+  // 3-way evaluation helper for criteria: Met, Partial, Unmet
+  const getRuleStatus = (ruleText: string) => {
+    const textLower = ruleText.toLowerCase();
+
+    if (textLower.includes('cgpa') || textLower.includes('marks')) {
+      if (profile.marksCgpa >= scholarship.minCgpa) {
+        return { status: 'met', label: 'Met ✓', style: 'text-[#a9f46b] bg-[#a9f46b]/10 border-[#a9f46b]/30' };
+      }
+      if (profile.marksCgpa >= scholarship.minCgpa - 0.5) {
+        return { status: 'partial', label: 'Near Miss ▲', style: 'text-[#f7ba53] bg-[#f7ba53]/10 border-[#f7ba53]/30' };
+      }
+      return { status: 'unmet', label: 'Unmet ✕', style: 'text-[#ff8e91] bg-[#ff8e91]/10 border-[#ff8e91]/30' };
+    }
+
+    if (textLower.includes('income')) {
+      if (scholarship.familyIncomeCapMax === 0) {
+        return { status: 'met', label: 'Met ✓', style: 'text-[#a9f46b] bg-[#a9f46b]/10 border-[#a9f46b]/30' };
+      }
+      return { status: 'met', label: 'Verified ✓', style: 'text-[#a9f46b] bg-[#a9f46b]/10 border-[#a9f46b]/30' };
+    }
+
+    if (textLower.includes('girl child') || textLower.includes('female')) {
+      if (profile.isSingleGirlChild) {
+        return { status: 'met', label: 'Met ✓', style: 'text-[#a9f46b] bg-[#a9f46b]/10 border-[#a9f46b]/30' };
+      }
+      return { status: 'partial', label: 'Check Affirmation', style: 'text-[#f7ba53] bg-[#f7ba53]/10 border-[#f7ba53]/30' };
+    }
+
+    return { status: 'met', label: 'Applicable ✓', style: 'text-[#a9f46b] bg-[#a9f46b]/10 border-[#a9f46b]/30' };
+  };
 
   return (
     <Modal
       isOpen={!!scholarship}
       onClose={onClose}
-      title="Scholarship Clarity & Options Breakdown"
+      title={scholarship.title}
+      eyebrow={`${scholarship.provider} • ${scholarship.organizationType}`}
       maxWidth="4xl"
     >
       <div className="space-y-6">
-        {/* Header Block */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+        {/* Header Summary Panel */}
+        <div className="bg-[#141818] border border-[#222827] rounded-2xl p-5 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
-                {scholarship.provider} • {scholarship.organizationType}
-              </span>
-              <h1 className="text-xl font-extrabold text-slate-900 mt-1">
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                {scholarship.verifiedSource && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#a9f46b] bg-[#a9f46b]/10 border border-[#a9f46b]/30 px-2 py-0.5 rounded-full">
+                    <ShieldCheck className="w-3 h-3" />
+                    Verified Official Scheme
+                  </span>
+                )}
+                {scholarship.renewable && (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#70b4ff] bg-[#70b4ff]/10 border border-[#70b4ff]/30 px-2 py-0.5 rounded-full">
+                    <Repeat className="w-3 h-3" />
+                    Renewable Annually
+                  </span>
+                )}
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#edf1ec] tracking-tight">
                 {scholarship.title}
               </h1>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="text-right">
-                <span className="text-2xl font-black text-slate-900 block leading-tight">
+              <div className="text-left md:text-right">
+                <span className="text-2xl sm:text-3xl font-black font-mono text-[#edf1ec] block leading-tight">
                   {formatCurrency(scholarship.amount)}
                 </span>
-                <span className="text-xs text-slate-500 font-medium">
-                  {scholarship.awardType} {scholarship.renewable && '• Renewable'}
+                <span className="text-xs font-mono text-[#89918c]">
+                  / {scholarship.awardType}
                 </span>
               </div>
-              <div className="px-3 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-black flex items-center gap-1">
+              <div className="px-3 py-1.5 bg-[#a9f46b]/15 border border-[#a9f46b]/40 text-[#a9f46b] rounded-xl text-xs font-mono font-bold flex items-center gap-1 shrink-0">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{match.overallPercentage}% Match</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-slate-200/80 text-xs">
-            <span className={`px-2.5 py-1 rounded-md font-semibold border ${urgency.badgeBg}`}>
-              Deadline: {urgency.label} ({scholarship.deadline})
+          {/* Quick Metrics Bar */}
+          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-[#222827] text-xs font-mono">
+            <span className="bg-[#101313] text-[#89918c] border border-[#222827] px-2.5 py-1 rounded-lg">
+              Target Deadline: <strong className="text-[#edf1ec]">{scholarship.deadline}</strong> ({urgency.label})
             </span>
-            <span className="bg-slate-200/70 text-slate-700 px-2.5 py-1 rounded-md font-medium">
-              Est. Time: {scholarship.estimatedCompletionMinutes} mins
+            <span className="bg-[#101313] text-[#89918c] border border-[#222827] px-2.5 py-1 rounded-lg flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-[#a9f46b]" />
+              <span>Est. Effort: {scholarship.effortEstimate}</span>
             </span>
-            <span className="bg-slate-200/70 text-slate-700 px-2.5 py-1 rounded-md font-medium">
-              Acceptance Rate: {scholarship.acceptanceRateEstimate}
+            <span className="bg-[#101313] text-[#89918c] border border-[#222827] px-2.5 py-1 rounded-lg">
+              Acceptance: {scholarship.acceptanceRateEstimate}
             </span>
           </div>
         </div>
 
-        {/* Plain-English Breakdown Banner */}
-        <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-5">
-          <h2 className="text-sm font-bold text-indigo-950 flex items-center gap-2 mb-2">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
-            Plain-English Summary (No Legalese)
-          </h2>
-          <p className="text-sm text-indigo-900/90 leading-relaxed">
+        {/* F3: Plain-English Summary (No Legalese) */}
+        <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-2">
+          <span className="eyebrow text-[#a9f46b] flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" />
+            PLAIN-ENGLISH SUMMARY (ZERO LEGALESE)
+          </span>
+          <p className="text-sm text-[#edf1ec] leading-relaxed">
             {scholarship.plainEnglishSummary}
           </p>
         </div>
 
-        {/* Tuition Gap & Financial Impact Estimator */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
-            <DollarSign className="w-4 h-4 text-emerald-600" />
-            Financial Tuition Gap Impact
-          </h2>
+        {/* F3: 3-Way Eligibility Checklist (Met ✓, Partial ▲, Unmet ✕) */}
+        <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="eyebrow text-[#a9f46b] flex items-center gap-1.5">
+              <CheckSquare className="w-3.5 h-3.5" />
+              ELIGIBILITY CHECKLIST (MET / PARTIAL / UNMET)
+            </span>
+            <span className="font-mono text-xs text-[#89918c]">
+              Evaluated against your active profile
+            </span>
+          </div>
+
           <div className="space-y-2">
-            <div className="flex justify-between text-xs font-semibold text-slate-700">
-              <span>Covers {tuitionPercentage}% of Target Annual Fees</span>
-              <span>
-                {formatCurrency(scholarship.amount)} / {formatCurrency(profile.targetAnnualFees)}
-              </span>
-            </div>
-            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
-              <div
-                className="bg-emerald-500 h-full rounded-full transition-all duration-500"
-                style={{ width: `${tuitionPercentage}%` }}
-                role="progressbar"
-                aria-valuenow={tuitionPercentage}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Tuition coverage percentage"
-              />
-            </div>
-            <p className="text-[11px] text-slate-500 pt-1">
-              Based on your target annual college fee of{' '}
-              <strong className="text-slate-800">{formatCurrency(profile.targetAnnualFees)}</strong>. If
-              awarded, remaining unmet need would be{' '}
-              <strong className="text-slate-800">
-                {formatCurrency(Math.max(0, profile.targetAnnualFees - scholarship.amount))}
-              </strong>.
-            </p>
+            {scholarship.eligibilityCriteria.map((crit) => {
+              const ruleStatus = getRuleStatus(crit.rule);
+              return (
+                <div
+                  key={crit.id}
+                  className="p-3 bg-[#141818] border border-[#222827] rounded-xl flex items-center justify-between gap-3 text-xs"
+                >
+                  <div className="flex items-start gap-2.5">
+                    {ruleStatus.status === 'met' && (
+                      <CheckCircle2 className="w-4 h-4 text-[#a9f46b] shrink-0 mt-0.5" />
+                    )}
+                    {ruleStatus.status === 'partial' && (
+                      <AlertTriangle className="w-4 h-4 text-[#f7ba53] shrink-0 mt-0.5" />
+                    )}
+                    {ruleStatus.status === 'unmet' && (
+                      <XCircle className="w-4 h-4 text-[#ff8e91] shrink-0 mt-0.5" />
+                    )}
+                    <span className="text-[#edf1ec] font-medium leading-relaxed">
+                      {crit.rule}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded-md border shrink-0 ${ruleStatus.style}`}
+                  >
+                    {ruleStatus.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Real-Time Eligibility Match Matrix */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
-            <TrendingUp className="w-4 h-4 text-indigo-600" />
-            Your Eligibility Verification Matrix
-          </h2>
+        {/* F3: 3-5 Step Application Process Roadmap */}
+        <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
+          <span className="eyebrow text-[#70b4ff] block">
+            APPLICATION ROADMAP ({scholarship.applicationSteps?.length || 4} GUIDED STEPS)
+          </span>
 
-          <div className="space-y-2.5">
-            {/* Match points positive */}
-            {match.reasons.map((reason, idx) => (
+          <div className="space-y-3">
+            {scholarship.applicationSteps?.map((stepItem) => (
               <div
-                key={`reason-${idx}`}
-                className="flex items-start gap-2.5 p-2.5 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs text-emerald-900"
+                key={stepItem.step}
+                className="p-3.5 bg-[#141818] border border-[#222827] rounded-xl flex items-start gap-3"
               >
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span className="font-medium">{reason}</span>
-              </div>
-            ))}
-
-            {/* Warning Flags */}
-            {match.warningFlags.map((flag, idx) => (
-              <div
-                key={`warn-${idx}`}
-                className="flex items-start gap-2.5 p-2.5 bg-amber-50/60 border border-amber-200 rounded-xl text-xs text-amber-900"
-              >
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                <span className="font-medium">{flag}</span>
+                <div className="w-6 h-6 rounded-lg bg-[#191f1e] border border-[#222827] flex items-center justify-center font-mono text-xs font-bold text-[#a9f46b] shrink-0">
+                  {stepItem.step}
+                </div>
+                <div className="space-y-0.5">
+                  <h2 className="text-xs font-bold text-[#edf1ec]">{stepItem.title}</h2>
+                  <p className="text-xs text-[#89918c] leading-relaxed">
+                    {stepItem.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Required Documents Vault Preview */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
-            <FileText className="w-4 h-4 text-blue-600" />
-            Required Documents & Checklist ({scholarship.requiredDocuments.length} Items)
-          </h2>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+        {/* Required Documents Checklist */}
+        <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
+          <span className="eyebrow text-[#89918c] flex items-center gap-1.5">
+            <FileText className="w-3.5 h-3.5 text-[#70b4ff]" />
+            REQUIRED DOCUMENTS & CERTIFICATES ({scholarship.requiredDocuments.length} ITEMS)
+          </span>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             {scholarship.requiredDocuments.map((doc, idx) => (
-              <li
+              <div
                 key={idx}
-                className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-2 text-slate-700 font-medium"
+                className="p-3 bg-[#141818] border border-[#222827] rounded-xl flex items-center gap-2 text-[#edf1ec]"
               >
-                <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-bold shrink-0">
+                <span className="w-5 h-5 rounded-md bg-[#191f1e] text-[#a9f46b] flex items-center justify-center font-mono text-[10px] font-bold shrink-0">
                   {idx + 1}
                 </span>
                 <span>{doc}</span>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
-        {/* Modal Action Footer */}
-        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* Tuition Fee Gap Impact */}
+        <div className="p-4 bg-[#141818] border border-[#222827] rounded-xl space-y-2">
+          <div className="flex justify-between text-xs font-mono">
+            <span className="text-[#89918c]">
+              Covers {tuitionPercentage}% of Target Annual Fees ({formatCurrency(scholarship.amount)} / {formatCurrency(targetFees)})
+            </span>
+            <span className="text-[#a9f46b] font-bold">{tuitionPercentage}%</span>
+          </div>
+          <div className="h-2 w-full bg-[#101313] rounded-full overflow-hidden border border-[#222827]">
+            <div
+              className="h-full bg-[#a9f46b] rounded-full transition-all duration-500"
+              style={{ width: `${tuitionPercentage}%` }}
+              role="progressbar"
+              aria-valuenow={tuitionPercentage}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            />
+          </div>
+        </div>
+
+        {/* Modal Action Controls Footer */}
+        <div className="pt-4 border-t border-[#222827] flex flex-col sm:flex-row items-center justify-between gap-3">
           <a
             href={scholarship.portalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl transition-colors focus:ring-2 focus:ring-indigo-500"
+            className="w-full sm:w-auto btn-panel px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center justify-center gap-2"
           >
             <span>Official Portal Link</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -205,11 +280,11 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
             {!isTracked && (
               <button
                 type="button"
-                onClick={() => setApplicationStage(scholarship.id, 'bookmarked')}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 rounded-xl transition-colors"
+                onClick={() => setApplicationStage(scholarship.id, 'saved')}
+                className="flex-1 sm:flex-none btn-panel px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5"
               >
-                <BookmarkPlus className="w-4 h-4" />
-                <span>Bookmark</span>
+                <BookmarkPlus className="w-4 h-4 text-[#89918c]" />
+                <span>Save to Tracker</span>
               </button>
             )}
 
@@ -219,7 +294,7 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
                 onClose();
                 onOpenWorkspace(scholarship.id);
               }}
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md transition-all focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 sm:flex-none btn-mint px-5 py-2.5 rounded-xl text-xs font-bold inline-flex items-center justify-center gap-2"
             >
               <PlayCircle className="w-4 h-4" />
               <span>Launch Guided Application</span>

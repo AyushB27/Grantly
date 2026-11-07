@@ -3,7 +3,7 @@ import type { CategoryTag } from '../../types/scholarship';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral' | 'category';
+  variant?: 'mint' | 'amber' | 'rose' | 'blue' | 'purple' | 'neutral';
   category?: CategoryTag;
   className?: string;
 }
@@ -14,64 +14,63 @@ export const Badge: React.FC<BadgeProps> = ({
   category,
   className = '',
 }) => {
-  // Accessible, high-contrast color pairings conforming to WCAG AA 4.5:1
-  let variantStyles = 'bg-slate-100 text-slate-800 border-slate-300';
+  let styles = 'bg-[#1a201f] text-[#89918c] border-[#222827]';
 
   if (category) {
     switch (category) {
       case 'STEM':
-        variantStyles = 'bg-blue-50 text-blue-800 border-blue-200';
+        styles = 'bg-[#70b4ff14] text-[#70b4ff] border-[#70b4ff33]';
         break;
       case 'Women in Tech':
-        variantStyles = 'bg-purple-50 text-purple-800 border-purple-200';
+        styles = 'bg-[#c084fc14] text-[#c084fc] border-[#c084fc33]';
         break;
       case 'Need-Based (EWS)':
-        variantStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        styles = 'bg-[#a9f46b14] text-[#a9f46b] border-[#a9f46b33]';
         break;
       case 'Merit-Based':
-        variantStyles = 'bg-amber-50 text-amber-900 border-amber-200';
+        styles = 'bg-[#f7ba5314] text-[#f7ba53] border-[#f7ba5333]';
         break;
       case 'First-Generation Learner':
-        variantStyles = 'bg-teal-50 text-teal-800 border-teal-200';
+        styles = 'bg-[#2dd4bf14] text-[#2dd4bf] border-[#2dd4bf33]';
         break;
       case 'SC / ST / OBC':
-        variantStyles = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+        styles = 'bg-[#818cf814] text-[#818cf8] border-[#818cf833]';
         break;
       case 'Healthcare & Medical':
-        variantStyles = 'bg-rose-50 text-rose-800 border-rose-200';
+        styles = 'bg-[#fb718514] text-[#fb7185] border-[#fb718533]';
         break;
       case 'Single Girl Child':
-        variantStyles = 'bg-pink-50 text-pink-800 border-pink-200';
+        styles = 'bg-[#f472b614] text-[#f472b6] border-[#f472b633]';
         break;
       default:
-        variantStyles = 'bg-slate-100 text-slate-800 border-slate-300';
+        styles = 'bg-[#1a201f] text-[#89918c] border-[#222827]';
     }
   } else {
     switch (variant) {
-      case 'primary':
-        variantStyles = 'bg-indigo-50 text-indigo-800 border-indigo-200';
+      case 'mint':
+        styles = 'bg-[#a9f46b14] text-[#a9f46b] border-[#a9f46b33]';
         break;
-      case 'success':
-        variantStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+      case 'amber':
+        styles = 'bg-[#f7ba5314] text-[#f7ba53] border-[#f7ba5333]';
         break;
-      case 'warning':
-        variantStyles = 'bg-amber-50 text-amber-800 border-amber-300';
+      case 'rose':
+        styles = 'bg-[#ff8e9114] text-[#ff8e91] border-[#ff8e9133]';
         break;
-      case 'danger':
-        variantStyles = 'bg-rose-50 text-rose-800 border-rose-300';
+      case 'blue':
+        styles = 'bg-[#70b4ff14] text-[#70b4ff] border-[#70b4ff33]';
         break;
-      case 'secondary':
-        variantStyles = 'bg-purple-50 text-purple-800 border-purple-200';
+      case 'purple':
+        styles = 'bg-[#c084fc14] text-[#c084fc] border-[#c084fc33]';
         break;
       case 'neutral':
       default:
-        variantStyles = 'bg-slate-100 text-slate-700 border-slate-300';
+        styles = 'bg-[#161c1b] text-[#89918c] border-[#222827]';
     }
   }
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-[11px] font-bold border transition-colors ${variantStyles} ${className}`}
+      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border ${styles} ${className}`}
     >
       {children}
     </span>

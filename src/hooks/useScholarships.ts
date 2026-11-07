@@ -27,7 +27,7 @@ export function useScholarships() {
   // 2. Filter scholarships based on user search and facet criteria
   const filteredScholarships = useMemo<EnrichedScholarship[]>(() => {
     return enrichedScholarships.filter((item) => {
-      // Keyword search (case-insensitive across title, provider, description, branches)
+      // Keyword search
       if (filters.searchQuery.trim()) {
         const query = filters.searchQuery.toLowerCase();
         const matchesTitle = item.title.toLowerCase().includes(query);
@@ -62,8 +62,8 @@ export function useScholarships() {
         return false;
       }
 
-      // Max CGPA requirement
-      if (item.minCgpa > filters.maxCgpaRequirement) {
+      // Max Effort in minutes
+      if (filters.maxEffortMinutes > 0 && item.effortMinutes > filters.maxEffortMinutes) {
         return false;
       }
 
@@ -74,6 +74,11 @@ export function useScholarships() {
 
       // Only Eligible (Match Score >= 75%)
       if (filters.onlyEligible && item.matchScore < 75) {
+        return false;
+      }
+
+      // F4 Almost Eligible Filter
+      if (filters.onlyAlmostEligible && !item.matchBreakdown.isAlmostEligible) {
         return false;
       }
 
@@ -95,8 +100,8 @@ export function useScholarships() {
         return list.sort((a, b) => b.amount - a.amount);
       case 'amount_asc':
         return list.sort((a, b) => a.amount - b.amount);
-      case 'title':
-        return list.sort((a, b) => a.title.localeCompare(b.title));
+      case 'effort':
+        return list.sort((a, b) => a.effortMinutes - b.effortMinutes);
       default:
         return list;
     }
@@ -108,26 +113,34 @@ export function useScholarships() {
     let totalAppliedFunding = 0;
     let totalAwardedFunding = 0;
     let urgentDeadlineCount = 0;
+    let almostEligibleCount = 0;
 
     const statusMap = new Map(
       trackedApplications.map((app) => [app.scholarshipId, app.stage])
     );
 
-    scholarships.forEach((s) => {
+    enrichedScholarships.forEach((s) => {
       const stage = statusMap.get(s.id);
       totalPotentialFunding += s.amount;
 
-      if (stage === 'in_progress' || stage === 'submitted' || stage === 'awarded') {
+      if (stage === 'preparing' || stage === 'submitted' || stage === 'under_review' || stage === 'result') {
         totalAppliedFunding += s.amount;
       }
 
-      if (stage === 'awarded') {
-        totalAwardedFunding += s.amount;
+      if (stage === 'result') {
+        const app = trackedApplications.find((a) => a.scholarshipId === s.id);
+        if (app?.resultOutcome === 'awarded') {
+          totalAwardedFunding += s.amount;
+        }
       }
 
       const urgency = getDeadlineUrgency(s.deadline);
       if (urgency.isUrgent) {
         urgentDeadlineCount += 1;
+      }
+
+      if (s.matchBreakdown.isAlmostEligible) {
+        almostEligibleCount += 1;
       }
     });
 
@@ -146,12 +159,19 @@ export function useScholarships() {
       totalAppliedFunding,
       totalAwardedFunding,
       urgentDeadlineCount,
+      almostEligibleCount,
       netTuitionNeedRemaining,
       fundingCoveragePercentage,
       totalCount: scholarships.length,
       filteredCount: sortedScholarships.length,
     };
-  }, [scholarships, sortedScholarships.length, trackedApplications, profile.targetAnnualFees]);
+  }, [
+    scholarships.length,
+    enrichedScholarships,
+    sortedScholarships.length,
+    trackedApplications,
+    profile.targetAnnualFees,
+  ]);
 
   return {
     scholarships: sortedScholarships,

@@ -5,24 +5,35 @@ import type {
   TrackedApplication,
   FilterState,
   ApplicationStage,
+  DocumentVaultItem,
+  DocumentStatus,
 } from '../types/scholarship';
 import {
   MOCK_SCHOLARSHIPS,
   DEFAULT_STUDENT_PROFILE,
   DEFAULT_TRACKED_APPLICATIONS,
+  DEFAULT_DOCUMENT_VAULT,
 } from '../data/mockScholarships';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-export type ActiveTab = 'discovery' | 'tracker' | 'calculator' | 'profile';
+export type ActiveTab =
+  | 'discovery'
+  | 'gaps' // F4 Almost Eligible Gap Analysis
+  | 'vault' // F5 Document Vault & Readiness
+  | 'tracker' // F6 5-Stage Kanban Board
+  | 'deadlines' // F7 Urgency Radar
+  | 'stack' // Stretch: Stack Planner
+  | 'calculator'; // Tuition Gap visualizer
 
 const INITIAL_FILTERS: FilterState = {
   searchQuery: '',
   academicLevel: 'All',
   category: 'All',
   minAmount: 0,
-  maxCgpaRequirement: 10.0,
+  maxEffortMinutes: 120,
   onlyRenewable: false,
   onlyEligible: false,
+  onlyAlmostEligible: false,
   sortBy: 'match',
 };
 
@@ -34,7 +45,11 @@ interface ScholarshipContextValue {
   updateFilters: (updates: Partial<FilterState>) => void;
   resetFilters: () => void;
   trackedApplications: TrackedApplication[];
-  setApplicationStage: (scholarshipId: string, stage: ApplicationStage) => void;
+  setApplicationStage: (
+    scholarshipId: string,
+    stage: ApplicationStage,
+    resultOutcome?: 'awarded' | 'regret'
+  ) => void;
   toggleChecklistItem: (scholarshipId: string, item: string) => void;
   saveApplicationDraft: (scholarshipId: string, essayDraft: string, notes: string) => void;
   removeTrackedApplication: (scholarshipId: string) => void;
@@ -47,6 +62,14 @@ interface ScholarshipContextValue {
   setActiveTab: (tab: ActiveTab) => void;
   workspaceScholarshipId: string | null;
   setWorkspaceScholarshipId: (id: string | null) => void;
+  documentVault: DocumentVaultItem[];
+  updateDocumentStatus: (docId: string, status: DocumentStatus) => void;
+  readinessPercentage: number;
+  stackScholarshipIds: string[];
+  toggleStackScholarship: (id: string) => void;
+  clearStack: () => void;
+  isOnboardingOpen: boolean;
+  setIsOnboardingOpen: (open: boolean) => void;
   resetAllToSeedData: () => void;
 }
 
@@ -54,13 +77,23 @@ const ScholarshipContext = createContext<ScholarshipContextValue | undefined>(un
 
 export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useLocalStorage<StudentProfile>(
-    'grantly_student_profile_v1',
+    'grantly_student_profile_v2',
     DEFAULT_STUDENT_PROFILE
   );
 
   const [trackedApplications, setTrackedApplications] = useLocalStorage<TrackedApplication[]>(
-    'grantly_tracked_applications_v1',
+    'grantly_tracked_applications_v2',
     DEFAULT_TRACKED_APPLICATIONS
+  );
+
+  const [documentVault, setDocumentVault] = useLocalStorage<DocumentVaultItem[]>(
+    'grantly_document_vault_v2',
+    DEFAULT_DOCUMENT_VAULT
+  );
+
+  const [stackScholarshipIds, setStackScholarshipIds] = useLocalStorage<string[]>(
+    'grantly_stack_ids_v2',
+    ['ind-grant-01', 'ind-grant-03']
   );
 
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
@@ -68,6 +101,7 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [comparisonIds, setComparisonIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<ActiveTab>('discovery');
   const [workspaceScholarshipId, setWorkspaceScholarshipId] = useState<string | null>(null);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
   const updateProfile = useCallback(
     (updates: Partial<StudentProfile>) => {
@@ -85,12 +119,16 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   const setApplicationStage = useCallback(
-    (scholarshipId: string, stage: ApplicationStage) => {
+    (scholarshipId: string, stage: ApplicationStage, resultOutcome?: 'awarded' | 'regret') => {
       setTrackedApplications((prev) => {
         const existingIndex = prev.findIndex((app) => app.scholarshipId === scholarshipId);
         if (existingIndex >= 0) {
           const updated = [...prev];
-          updated[existingIndex] = { ...updated[existingIndex], stage };
+          updated[existingIndex] = {
+            ...updated[existingIndex],
+            stage,
+            ...(resultOutcome ? { resultOutcome } : {}),
+          };
           return updated;
         } else {
           const newApp: TrackedApplication = {
@@ -100,6 +138,7 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
             completedChecklist: [],
             essayDraft: '',
             notes: '',
+            ...(resultOutcome ? { resultOutcome } : {}),
           };
           return [...prev, newApp];
         }
@@ -137,7 +176,7 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
             ...prev,
             {
               scholarshipId,
-              stage: 'bookmarked',
+              stage: 'saved',
               dateAdded: new Date().toISOString().split('T')[0],
               completedChecklist: [],
               essayDraft,
@@ -157,13 +196,32 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     [setTrackedApplications]
   );
 
+  const updateDocumentStatus = useCallback(
+    (docId: string, status: DocumentStatus) => {
+      setDocumentVault((prev) =>
+        prev.map((doc) =>
+          doc.id === docId
+            ? { ...doc, status, lastUpdated: new Date().toISOString().split('T')[0] }
+            : doc
+        )
+      );
+    },
+    [setDocumentVault]
+  );
+
+  // F5 live readiness calculation
+  const readinessPercentage = useMemo(() => {
+    if (documentVault.length === 0) return 0;
+    const uploadedCount = documentVault.filter((d) => d.status === 'uploaded').length;
+    return Math.round((uploadedCount / documentVault.length) * 100);
+  }, [documentVault]);
+
   const toggleComparison = useCallback((id: string) => {
     setComparisonIds((prev) => {
       if (prev.includes(id)) {
         return prev.filter((item) => item !== id);
       }
       if (prev.length >= 3) {
-        // Maximum 3 for optimal responsive UI
         return [...prev.slice(1), id];
       }
       return [...prev, id];
@@ -174,13 +232,28 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setComparisonIds([]);
   }, []);
 
+  const toggleStackScholarship = useCallback(
+    (id: string) => {
+      setStackScholarshipIds((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      );
+    },
+    [setStackScholarshipIds]
+  );
+
+  const clearStack = useCallback(() => {
+    setStackScholarshipIds([]);
+  }, [setStackScholarshipIds]);
+
   const resetAllToSeedData = useCallback(() => {
     setProfile(DEFAULT_STUDENT_PROFILE);
     setTrackedApplications(DEFAULT_TRACKED_APPLICATIONS);
+    setDocumentVault(DEFAULT_DOCUMENT_VAULT);
+    setStackScholarshipIds(['ind-grant-01', 'ind-grant-03']);
     setFilters(INITIAL_FILTERS);
     setComparisonIds([]);
     setSelectedScholarship(null);
-  }, [setProfile, setTrackedApplications]);
+  }, [setProfile, setTrackedApplications, setDocumentVault, setStackScholarshipIds]);
 
   const value = useMemo(
     () => ({
@@ -204,6 +277,14 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
       setActiveTab,
       workspaceScholarshipId,
       setWorkspaceScholarshipId,
+      documentVault,
+      updateDocumentStatus,
+      readinessPercentage,
+      stackScholarshipIds,
+      toggleStackScholarship,
+      clearStack,
+      isOnboardingOpen,
+      setIsOnboardingOpen,
       resetAllToSeedData,
     }),
     [
@@ -222,8 +303,14 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
       toggleComparison,
       clearComparison,
       activeTab,
-      setActiveTab,
       workspaceScholarshipId,
+      documentVault,
+      updateDocumentStatus,
+      readinessPercentage,
+      stackScholarshipIds,
+      toggleStackScholarship,
+      clearStack,
+      isOnboardingOpen,
       resetAllToSeedData,
     ]
   );
@@ -231,7 +318,7 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
   return <ScholarshipContext.Provider value={value}>{children}</ScholarshipContext.Provider>;
 };
 
-// oxlint-disable-next-line react/only-export-components
+// oxlint-disable-next-line react-refresh/only-export-components
 export function useScholarshipContext(): ScholarshipContextValue {
   const context = useContext(ScholarshipContext);
   if (!context) {

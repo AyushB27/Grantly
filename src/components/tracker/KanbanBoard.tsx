@@ -5,12 +5,13 @@ import type { ApplicationStage } from '../../types/scholarship';
 import { formatCurrency } from '../../utils/formatters';
 import {
   Download,
-  Printer,
   PlusCircle,
   Bookmark,
   Hourglass,
   Send,
+  Eye,
   Award,
+  Sparkles,
 } from 'lucide-react';
 
 interface KanbanBoardProps {
@@ -22,41 +23,37 @@ const COLUMNS: {
   id: ApplicationStage;
   title: string;
   icon: React.ElementType;
-  colorClass: string;
   badgeBg: string;
-  containerBg: string;
 }[] = [
   {
-    id: 'bookmarked',
-    title: 'Bookmarked',
+    id: 'saved',
+    title: 'Saved',
     icon: Bookmark,
-    colorClass: 'text-slate-700',
-    badgeBg: 'bg-slate-100 text-slate-700 border-slate-300',
-    containerBg: 'bg-slate-100/70 border-slate-200/90',
+    badgeBg: 'bg-[#191f1e] text-[#89918c] border-[#222827]',
   },
   {
-    id: 'in_progress',
-    title: 'In Progress',
+    id: 'preparing',
+    title: 'Preparing',
     icon: Hourglass,
-    colorClass: 'text-amber-800',
-    badgeBg: 'bg-amber-100 text-amber-900 border-amber-300',
-    containerBg: 'bg-amber-50/40 border-amber-200/80',
+    badgeBg: 'bg-[#f7ba53]/15 text-[#f7ba53] border-[#f7ba53]/30',
   },
   {
     id: 'submitted',
     title: 'Submitted',
     icon: Send,
-    colorClass: 'text-blue-800',
-    badgeBg: 'bg-blue-100 text-blue-900 border-blue-300',
-    containerBg: 'bg-blue-50/40 border-blue-200/80',
+    badgeBg: 'bg-[#70b4ff]/15 text-[#70b4ff] border-[#70b4ff]/30',
   },
   {
-    id: 'awarded',
-    title: 'Awarded & Won',
+    id: 'under_review',
+    title: 'Under Review',
+    icon: Eye,
+    badgeBg: 'bg-[#c084fc]/15 text-[#c084fc] border-[#c084fc]/30',
+  },
+  {
+    id: 'result',
+    title: 'Result',
     icon: Award,
-    colorClass: 'text-emerald-800',
-    badgeBg: 'bg-emerald-100 text-emerald-900 border-emerald-300',
-    containerBg: 'bg-emerald-50/40 border-emerald-200/80',
+    badgeBg: 'bg-[#a9f46b]/15 text-[#a9f46b] border-[#a9f46b]/30',
   },
 ];
 
@@ -66,17 +63,15 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
 }) => {
   const { scholarships, trackedApplications } = useScholarshipContext();
 
-  // Create quick lookup map for scholarships
   const scholarshipMap = new Map(scholarships.map((s) => [s.id, s]));
 
-  // Aggregate stats
   let totalPipelinePotential = 0;
   let totalAwardedFunding = 0;
 
   trackedApplications.forEach((app) => {
     const grant = scholarshipMap.get(app.scholarshipId);
     if (grant) {
-      if (app.stage === 'awarded') {
+      if (app.stage === 'result' && app.resultOutcome === 'awarded') {
         totalAwardedFunding += grant.amount;
       }
       totalPipelinePotential += grant.amount;
@@ -95,110 +90,111 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
       })),
     };
 
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const dataStr =
+      'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `grantly_scholarship_tracker_${new Date().toISOString().split('T')[0]}.json`);
+    downloadAnchor.setAttribute(
+      'download',
+      `grantly-application-portfolio-${new Date().toISOString().split('T')[0]}.json`
+    );
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <section aria-label="Scholarship Application Kanban Board" className="space-y-6">
-      {/* Top Banner & Export Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-            Application Pipeline & Deadline Radar
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Total In-Pipeline Aid:{' '}
-            <strong className="text-slate-800">{formatCurrency(totalPipelinePotential)}</strong> •
-            Secured Aid: <strong className="text-emerald-700">{formatCurrency(totalAwardedFunding)}</strong>
+    <section aria-label="Application Pipeline Tracker" className="space-y-6">
+      {/* Top Pipeline Analytics Strip */}
+      <div className="p-6 bg-[#101313] border border-[#222827] rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="eyebrow text-[#a9f46b]">F6 CORE CAPABILITY</span>
+            <span className="text-[#525c57]">•</span>
+            <span className="eyebrow text-[#89918c]">5-STAGE KANBAN PIPELINE</span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#edf1ec] tracking-tight">
+            Application Pipeline & Status Tracker
+          </h1>
+          <p className="text-xs text-[#89918c]">
+            Track opportunities across 5 progressive stages with automatic document progress persistence.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Aggregated Pipeline Metrics */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="px-4 py-2.5 bg-[#141818] border border-[#222827] rounded-xl">
+            <span className="eyebrow text-[#89918c] block text-[9px]">TOTAL PIPELINE VALUE</span>
+            <span className="text-lg font-bold font-mono text-[#edf1ec]">
+              {formatCurrency(totalPipelinePotential)}
+            </span>
+          </div>
+
+          <div className="px-4 py-2.5 bg-[#141818] border border-[#222827] rounded-xl">
+            <span className="eyebrow text-[#a9f46b] block text-[9px]">CONFIRMED WON & AWARDED</span>
+            <span className="text-lg font-bold font-mono text-[#a9f46b]">
+              {formatCurrency(totalAwardedFunding)}
+            </span>
+          </div>
+
           <button
-            type="button"
             onClick={handleExportJson}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-colors focus:ring-2 focus:ring-indigo-500"
-            title="Download JSON backup of your tracked applications"
-            aria-label="Export applications as JSON file"
+            className="btn-panel px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5"
+            title="Download JSON Portfolio Export"
+            aria-label="Export tracked applications as JSON file"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Export JSON</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-colors focus:ring-2 focus:ring-indigo-500"
-            title="Print printable summary view"
-            aria-label="Print pipeline summary"
-          >
-            <Printer className="w-3.5 h-3.5" />
-            <span>Print Report</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onNavigateDiscovery}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors shadow-xs focus:ring-2 focus:ring-indigo-500"
-            aria-label="Explore more scholarships to track"
-          >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>Add More Grants</span>
+            <span>Export Portfolio</span>
           </button>
         </div>
       </div>
 
-      {/* 4-Stage Columns Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {COLUMNS.map((column) => {
-          const Icon = column.icon;
-          const stageApps = trackedApplications.filter((app) => app.stage === column.id);
-
-          // Calculate column subtotal
-          const stageSum = stageApps.reduce((acc, app) => {
-            const grant = scholarshipMap.get(app.scholarshipId);
-            return acc + (grant ? grant.amount : 0);
+      {/* 5-Column Kanban Board Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start">
+        {COLUMNS.map((col) => {
+          const Icon = col.icon;
+          const colApps = trackedApplications.filter((app) => app.stage === col.id);
+          const colFunding = colApps.reduce((acc, app) => {
+            const g = scholarshipMap.get(app.scholarshipId);
+            return acc + (g?.amount || 0);
           }, 0);
 
           return (
             <div
-              key={column.id}
-              className={`${column.containerBg} border rounded-2xl p-4 flex flex-col min-h-[450px] transition-all`}
+              key={col.id}
+              className="bg-[#101313] border border-[#222827] rounded-2xl p-4 flex flex-col space-y-3 min-h-[420px]"
+              aria-label={`${col.title} column with ${colApps.length} applications`}
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
+              <div className="flex items-center justify-between pb-3 border-b border-[#222827]">
                 <div className="flex items-center gap-2">
-                  <Icon className={`w-4 h-4 ${column.colorClass}`} aria-hidden="true" />
-                  <h3 className="font-bold text-sm text-slate-800">{column.title}</h3>
+                  <Icon className="w-4 h-4 text-[#89918c]" />
+                  <h2 className="text-xs font-mono font-bold text-[#edf1ec] uppercase tracking-wider">
+                    {col.title}
+                  </h2>
                 </div>
-                <span className={`px-2 py-0.5 rounded-full text-xs font-black border ${column.badgeBg}`}>
-                  {stageApps.length}
+                <span
+                  className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold border ${col.badgeBg}`}
+                >
+                  {colApps.length}
                 </span>
               </div>
 
-              {/* Column Total Subtitle */}
-              <div className="text-[11px] text-slate-500 mb-3 px-1">
-                Value: <span className="font-bold text-slate-700">{formatCurrency(stageSum)}</span>
-              </div>
+              {/* Sub-total funding for column */}
+              {colFunding > 0 && (
+                <div className="text-[10px] font-mono text-[#525c57] text-right">
+                  Pool: {formatCurrency(colFunding)}
+                </div>
+              )}
 
-              {/* Cards Container */}
-              <div className="space-y-3 flex-1 overflow-y-auto">
-                {stageApps.length === 0 ? (
-                  <div className="text-center py-12 px-4 border-2 border-dashed border-slate-200 rounded-xl">
-                    <p className="text-xs text-slate-400">No applications in this stage</p>
+              {/* Card List in Column */}
+              <div className="space-y-3 flex-1">
+                {colApps.length === 0 ? (
+                  <div className="py-8 text-center border border-dashed border-[#222827] rounded-xl text-[11px] text-[#525c57] px-2">
+                    No schemes in {col.title.toLowerCase()}
                   </div>
                 ) : (
-                  stageApps.map((app) => {
+                  colApps.map((app) => {
                     const grant = scholarshipMap.get(app.scholarshipId);
                     if (!grant) return null;
                     return (
@@ -216,6 +212,24 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           );
         })}
       </div>
+
+      {/* Bottom Hint Banner */}
+      {trackedApplications.length === 0 && (
+        <div className="p-8 text-center bg-[#101313] border border-[#222827] rounded-2xl space-y-3">
+          <Sparkles className="w-8 h-8 text-[#a9f46b] mx-auto" />
+          <h2 className="text-base font-bold text-[#edf1ec]">Your Application Pipeline is Clean</h2>
+          <p className="text-xs text-[#89918c] max-w-md mx-auto">
+            Browse verified scholarships in the feed and tap "Track" to organize deadlines, document checklists, and outcomes.
+          </p>
+          <button
+            onClick={onNavigateDiscovery}
+            className="btn-mint px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>Discover Opportunities</span>
+          </button>
+        </div>
+      )}
     </section>
   );
 };

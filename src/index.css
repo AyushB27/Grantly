@@ -1,46 +1,90 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
-   Design System Tokens & Accessibility Engine Grounding
-   Conforming to FAIE v3.1 Static Repository Audit Standards
+   GRANTLY DESIGN SYSTEM (StockFolio Precision Ink Aesthetic)
    ------------------------------------------------------------- */
 
 :root {
-  --font-family-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --color-primary-50: #eef2ff;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-900: #312e81;
-  --color-surface-bg: #f8fafc;
-  --color-surface-card: #ffffff;
-  --color-text-main: #0f172a;
-  --color-text-muted: #64748b;
-  --color-border: #e2e8f0;
-  --radius-card: 1rem;
+  --ink: #090b0b;
+  --panel: #101313;
+  --panel-hover: #141818;
+  --panel-elevated: #161c1b;
+  --line: #222827;
+  --line-subtle: #191f1e;
+  --mint: #a9f46b;
+  --mint-hover: #bcfb8b;
+  --mint-dim: #7ccb3e;
+  --soft: #89918c;
+  --dim: #525c57;
+  --text: #edf1ec;
+  --negative: #ff8e91;
+  --warning: #f7ba53;
+  --blue: #70b4ff;
+  --purple: #c084fc;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', monospace;
 }
 
 body {
-  font-family: var(--font-family-sans);
-  background-color: #f8fafc;
-  color: #0f172a;
+  font-family: var(--font-sans);
+  background-color: var(--ink);
+  color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Explicit media queries for static CSS token scanners */
+/* Eyebrow Micro-Label */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--soft);
+}
+
+/* Custom Precision Buttons */
+.btn-mint {
+  background-color: var(--mint);
+  color: #090b0b;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 14px rgba(169, 244, 107, 0.15);
+}
+
+.btn-mint:hover {
+  background-color: var(--mint-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(169, 244, 107, 0.25);
+}
+
+.btn-panel {
+  background-color: #121614;
+  border: 1px solid var(--line);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.btn-panel:hover {
+  border-color: #38423f;
+  background-color: #171c1a;
+  color: #ffffff;
+}
+
+/* Responsive Containers */
 @media (max-width: 768px) {
   .responsive-container {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .responsive-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
   }
 }
 
@@ -49,12 +93,12 @@ body {
     max-width: 1320px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
   }
 }
 
-/* Print Stylesheet for 1-Click Application Summary Export */
+/* Print Stylesheet */
 @media print {
   header, nav, aside, footer, .no-print {
     display: none !important;
@@ -62,39 +106,30 @@ body {
   body {
     background: #ffffff !important;
     color: #000000 !important;
-    font-size: 11pt;
-  }
-  .print-only {
-    display: block !important;
-  }
-  article {
-    page-break-inside: avoid;
-    border: 1px solid #cccccc !important;
-    margin-bottom: 1rem !important;
   }
 }
 
-/* Accessibility: Focus Visible Ring Standards */
+/* Accessibility Focus Ring */
 :focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid var(--mint);
   outline-offset: 2px;
 }
 
-/* Custom subtle scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--ink);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #222827;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #38423f;
 }
