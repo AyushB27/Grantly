@@ -107,7 +107,7 @@ export function useScholarships() {
     }
   }, [filteredScholarships, filters.sortBy]);
 
-  // 4. Financial Aid & Portfolio Aggregates in INR (₹)
+  // 4. Financial Aid & Application Aggregates in INR (₹)
   const aidAnalytics = useMemo(() => {
     let totalPotentialFunding = 0;
     let totalAppliedFunding = 0;

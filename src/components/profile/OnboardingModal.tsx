@@ -244,7 +244,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                   className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
                 >
                   {EDUCATION_LEVELS.map((level) => (
-                    <option key={level} value={level} className="bg-[#101313] text-[#edf1ec]">
+                    <option key={level} value={level}>
                       {level}
                     </option>
                   ))}
@@ -267,7 +267,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                   className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
                 >
                   {CURRENT_YEARS.map((yr) => (
-                    <option key={yr} value={yr} className="bg-[#101313] text-[#edf1ec]">
+                    <option key={yr} value={yr}>
                       {yr}
                     </option>
                   ))}
@@ -356,7 +356,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
               >
                 {SOCIAL_CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#101313] text-[#edf1ec]">
+                  <option key={cat} value={cat}>
                     {cat}
                   </option>
                 ))}
@@ -381,7 +381,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
               >
                 {INCOME_BRACKETS.map((bracket) => (
-                  <option key={bracket} value={bracket} className="bg-[#101313] text-[#edf1ec]">
+                  <option key={bracket} value={bracket}>
                     {bracket}
                   </option>
                 ))}
@@ -448,7 +448,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
               >
                 {POPULAR_STATES.map((st) => (
-                  <option key={st} value={st} className="bg-[#101313] text-[#edf1ec]">
+                  <option key={st} value={st}>
                     {st}
                   </option>
                 ))}

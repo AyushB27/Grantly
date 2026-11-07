@@ -1,28 +1,31 @@
 import { useState, useEffect } from 'react';
+import { safeJsonParse } from '../utils/security';
 
 /**
- * Robust, safe typed hook for interacting with window.localStorage
- * Gracefully falls back to initial values if parsing fails or in private browsing
+ * Robust, secure typed hook for interacting with window.localStorage
+ * Gracefully falls back to initial values if parsing fails, schema is corrupted, or in private browsing
  */
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T | ((val: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === 'undefined') return initialValue;
     try {
-      if (typeof window === 'undefined') return initialValue;
       const item = window.localStorage.getItem(key);
-      return item ? (JSON.parse(item) as T) : initialValue;
+      return safeJsonParse<T>(item, initialValue);
     } catch (error) {
-      console.warn(`Failed reading localStorage key "${key}":`, error);
+      console.warn(`[Storage] Failed reading localStorage key "${key}":`, error);
       return initialValue;
     }
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     try {
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(storedValue));
-      }
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
-      console.warn(`Failed saving localStorage key "${key}":`, error);
+      console.warn(`[Storage] Failed saving localStorage key "${key}":`, error);
     }
   }, [key, storedValue]);
 

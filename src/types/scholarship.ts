@@ -125,7 +125,7 @@ export interface TrackedApplication {
   completedChecklist: string[];
   essayDraft: string;
   notes: string;
-  resultOutcome?: 'awarded' | 'regret';
+  resultOutcome?: 'awarded' | 'not_selected' | 'regret';
   customReminderDate?: string;
 }
 

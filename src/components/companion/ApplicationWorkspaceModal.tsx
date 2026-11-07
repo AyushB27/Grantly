@@ -52,45 +52,45 @@ const WorkspaceContent: React.FC<{
   return (
     <div className="space-y-6">
       {/* Top Companion Header */}
-      <div className="bg-[#141818] border border-[#222827] p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
-          <span className="eyebrow text-[#a9f46b] block mb-1">
+          <span className="eyebrow text-emerald-700 dark:text-emerald-400 block mb-1">
             STEP-BY-STEP APPLICATION WORKSPACE
           </span>
-          <h3 className="text-lg font-bold text-[#edf1ec] tracking-tight">
+          <h3 className="text-lg font-bold text-[var(--text-primary)] tracking-tight">
             {scholarship.title}
           </h3>
-          <p className="text-xs text-[#89918c] mt-1 font-mono">
-            Provider: <span className="text-[#edf1ec]">{scholarship.provider}</span> •
-            Deadline: <span className="text-[#f7ba53] font-bold">{urgency.label}</span>
+          <p className="text-xs text-[var(--text-secondary)] mt-1 font-mono">
+            Provider: <span className="text-[var(--text-primary)] font-semibold">{scholarship.provider}</span> •
+            Deadline: <span className="text-amber-700 dark:text-amber-400 font-bold ml-1">{urgency.label}</span>
           </p>
         </div>
 
         {/* Current Stage Indicator */}
         <div className="flex items-center gap-2">
-          <span className="eyebrow text-[#89918c]">STAGE:</span>
-          <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-[#a9f46b]/15 text-[#a9f46b] border border-[#a9f46b]/30">
+          <span className="eyebrow text-[var(--text-muted)]">STAGE:</span>
+          <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
             {currentStage.replace('_', ' ')}
           </span>
         </div>
       </div>
 
       {/* Document Vault & Interactive Checklist */}
-      <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-4">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5 space-y-4 shadow-xs">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-mono font-bold text-[#edf1ec] flex items-center gap-2 uppercase tracking-wider">
-            <CheckSquare className="w-4 h-4 text-[#a9f46b]" />
+          <h3 className="text-xs font-mono font-bold text-[var(--text-primary)] flex items-center gap-2 uppercase tracking-wider">
+            <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             Document Verification Checklist
           </h3>
-          <span className="font-mono text-xs text-[#a9f46b]">
+          <span className="font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
             {completedDocs.length} of {totalDocs} Complete ({progressPercent}%)
           </span>
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full bg-[#141818] rounded-full h-2 overflow-hidden border border-[#222827]">
+        <div className="w-full bg-[var(--bg-card-hover)] rounded-full h-2 overflow-hidden border border-[var(--border-card)]">
           <div
-            className="h-full rounded-full transition-all duration-300 bg-[#a9f46b]"
+            className="h-full rounded-full transition-all duration-300 bg-emerald-600 dark:bg-emerald-500"
             style={{ width: `${progressPercent}%` }}
             role="progressbar"
             aria-valuenow={progressPercent}
@@ -112,8 +112,8 @@ const WorkspaceContent: React.FC<{
                 htmlFor={checkId}
                 className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
                   isChecked
-                    ? 'bg-[#141818] border-[#a9f46b]/40 text-[#edf1ec]'
-                    : 'bg-[#121614] border-[#222827] text-[#89918c] hover:border-[#38423f]'
+                    ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30 text-[var(--text-primary)]'
+                    : 'bg-[var(--bg-card-subtle)] border-[var(--border-card)] text-[var(--text-secondary)] hover:border-emerald-500/40'
                 }`}
               >
                 <input
@@ -121,16 +121,16 @@ const WorkspaceContent: React.FC<{
                   type="checkbox"
                   checked={isChecked}
                   onChange={() => toggleChecklistItem(scholarship.id, doc)}
-                  className="w-4 h-4 accent-[#a9f46b] rounded mt-0.5"
+                  className="w-4 h-4 accent-emerald-600 rounded mt-0.5 cursor-pointer"
                   aria-label={`Mark "${doc}" as completed`}
                 />
                 <div className="flex-1">
-                  <span className={`text-xs font-medium ${isChecked ? 'line-through text-[#89918c]' : 'text-[#edf1ec]'}`}>
+                  <span className={`text-xs font-medium ${isChecked ? 'line-through text-[var(--text-muted)]' : 'text-[var(--text-primary)]'}`}>
                     {doc}
                   </span>
                 </div>
                 {isChecked && (
-                  <span className="text-[10px] font-mono font-bold text-[#a9f46b] bg-[#a9f46b]/10 border border-[#a9f46b]/30 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 px-2 py-0.5 rounded">
                     Ready
                   </span>
                 )}
@@ -141,13 +141,13 @@ const WorkspaceContent: React.FC<{
       </div>
 
       {/* Live Essay Draft Scratchpad */}
-      <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5 space-y-3 shadow-xs">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-mono font-bold text-[#edf1ec] flex items-center gap-2 uppercase tracking-wider">
-            <FileEdit className="w-4 h-4 text-[#70b4ff]" />
+          <h3 className="text-xs font-mono font-bold text-[var(--text-primary)] flex items-center gap-2 uppercase tracking-wider">
+            <FileEdit className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             Statement of Purpose / Essay Draft
           </h3>
-          <div className="flex items-center gap-2 font-mono text-[11px] text-[#89918c]">
+          <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-muted)]">
             <span>{essayMetrics.wordCount} words</span>
             <span>•</span>
             <span>{essayMetrics.charCount} chars</span>
@@ -168,14 +168,14 @@ const WorkspaceContent: React.FC<{
             saveApplicationDraft(scholarship.id, e.target.value, notes);
           }}
           placeholder="Draft your personal statement or outline key talking points here... (Auto-saves continuously to your local workspace)"
-          className="w-full p-3.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-xs text-[#edf1ec] placeholder:text-[#525c57] outline-none transition-all font-mono leading-relaxed"
+          className="w-full p-3.5 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none transition-all font-mono leading-relaxed"
           aria-label="Essay draft textarea"
         />
 
         <div className="flex items-center justify-between pt-1">
-          <span className="text-[11px] font-mono text-[#525c57]">
+          <span className="text-[11px] font-mono text-[var(--text-muted)]">
             {saveStatus === 'saved' ? (
-              <span className="text-[#a9f46b] font-bold flex items-center gap-1">
+              <span className="text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Saved to browser storage
               </span>
             ) : (
@@ -185,7 +185,7 @@ const WorkspaceContent: React.FC<{
           <button
             type="button"
             onClick={handleManualSave}
-            className="btn-panel px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5"
+            className="btn-panel px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
             aria-label="Save draft notes manually"
           >
             <Save className="w-3.5 h-3.5" />
@@ -195,8 +195,8 @@ const WorkspaceContent: React.FC<{
       </div>
 
       {/* Application Notes */}
-      <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-2">
-        <label htmlFor="app-notes" className="text-xs font-mono font-bold text-[#89918c] block uppercase">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-5 space-y-2 shadow-xs">
+        <label htmlFor="app-notes" className="text-xs font-mono font-bold text-[var(--text-secondary)] block uppercase">
           Application Notes, Reference Codes, or University Seal Reminders
         </label>
         <input
@@ -208,7 +208,7 @@ const WorkspaceContent: React.FC<{
             saveApplicationDraft(scholarship.id, essayDraft, e.target.value);
           }}
           placeholder="e.g. HOD signature required; Portal ID #NSP-2026-98124"
-          className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-xs text-[#edf1ec] placeholder:text-[#525c57] outline-none"
+          className="w-full px-3.5 py-2.5 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
           aria-label="Application notes and follow-up"
         />
       </div>

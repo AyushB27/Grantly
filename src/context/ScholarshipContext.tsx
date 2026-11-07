@@ -65,7 +65,7 @@ interface ScholarshipContextValue {
   setApplicationStage: (
     scholarshipId: string,
     stage: ApplicationStage,
-    resultOutcome?: 'awarded' | 'regret'
+    resultOutcome?: 'awarded' | 'not_selected' | 'regret'
   ) => void;
   toggleChecklistItem: (scholarshipId: string, item: string) => void;
   saveApplicationDraft: (scholarshipId: string, essayDraft: string, notes: string) => void;
@@ -206,7 +206,11 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   const setApplicationStage = useCallback(
-    (scholarshipId: string, stage: ApplicationStage, resultOutcome?: 'awarded' | 'regret') => {
+    (
+      scholarshipId: string,
+      stage: ApplicationStage,
+      resultOutcome?: 'awarded' | 'not_selected' | 'regret'
+    ) => {
       setTrackedApplications((prev) => {
         const existingIndex = prev.findIndex((app) => app.scholarshipId === scholarshipId);
         if (existingIndex >= 0) {

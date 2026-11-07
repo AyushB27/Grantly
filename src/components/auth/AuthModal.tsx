@@ -137,14 +137,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     >
       <div className="space-y-5">
         {/* Tab Switcher */}
-        <div className="flex p-1 bg-[#141818] border border-[#222827] rounded-xl text-xs font-mono">
+        <div className="flex p-1 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl text-xs font-mono">
           <button
             type="button"
             onClick={() => setAuthTab('demo')}
-            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+            className={`flex-1 py-2 rounded-lg font-bold transition-all cursor-pointer ${
               authTab === 'demo'
-                ? 'bg-[#a9f46b] text-[#090b0b]'
-                : 'text-[#89918c] hover:text-[#edf1ec]'
+                ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
             Instant Demo Profiles
@@ -152,10 +152,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <button
             type="button"
             onClick={() => setAuthTab('email')}
-            className={`flex-1 py-2 rounded-lg font-bold transition-all ${
+            className={`flex-1 py-2 rounded-lg font-bold transition-all cursor-pointer ${
               authTab === 'email'
-                ? 'bg-[#a9f46b] text-[#090b0b]'
-                : 'text-[#89918c] hover:text-[#edf1ec]'
+                ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
             Email Login / Register
@@ -165,7 +165,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* Demo Personas Tab */}
         {authTab === 'demo' && (
           <div className="space-y-3">
-            <p className="text-xs text-[#89918c] leading-relaxed">
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
               Select an authentic Indian student persona to immediately test real match scores,
               eligibility gaps, and document checklists:
             </p>
@@ -176,30 +176,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   key={persona.id}
                   type="button"
                   onClick={() => handleSelectDemo(persona)}
-                  className="w-full p-3.5 bg-[#141818] border border-[#222827] hover:border-[#a9f46b] rounded-xl text-left transition-all group flex items-center justify-between"
+                  className="w-full p-3.5 bg-[var(--bg-card)] border border-[var(--border-card)] hover:border-emerald-500/40 rounded-xl text-left transition-all group flex items-center justify-between cursor-pointer shadow-xs"
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-[#edf1ec] group-hover:text-[#a9f46b] transition-colors">
+                      <span className="font-bold text-sm text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                         {persona.name}
                       </span>
-                      <span className="font-mono text-[10px] text-[#a9f46b] bg-[#a9f46b]/10 px-2 py-0.5 rounded border border-[#a9f46b]/20">
+                      <span className="font-mono text-[10px] text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20 font-bold">
                         {persona.cgpa} CGPA
                       </span>
                     </div>
-                    <span className="text-xs text-[#89918c] block">{persona.role}</span>
-                    <span className="eyebrow text-[#525c57] block text-[9px]">
+                    <span className="text-xs text-[var(--text-secondary)] block">{persona.role}</span>
+                    <span className="eyebrow text-[var(--text-muted)] block text-[9px]">
                       {persona.category}
                     </span>
                   </div>
 
-                  <ArrowRight className="w-4 h-4 text-[#89918c] group-hover:text-[#a9f46b] group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-[var(--text-muted)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
                 </button>
               ))}
             </div>
 
-            <div className="p-3 bg-[#101313] border border-[#222827] rounded-xl flex items-center gap-2 text-[11px] text-[#89918c]">
-              <ShieldCheck className="w-4 h-4 text-[#a9f46b] shrink-0" />
+            <div className="p-3 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] rounded-xl flex items-center gap-2 text-[11px] text-[var(--text-secondary)]">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>Zero server accounts needed. Stored safely in your browser storage.</span>
             </div>
           </div>
@@ -210,70 +210,70 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <form onSubmit={handleEmailSubmit} className="space-y-4">
             {isRegistering && (
               <div>
-                <label className="block text-xs font-mono uppercase text-[#89918c] mb-1">
+                <label className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-[#89918c] absolute left-3 top-1/2 -translate-y-1/2" />
+                  <User className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Priya Sundaram"
                     required
-                    className="w-full pl-9 pr-3 py-2 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                    className="w-full pl-9 pr-3 py-2 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                   />
                 </div>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-mono uppercase text-[#89918c] mb-1">
+              <label className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1">
                 College / Personal Email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-[#89918c] absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@college.edu.in"
                   required
-                  className="w-full pl-9 pr-3 py-2 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                  className="w-full pl-9 pr-3 py-2 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase text-[#89918c] mb-1">
+              <label className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-[#89918c] absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-9 pr-3 py-2 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                  className="w-full pl-9 pr-3 py-2 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="btn-mint w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+              className="btn-mint w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
               <span>{isRegistering ? 'Create Account & Begin Onboarding' : 'Sign In to Workspace'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
-            <div className="text-center pt-2 border-t border-[#222827]">
+            <div className="text-center pt-2 border-t border-[var(--border-card)]">
               <button
                 type="button"
                 onClick={() => setIsRegistering(!isRegistering)}
-                className="text-xs text-[#89918c] hover:text-[#a9f46b] transition-colors"
+                className="text-xs text-[var(--text-secondary)] hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
               >
                 {isRegistering
                   ? 'Already registered? Sign in instead'

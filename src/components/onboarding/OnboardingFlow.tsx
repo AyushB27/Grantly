@@ -629,23 +629,23 @@ export const OnboardingFlow: React.FC = () => {
                   </div>
 
                   {/* Live Calculation Banner */}
-                  <div className="p-4 bg-gradient-to-r from-[#141818] to-[#101313] border border-[#a9f46b]/30 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono shadow-xs">
                     <div>
-                      <span className="text-[10px] text-[#89918c] block">MATCHED OPPORTUNITIES</span>
-                      <span className="text-lg font-black text-[#a9f46b] flex items-center gap-1">
+                      <span className="text-[10px] text-[var(--text-muted)] block">MATCHED OPPORTUNITIES</span>
+                      <span className="text-lg font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
                         <Sparkles className="w-4 h-4" />
                         {matchedCount} Grants
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[#89918c] block">POTENTIAL ANNUAL AID</span>
-                      <span className="text-lg font-black text-[#edf1ec]">
+                      <span className="text-[10px] text-[var(--text-muted)] block">POTENTIAL ANNUAL AID</span>
+                      <span className="text-lg font-black text-[var(--text-primary)]">
                         {formatCurrency(totalMatchFunding)}
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[#89918c] block">VAULT READINESS</span>
-                      <span className="text-lg font-black text-[#70b4ff]">
+                      <span className="text-[10px] text-[var(--text-muted)] block">VAULT READINESS</span>
+                      <span className="text-lg font-black text-sky-700 dark:text-sky-400">
                         {readinessScore}% Ready
                       </span>
                     </div>
@@ -653,7 +653,7 @@ export const OnboardingFlow: React.FC = () => {
 
                   {/* Document Checklist */}
                   <div className="space-y-2.5">
-                    <span className="eyebrow text-[#89918c] text-[10px] block">
+                    <span className="eyebrow text-[var(--text-muted)] text-[10px] block">
                       SELECT DOCUMENTS CURRENTLY AVAILABLE
                     </span>
                     {ESSENTIAL_DOCUMENTS.map((doc) => {
@@ -664,8 +664,8 @@ export const OnboardingFlow: React.FC = () => {
                           onClick={() => toggleDocReady(doc.id)}
                           className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                             isReady
-                              ? 'bg-[#141818] border-[#a9f46b]/40 text-[#edf1ec]'
-                              : 'bg-[#101313] border-[#222827] text-[#89918c] hover:border-[#384340]'
+                              ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30 text-[var(--text-primary)]'
+                              : 'bg-[var(--bg-card)] border-[var(--border-card)] text-[var(--text-secondary)] hover:border-emerald-500/40'
                           }`}
                         >
                           <div className="flex items-center gap-3">

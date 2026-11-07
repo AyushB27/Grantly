@@ -65,27 +65,27 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
 
     const borderStyle =
       category === 'this_week'
-        ? 'border-[#f7ba53]/40 bg-[#121614]'
+        ? 'border-amber-300 dark:border-amber-500/40 bg-[var(--bg-card)]'
         : category === 'overdue'
-        ? 'border-[#ff8e91]/30 bg-[#101313]'
-        : 'border-[#222827] bg-[#101313]';
+        ? 'border-red-200 dark:border-red-500/30 bg-[var(--bg-card)]'
+        : 'border-[var(--border-card)] bg-[var(--bg-card)]';
 
     const pillStyle =
       category === 'this_week'
-        ? 'bg-[#f7ba53]/15 text-[#f7ba53] border-[#f7ba53]/30'
+        ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30'
         : category === 'overdue'
-        ? 'bg-[#ff8e91]/15 text-[#ff8e91] border-[#ff8e91]/30'
-        : 'bg-[#a9f46b]/15 text-[#a9f46b] border-[#a9f46b]/30';
+        ? 'bg-red-50 dark:bg-red-500/15 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/30'
+        : 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30';
 
     return (
       <article
         key={scholarship.id}
-        className={`p-4 sm:p-5 rounded-2xl border transition-all hover:border-[#38423f] flex flex-col justify-between gap-4 ${borderStyle}`}
+        className={`p-4 sm:p-5 rounded-2xl border transition-all hover:border-emerald-500/40 flex flex-col justify-between gap-4 shadow-xs ${borderStyle}`}
         aria-labelledby={`deadline-title-${scholarship.id}`}
       >
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-2">
-            <span className="eyebrow text-[#89918c] block text-[9px]">
+            <span className="eyebrow text-[var(--text-muted)] block text-[9px]">
               {scholarship.provider} • {scholarship.organizationType}
             </span>
             <div
@@ -99,52 +99,51 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
           <h3
             id={`deadline-title-${scholarship.id}`}
             onClick={() => onOpenDetails(scholarship)}
-            className="text-sm sm:text-base font-bold text-[#edf1ec] hover:text-[#a9f46b] transition-colors cursor-pointer line-clamp-1"
+            className="text-sm sm:text-base font-bold text-[var(--text-primary)] hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer line-clamp-1"
           >
             {scholarship.title}
           </h3>
 
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="font-mono font-bold text-[#edf1ec]">
+            <span className="font-mono font-bold text-[var(--text-primary)]">
               {formatCurrency(scholarship.amount)}
             </span>
-            <span className="text-[#525c57]">•</span>
-            <span className="font-mono text-[#a9f46b]">{scholarship.matchScore}% Match</span>
-            <span className="text-[#525c57]">•</span>
-            <span className="text-[#89918c]">{scholarship.effortEstimate}</span>
+            <span className="text-[var(--text-muted)]">•</span>
+            <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold">{scholarship.matchScore}% Match</span>
+            <span className="text-[var(--text-muted)]">•</span>
+            <span className="text-[var(--text-secondary)]">{scholarship.effortEstimate}</span>
           </div>
         </div>
 
         {/* Card Footer */}
-        <div className="pt-3 border-t border-[#222827] flex items-center justify-between gap-2 text-xs">
-          <span className="font-mono text-[11px] text-[#89918c] flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-[#70b4ff]" />
-            <span>Target: {scholarship.deadline}</span>
+        <div className="pt-3 border-t border-[var(--border-card)] flex items-center justify-between gap-2 text-xs">
+          <span className="font-mono text-[11px] text-[var(--text-muted)] flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Deadline: {scholarship.deadline}</span>
           </span>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             {isTracked ? (
               <button
                 type="button"
                 onClick={() => onOpenWorkspace(scholarship.id)}
-                className="btn-panel px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-600 dark:text-emerald-400"
+                className="btn-panel px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-700 dark:text-emerald-400 cursor-pointer shadow-xs"
+                title="Open application checklist and workspace"
               >
-                ✓ Tracking
+                ✓ Checklist
               </button>
             ) : (
               <button
-                type="button"
                 onClick={() => setApplicationStage(scholarship.id, 'saved')}
-                className="btn-panel px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#89918c] hover:text-[#edf1ec]"
+                className="btn-panel px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer"
               >
-                + Track
+                Track
               </button>
             )}
 
             <button
-              type="button"
               onClick={() => onOpenDetails(scholarship)}
-              className="btn-mint px-3 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1"
+              className="btn-mint px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
             >
               <span>View</span>
               <ArrowRight className="w-3 h-3" />
@@ -204,13 +203,13 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
 
       {/* 1. THIS WEEK / CRITICAL URGENCY */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2 pb-1 border-b border-[#222827]">
-          <Flame className="w-4 h-4 text-[#f7ba53]" />
-          <span className="eyebrow text-[#f7ba53]">THIS WEEK — HIGH URGENCY ({thisWeekList.length})</span>
+        <div className="flex items-center gap-2 pb-1 border-b border-[var(--border-card)]">
+          <Flame className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+          <span className="eyebrow text-amber-700 dark:text-amber-400">THIS WEEK — HIGH URGENCY ({thisWeekList.length})</span>
         </div>
 
         {thisWeekList.length === 0 ? (
-          <div className="p-4 bg-[#101313] border border-[#222827] rounded-xl text-xs text-[#89918c]">
+          <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl text-xs text-[var(--text-secondary)] shadow-xs">
             No deadlines closing within the next 7 days in this view.
           </div>
         ) : (
@@ -222,13 +221,13 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
 
       {/* 2. LATER / UPCOMING DEADLINES */}
       <div className="space-y-3 pt-4">
-        <div className="flex items-center gap-2 pb-1 border-b border-[#222827]">
-          <Calendar className="w-4 h-4 text-[#a9f46b]" />
-          <span className="eyebrow text-[#a9f46b]">LATER / UPCOMING PORTALS ({laterList.length})</span>
+        <div className="flex items-center gap-2 pb-1 border-b border-[var(--border-card)]">
+          <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <span className="eyebrow text-emerald-700 dark:text-emerald-400">LATER / UPCOMING PORTALS ({laterList.length})</span>
         </div>
 
         {laterList.length === 0 ? (
-          <div className="p-4 bg-[#101313] border border-[#222827] rounded-xl text-xs text-[#89918c]">
+          <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl text-xs text-[var(--text-secondary)] shadow-xs">
             No future deadlines found.
           </div>
         ) : (
@@ -241,9 +240,9 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
       {/* 3. OVERDUE / ARCHIVED */}
       {overdueList.length > 0 && (
         <div className="space-y-3 pt-4">
-          <div className="flex items-center gap-2 pb-1 border-b border-[#222827]">
-            <AlertTriangle className="w-4 h-4 text-[#ff8e91]" />
-            <span className="eyebrow text-[#ff8e91]">OVERDUE / CLOSED PORTALS ({overdueList.length})</span>
+          <div className="flex items-center gap-2 pb-1 border-b border-[var(--border-card)]">
+            <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400" />
+            <span className="eyebrow text-red-700 dark:text-red-400">OVERDUE / CLOSED PORTALS ({overdueList.length})</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

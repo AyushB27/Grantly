@@ -3,6 +3,7 @@ import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { EducationLevel, IncomeBracket, SocialCategory, StudentProfile } from '../../types/scholarship';
 import { CheckCircle2, Save, RotateCcw } from 'lucide-react';
 import { DEFAULT_STUDENT_PROFILE } from '../../data/mockScholarships';
+import { sanitizeProfileStrings } from '../../utils/security';
 
 export const StudentProfileView: React.FC = () => {
   const { profile, updateProfile } = useScholarshipContext();
@@ -10,6 +11,7 @@ export const StudentProfileView: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+    updateProfile(sanitizeProfileStrings(profile));
     setSavedAlert(true);
     setTimeout(() => setSavedAlert(false), 2500);
   };
@@ -25,18 +27,18 @@ export const StudentProfileView: React.FC = () => {
 
   return (
     <section aria-label="Student Profile Settings" className="max-w-3xl mx-auto space-y-6">
-      <div className="bg-[#101313] border border-[#222827] rounded-2xl p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#222827] gap-4 mb-6">
+      <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-6 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[var(--border-card)] gap-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b] font-bold font-mono text-base">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-bold font-mono text-base">
               {profile.fullName.split(' ').map((n) => n[0]).join('')}
             </div>
             <div>
-              <span className="eyebrow text-[#a9f46b] block">STUDENT PROFILE RECORD</span>
-              <h1 className="text-xl font-bold text-[#edf1ec] tracking-tight">
+              <span className="eyebrow text-emerald-700 dark:text-emerald-400 block">STUDENT PROFILE RECORD</span>
+              <h1 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
                 {profile.fullName} • Credentials
               </h1>
-              <p className="text-xs text-[#89918c]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Matches Central NSP, state DBT portals, and corporate CSR schemes against these verified details.
               </p>
             </div>
@@ -45,7 +47,7 @@ export const StudentProfileView: React.FC = () => {
           <button
             type="button"
             onClick={() => updateProfile(DEFAULT_STUDENT_PROFILE)}
-            className="btn-panel px-3 py-1.5 text-xs font-mono font-semibold flex items-center gap-1.5 self-start sm:self-auto"
+            className="btn-panel px-3 py-1.5 text-xs font-mono font-semibold flex items-center gap-1.5 self-start sm:self-auto cursor-pointer shadow-xs"
             title="Reset to benchmark student Ananya Sharma"
             aria-label="Reset profile to benchmark student"
           >
@@ -57,9 +59,9 @@ export const StudentProfileView: React.FC = () => {
         {savedAlert && (
           <div
             role="status"
-            className="mb-6 p-4 bg-[#a9f46b]/10 border border-[#a9f46b]/30 rounded-xl flex items-center gap-2 text-xs font-bold text-[#a9f46b]"
+            className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-xl flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#a9f46b]" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>Profile saved to browser storage. All scholarship match scores recalculated in real-time.</span>
           </div>
         )}
@@ -68,7 +70,7 @@ export const StudentProfileView: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Full Name */}
             <div>
-              <label htmlFor="prof-name" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-name" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Full Name (as per Aadhaar Card)
               </label>
               <input
@@ -76,14 +78,14 @@ export const StudentProfileView: React.FC = () => {
                 type="text"
                 value={profile.fullName}
                 onChange={(e) => updateProfile({ fullName: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                 required
               />
             </div>
 
             {/* CGPA */}
             <div>
-              <label htmlFor="prof-cgpa" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-cgpa" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Academic CGPA (10.0 scale)
               </label>
               <input
@@ -94,17 +96,17 @@ export const StudentProfileView: React.FC = () => {
                 max="10.0"
                 value={profile.marksCgpa}
                 onChange={(e) => handleCgpaChange(parseFloat(e.target.value) || 0)}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs font-mono text-[#a9f46b] font-bold outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs font-mono text-emerald-700 dark:text-emerald-400 font-bold outline-none"
                 required
               />
-              <span className="text-[10px] font-mono text-[#525c57] mt-1 block">
+              <span className="text-[10px] font-mono text-[var(--text-muted)] mt-1 block">
                 Approx percentage: ~{profile.marksPercentage}% (AICTE standard formula)
               </span>
             </div>
 
             {/* Academic Level */}
             <div>
-              <label htmlFor="prof-level" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-level" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Academic Program / Degree
               </label>
               <select
@@ -113,7 +115,7 @@ export const StudentProfileView: React.FC = () => {
                 onChange={(e) =>
                   updateProfile({ academicLevel: e.target.value as EducationLevel })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none cursor-pointer"
               >
                 <option value="Undergraduate">Undergraduate (B.Tech/MBBS)</option>
                 <option value="Postgraduate">Postgraduate (M.Tech/MBA)</option>
@@ -124,7 +126,7 @@ export const StudentProfileView: React.FC = () => {
 
             {/* Current Year */}
             <div>
-              <label htmlFor="prof-year" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-year" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Current Year of Study
               </label>
               <select
@@ -133,7 +135,7 @@ export const StudentProfileView: React.FC = () => {
                 onChange={(e) =>
                   updateProfile({ currentYear: e.target.value as StudentProfile['currentYear'] })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none cursor-pointer"
               >
                 <option value="1st Year">1st Year</option>
                 <option value="2nd Year">2nd Year</option>
@@ -145,7 +147,7 @@ export const StudentProfileView: React.FC = () => {
 
             {/* Branch / Stream */}
             <div>
-              <label htmlFor="prof-branch" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-branch" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Branch / Specialization
               </label>
               <input
@@ -153,7 +155,7 @@ export const StudentProfileView: React.FC = () => {
                 type="text"
                 value={profile.branch}
                 onChange={(e) => updateProfile({ branch: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                 placeholder="e.g. Computer Science & Engg, Mechanical, MBBS"
                 required
               />
@@ -161,7 +163,7 @@ export const StudentProfileView: React.FC = () => {
 
             {/* Annual Family Income */}
             <div>
-              <label htmlFor="prof-income" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-income" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Annual Family Income Bracket
               </label>
               <select
@@ -172,7 +174,7 @@ export const StudentProfileView: React.FC = () => {
                     familyAnnualIncome: e.target.value as IncomeBracket,
                   })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none cursor-pointer"
               >
                 <option value="< ₹2.5 Lakhs (Full EWS)">&lt; ₹2.5 Lakhs (Full EWS / BPL)</option>
                 <option value="₹2.5L - ₹5 Lakhs">₹2.5L - ₹5 Lakhs (CSR eligible)</option>
@@ -183,7 +185,7 @@ export const StudentProfileView: React.FC = () => {
 
             {/* Social Category */}
             <div>
-              <label htmlFor="prof-category" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-category" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Social / Reservation Category
               </label>
               <select
@@ -192,7 +194,7 @@ export const StudentProfileView: React.FC = () => {
                 onChange={(e) =>
                   updateProfile({ socialCategory: e.target.value as SocialCategory })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none cursor-pointer"
               >
                 <option value="General">General (Unreserved)</option>
                 <option value="General (EWS)">General (EWS)</option>
@@ -204,7 +206,7 @@ export const StudentProfileView: React.FC = () => {
 
             {/* Domicile State */}
             <div>
-              <label htmlFor="prof-region" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="prof-region" className="block text-xs font-mono uppercase text-[var(--text-muted)] mb-1.5">
                 Permanent Domicile State
               </label>
               <input
@@ -212,7 +214,7 @@ export const StudentProfileView: React.FC = () => {
                 type="text"
                 value={profile.regionState}
                 onChange={(e) => updateProfile({ regionState: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
                 placeholder="e.g. Karnataka, Delhi, Maharashtra"
                 required
               />
@@ -220,36 +222,36 @@ export const StudentProfileView: React.FC = () => {
           </div>
 
           {/* Quota Toggles */}
-          <div className="pt-2 space-y-2 border-t border-[#222827]">
-            <label className="flex items-center gap-3 p-3 bg-[#141818] border border-[#222827] rounded-xl cursor-pointer">
+          <div className="pt-2 space-y-2 border-t border-[var(--border-card)]">
+            <label className="flex items-center gap-3 p-3 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] rounded-xl cursor-pointer hover:border-emerald-500/30 transition-colors">
               <input
                 type="checkbox"
                 checked={profile.isFirstGen}
                 onChange={(e) => updateProfile({ isFirstGen: e.target.checked })}
-                className="w-4 h-4 accent-[#a9f46b] rounded"
+                className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
               />
-              <span className="text-xs text-[#edf1ec]">
+              <span className="text-xs text-[var(--text-primary)]">
                 First-Generation College Student (First in immediate family to attend university)
               </span>
             </label>
 
-            <label className="flex items-center gap-3 p-3 bg-[#141818] border border-[#222827] rounded-xl cursor-pointer">
+            <label className="flex items-center gap-3 p-3 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] rounded-xl cursor-pointer hover:border-emerald-500/30 transition-colors">
               <input
                 type="checkbox"
                 checked={profile.isSingleGirlChild}
                 onChange={(e) => updateProfile({ isSingleGirlChild: e.target.checked })}
-                className="w-4 h-4 accent-[#a9f46b] rounded"
+                className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
               />
-              <span className="text-xs text-[#edf1ec]">
+              <span className="text-xs text-[var(--text-primary)]">
                 Single Girl Child (Eligible for special UGC & Corporate STEM female empowerment schemes)
               </span>
             </label>
           </div>
 
-          <div className="pt-4 border-t border-[#222827] flex justify-end">
+          <div className="pt-4 border-t border-[var(--border-card)] flex justify-end">
             <button
               type="submit"
-              className="btn-mint inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold"
+              className="btn-mint inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold cursor-pointer shadow-xs"
             >
               <Save className="w-4 h-4" />
               <span>Save & Re-Index Matches</span>

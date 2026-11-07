@@ -92,9 +92,9 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
               <span>Won</span>
             </button>
             <button
-              onClick={() => setApplicationStage(scholarship.id, 'result', 'regret')}
+              onClick={() => setApplicationStage(scholarship.id, 'result', 'not_selected')}
               className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer ${
-                application.resultOutcome === 'regret'
+                application.resultOutcome === 'not_selected' || application.resultOutcome === 'regret'
                   ? 'bg-red-600 text-white dark:bg-red-500 dark:text-slate-950 shadow-xs'
                   : 'bg-[var(--bg-card)] text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/30'
               }`}

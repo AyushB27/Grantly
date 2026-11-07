@@ -103,7 +103,9 @@ export function calculateMatchScore(
   let incomeScore = 0;
   let incomeMatch = false;
 
-  if (scholarship.familyIncomeCapMax === 0) {
+  const incomeCap = scholarship.familyIncomeCapMax ?? 0;
+
+  if (incomeCap === 0) {
     incomeMatch = true;
     incomeScore = 15;
     reasons.push(`No family income ceiling (Pure Merit Award)`);
@@ -111,7 +113,7 @@ export function calculateMatchScore(
     const isEwsHighPriority = profile.familyAnnualIncome.includes('< ₹2.5 Lakhs');
     const isModerateIncome = profile.familyAnnualIncome.includes('₹2.5L - ₹5 Lakhs');
 
-    if (scholarship.familyIncomeCapMax <= 250000) {
+    if (incomeCap <= 250000) {
       if (isEwsHighPriority) {
         incomeMatch = true;
         incomeScore = 15;
@@ -125,7 +127,7 @@ export function calculateMatchScore(
         });
         warningFlags.push(`Strict income ceiling of ₹2.5 Lakhs`);
       }
-    } else if (scholarship.familyIncomeCapMax <= 600000) {
+    } else if (incomeCap <= 600000) {
       if (isEwsHighPriority || isModerateIncome) {
         incomeMatch = true;
         incomeScore = 15;
@@ -146,6 +148,11 @@ export function calculateMatchScore(
         reasons.push(`Within Central Govt Non-Creamy limit (< ₹8L/year)`);
       } else {
         incomeScore = 4;
+        gaps.push({
+          requirement: `Family income cap of ₹8 Lakhs`,
+          gapDescription: `Exceeds the ₹8,00,000 non-creamy layer threshold`,
+          suggestedFix: `Apply for merit-based corporate fellowships`,
+        });
         warningFlags.push(`Income cap of ₹8 Lakhs applies`);
       }
     }
@@ -154,34 +161,36 @@ export function calculateMatchScore(
   // 5. Social Category & Affirmative Factors (Weight: 10%)
   let categoryScore = 0;
   let categoryMatch = false;
+  const eligibleCategories = scholarship.eligibleCategories || ['General', 'General (EWS)', 'OBC (Non-Creamy Layer)', 'SC', 'ST'];
 
   if (
-    scholarship.eligibleCategories.includes(profile.socialCategory) ||
-    scholarship.eligibleCategories.includes('General' as any)
+    eligibleCategories.includes(profile.socialCategory) ||
+    eligibleCategories.includes('General' as any)
   ) {
     categoryMatch = true;
     categoryScore = 10;
     reasons.push(`Category eligible: ${profile.socialCategory}`);
   } else {
     gaps.push({
-      requirement: `Category reserved for ${scholarship.eligibleCategories.join(', ')}`,
-      gapDescription: `Opportunity is reserved for ${scholarship.eligibleCategories.join(', ')} applicants`,
+      requirement: `Category reserved for ${eligibleCategories.join(', ')}`,
+      gapDescription: `Opportunity is reserved for ${eligibleCategories.join(', ')} applicants`,
       suggestedFix: `Review open General/EWS schemes like Reliance or Tata Trusts`,
     });
-    warningFlags.push(`Reserved for ${scholarship.eligibleCategories.join(', ')}`);
+    warningFlags.push(`Reserved for ${eligibleCategories.join(', ')}`);
   }
 
   // Region Check
   let regionMatch = true;
-  const isNational = scholarship.eligibleRegions.includes('All India');
-  if (!isNational && !scholarship.eligibleRegions.includes(profile.regionState)) {
+  const eligibleRegions = scholarship.eligibleRegions || ['All India'];
+  const isNational = eligibleRegions.includes('All India');
+  if (!isNational && !eligibleRegions.includes(profile.regionState)) {
     regionMatch = false;
     gaps.push({
-      requirement: `Domicile: ${scholarship.eligibleRegions.join(', ')}`,
-      gapDescription: `Restricted to students from ${scholarship.eligibleRegions.join(', ')}`,
-      suggestedFix: `Check if you have resident status or native schooling in ${scholarship.eligibleRegions[0]}`,
+      requirement: `Domicile: ${eligibleRegions.join(', ')}`,
+      gapDescription: `Restricted to students from ${eligibleRegions.join(', ')}`,
+      suggestedFix: `Check if you have resident status or native schooling in ${eligibleRegions[0]}`,
     });
-    warningFlags.push(`State domicile required: ${scholarship.eligibleRegions.join(', ')}`);
+    warningFlags.push(`State domicile required: ${eligibleRegions.join(', ')}`);
   }
 
   // Bonus points for Single Girl Child or First-Gen

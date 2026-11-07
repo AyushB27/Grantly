@@ -140,7 +140,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           <button
             onClick={handleExportJson}
             className="btn-panel px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
-            title="Download JSON portfolio of your applications"
+            title="Download JSON summary of your applications"
             aria-label="Export tracked applications as JSON file"
           >
             <Download className="w-3.5 h-3.5" />
