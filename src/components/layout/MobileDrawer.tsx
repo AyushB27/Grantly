@@ -3,13 +3,14 @@ import {
   X,
   Search,
   CheckSquare,
-  Calculator,
   User,
   RotateCcw,
   Layers,
   AlertTriangle,
   ShieldCheck,
-  Clock,
+  Sun,
+  Moon,
+  Home,
 } from 'lucide-react';
 import type { ActiveTab } from '../../context/ScholarshipContext';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
@@ -33,12 +34,20 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   onOpenComparison,
   onResetData,
 }) => {
-  const { trackedApplications, readinessPercentage, setIsOnboardingOpen } = useScholarshipContext();
+  const {
+    trackedApplications,
+    readinessPercentage,
+    setIsAuthModalOpen,
+    theme,
+    toggleTheme,
+    currentView,
+    setCurrentView,
+  } = useScholarshipContext();
 
   if (!isOpen) return null;
 
   const navItems = [
-    { id: 'discovery' as ActiveTab, label: 'Feed & Match Engine', icon: Search },
+    { id: 'discovery' as ActiveTab, label: 'Feed & Match', icon: Search },
     { id: 'gaps' as ActiveTab, label: 'Almost Eligible (F4)', icon: AlertTriangle },
     { id: 'vault' as ActiveTab, label: `Document Vault (${readinessPercentage}%)`, icon: ShieldCheck },
     {
@@ -46,9 +55,6 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       label: `Pipeline (${trackedApplications.length})`,
       icon: CheckSquare,
     },
-    { id: 'deadlines' as ActiveTab, label: 'Deadlines Radar (F7)', icon: Clock },
-    { id: 'stack' as ActiveTab, label: 'Stack Planner (Stretch)', icon: Layers },
-    { id: 'calculator' as ActiveTab, label: 'Tuition Fee Gap', icon: Calculator },
   ];
 
   return (
@@ -78,14 +84,47 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
             </button>
           </div>
 
+          {/* View Switcher: Landing vs App */}
+          <div className="flex items-center justify-between p-1 bg-[#141818] border border-[#222827] rounded-xl text-xs font-mono">
+            <button
+              onClick={() => {
+                setCurrentView('landing');
+                onClose();
+              }}
+              className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition-colors ${
+                currentView === 'landing'
+                  ? 'bg-[#a9f46b] text-[#090b0b]'
+                  : 'text-[#89918c] hover:text-[#edf1ec]'
+              }`}
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>Overview</span>
+            </button>
+            <button
+              onClick={() => {
+                setCurrentView('app');
+                onClose();
+              }}
+              className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition-colors ${
+                currentView === 'app'
+                  ? 'bg-[#a9f46b] text-[#090b0b]'
+                  : 'text-[#89918c] hover:text-[#edf1ec]'
+              }`}
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span>Workspace</span>
+            </button>
+          </div>
+
           <nav className="flex flex-col gap-1.5" aria-label="Mobile Drawer Navigation">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id;
+              const isActive = currentView === 'app' && activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => {
+                    setCurrentView('app');
                     setActiveTab(item.id);
                     onClose();
                   }}
@@ -123,15 +162,27 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         </div>
 
         <div className="pt-4 border-t border-[#222827] space-y-2">
+          {/* Theme Switcher Button */}
+          <button
+            onClick={toggleTheme}
+            className="w-full py-2.5 px-3 bg-[#141818] border border-[#222827] rounded-xl text-xs font-mono flex items-center justify-between text-[#edf1ec]"
+          >
+            <span className="flex items-center gap-2">
+              {theme === 'dark' ? <Moon className="w-4 h-4 text-[#70b4ff]" /> : <Sun className="w-4 h-4 text-[#f7ba53]" />}
+              <span>{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
+            </span>
+            <span className="text-[#a9f46b] text-[10px] uppercase font-bold">Switch</span>
+          </button>
+
           <button
             onClick={() => {
-              setIsOnboardingOpen(true);
+              setIsAuthModalOpen(true);
               onClose();
             }}
             className="btn-mint w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
           >
             <User className="w-4 h-4" />
-            <span>Edit Match Profile</span>
+            <span>Sign In / Demo Profile</span>
           </button>
 
           <button

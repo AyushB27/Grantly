@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
-   GRANTLY DESIGN SYSTEM (StockFolio Precision Ink Aesthetic)
+   GRANTLY DUAL-THEME DESIGN SYSTEM (Dark Precision & Clean Light)
    ------------------------------------------------------------- */
 
-:root {
+:root, [data-theme="dark"], .dark {
   --ink: #090b0b;
   --panel: #101313;
   --panel-hover: #141818;
@@ -25,6 +25,27 @@
   --font-mono: 'DM Mono', monospace;
 }
 
+[data-theme="light"], .light {
+  --ink: #f8fafc;
+  --panel: #ffffff;
+  --panel-hover: #f1f5f9;
+  --panel-elevated: #f8fafc;
+  --line: #e2e8f0;
+  --line-subtle: #cbd5e1;
+  --mint: #059669;
+  --mint-hover: #047857;
+  --mint-dim: #10b981;
+  --soft: #64748b;
+  --dim: #94a3b8;
+  --text: #0f172a;
+  --negative: #e11d48;
+  --warning: #d97706;
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--ink);
@@ -33,6 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Eyebrow Micro-Label */
@@ -61,16 +83,123 @@ body {
 }
 
 .btn-panel {
-  background-color: #121614;
+  background-color: var(--panel-hover);
   border: 1px solid var(--line);
   color: var(--text);
   transition: all 0.2s ease;
 }
 
 .btn-panel:hover {
-  border-color: #38423f;
-  background-color: #171c1a;
-  color: #ffffff;
+  border-color: var(--line-subtle);
+  background-color: var(--panel-elevated);
+}
+
+/* -------------------------------------------------------------
+   LIGHT MODE TARGETED OVERRIDES FOR INSTANT HIGH-CONTRAST THEME
+   ------------------------------------------------------------- */
+
+[data-theme="light"] .bg-\[\#090b0b\],
+.light .bg-\[\#090b0b\] {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .bg-\[\#101313\],
+.light .bg-\[\#101313\] {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .bg-\[\#141818\],
+.light .bg-\[\#141818\] {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .bg-\[\#121614\],
+.light .bg-\[\#121614\] {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-\[\#131717\],
+.light .bg-\[\#131717\] {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .bg-\[\#161c1b\],
+.light .bg-\[\#161c1b\] {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-\[\#191f1e\],
+.light .bg-\[\#191f1e\] {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-\[\#222827\],
+.light .border-\[\#222827\] {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-\[\#38423f\],
+.light .border-\[\#38423f\] {
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .text-\[\#edf1ec\],
+.light .text-\[\#edf1ec\] {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-\[\#89918c\],
+.light .text-\[\#89918c\] {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .text-\[\#525c57\],
+.light .text-\[\#525c57\] {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .btn-mint,
+.light .btn-mint {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 14px rgba(5, 150, 105, 0.2) !important;
+}
+
+[data-theme="light"] .btn-mint:hover,
+.light .btn-mint:hover {
+  background-color: #047857 !important;
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3) !important;
+}
+
+[data-theme="light"] .btn-panel,
+.light .btn-panel {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .btn-panel:hover,
+.light .btn-panel:hover {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .eyebrow,
+.light .eyebrow {
+  color: #64748b !important;
+}
+
+/* Light mode modal overlay */
+[data-theme="light"] .bg-black\/80,
+.light .bg-black\/80 {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* Light mode select options */
+[data-theme="light"] select option,
+.light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
 /* Responsive Containers */
@@ -126,10 +255,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #222827;
+  background: var(--line);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #38423f;
+  background: var(--line-subtle);
 }

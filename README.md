@@ -56,14 +56,14 @@ In India, educational financial assistance exists in abundance, yet eligible stu
 
 ---
 
-## 3. StockFolio Precision Dark Aesthetic
+## 3. Dual-Theme Design System (Dark Precision & Clean Light Mode)
 
-Grantly strictly adopts the dark palette of **StockFolio** (`c:\Ayush\Projects\StockFolio`):
-- **Ink Canvas**: Deep `#090b0b` background with frosted overlays.
-- **Card Panels**: `#101313` with `#222827` hairline structural borders.
-- **Electric Mint**: `#a9f46b` accents, High Match badges, and CTA buttons (`.btn-mint`).
-- **Monospace Eyebrows**: `.eyebrow` micro-labels rendered in `DM Mono`.
-- **Contrast**: Conforms to WCAG 2.1 AA with contrast ratios exceeding 11:1.
+Grantly features an instant dual-theme engine supporting both high-contrast modes:
+- **StockFolio Dark Precision**: Deep `#090b0b` ink canvas, `#101313` panel cards, `#222827` hairline borders, and `#a9f46b` electric mint accents.
+- **Clean Slate Light Mode**: `#f8fafc` canvas, `#ffffff` pure white cards, `#e2e8f0` crisp borders, `#0f172a` deep slate text, and `#059669` emerald accents.
+- **Dedicated Landing Page**: Full-featured overview showcasing the 4-step journey, verified Indian schemes catalog, and live pool metrics.
+- **Student Authentication & Demo Personas**: Instant 1-click login for authentic student personas (Aarav - B.Tech EWS, Ananya - STEM Girl Child, Rohan - Research Scholar) alongside email registration.
+- **Simplified User Flow**: Streamlined 4-pillar navigation (`Feed & Match`, `Almost Eligible`, `Document Vault`, `Pipeline Tracker`), with zero clutter and no extraneous footer.
 
 ---
 

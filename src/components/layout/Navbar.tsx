@@ -3,15 +3,16 @@ import {
   GraduationCap,
   Search,
   CheckSquare,
-  Calculator,
   User,
   Layers,
   Menu,
   RotateCcw,
   ShieldCheck,
   AlertTriangle,
-  Clock,
+  Sun,
+  Moon,
   Sparkles,
+  Home,
 } from 'lucide-react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { ActiveTab } from '../../context/ScholarshipContext';
@@ -31,24 +32,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
     trackedApplications,
     profile,
     readinessPercentage,
-    setIsOnboardingOpen,
+    theme,
+    toggleTheme,
+    currentView,
+    setCurrentView,
+    currentUser,
+    setIsAuthModalOpen,
   } = useScholarshipContext();
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  const navItems = [
-    { id: 'discovery' as ActiveTab, label: 'Feed', icon: Search },
-    { id: 'gaps' as ActiveTab, label: 'Almost Eligible', icon: AlertTriangle, isSignature: true },
-    { id: 'vault' as ActiveTab, label: 'Document Vault', icon: ShieldCheck, isSignature: true },
+  const appNavItems = [
+    { id: 'discovery' as ActiveTab, label: 'Feed & Match', icon: Search },
+    { id: 'gaps' as ActiveTab, label: 'Almost Eligible', icon: AlertTriangle },
+    { id: 'vault' as ActiveTab, label: 'Document Vault', icon: ShieldCheck },
     {
       id: 'tracker' as ActiveTab,
       label: 'Pipeline',
       icon: CheckSquare,
       badge: trackedApplications.length,
     },
-    { id: 'deadlines' as ActiveTab, label: 'Deadlines', icon: Clock },
-    { id: 'stack' as ActiveTab, label: 'Stack Planner', icon: Layers },
-    { id: 'calculator' as ActiveTab, label: 'Tuition Gap', icon: Calculator },
   ];
 
   return (
@@ -59,9 +62,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
           {/* Logo & Brand Identity */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setActiveTab('discovery')}
+              onClick={() => {
+                setCurrentView(currentView === 'landing' ? 'app' : 'landing');
+              }}
               className="flex items-center gap-2.5 text-left focus:outline-none focus:ring-2 focus:ring-[#a9f46b] rounded-xl p-1 group"
-              aria-label="GRANTLY home - return to scholarship discovery"
+              aria-label="GRANTLY home - toggle landing page and scholarship workspace"
+              title={currentView === 'landing' ? 'Launch Workspace' : 'View Landing Page'}
             >
               <div className="w-8 h-8 rounded-xl bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b] group-hover:border-[#a9f46b] transition-all">
                 <GraduationCap className="w-4 h-4" aria-hidden="true" />
@@ -82,13 +88,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
             className="hidden lg:flex items-center gap-1 bg-[#101313] p-1 rounded-xl border border-[#222827]"
             aria-label="Main Navigation"
           >
-            {navItems.map((item) => {
+            {/* Overview / Landing Button */}
+            <button
+              onClick={() => setCurrentView('landing')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                currentView === 'landing'
+                  ? 'bg-[#141818] text-[#a9f46b] font-bold border border-[#a9f46b]/40 shadow-xs'
+                  : 'text-[#89918c] hover:text-[#edf1ec] hover:bg-[#141818]'
+              }`}
+              aria-current={currentView === 'landing' ? 'page' : undefined}
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span>Overview</span>
+            </button>
+
+            {/* App Workspaces */}
+            {appNavItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id;
+              const isActive = currentView === 'app' && activeTab === item.id;
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => {
+                    setCurrentView('app');
+                    setActiveTab(item.id);
+                  }}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all relative ${
                     isActive
                       ? 'bg-[#141818] text-[#a9f46b] font-bold border border-[#a9f46b]/40 shadow-xs'
@@ -116,6 +140,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
 
           {/* Right Header Utilities */}
           <div className="flex items-center gap-2">
+            {/* Theme Toggle Button (Light/Dark) */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2 text-[#89918c] hover:text-[#a9f46b] hover:bg-[#141818] rounded-xl transition-colors focus:ring-2 focus:ring-[#a9f46b] border border-[#222827]"
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              aria-label={`Toggle theme: currently ${theme} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-[#f7ba53]" />
+              ) : (
+                <Moon className="w-4 h-4 text-[#2563eb]" />
+              )}
+            </button>
+
             {/* Compare Button (if any selected) */}
             {comparisonIds.length > 0 && (
               <button
@@ -133,7 +172,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
 
             {/* Live Vault Readiness Pill */}
             <button
-              onClick={() => setActiveTab('vault')}
+              onClick={() => {
+                setCurrentView('app');
+                setActiveTab('vault');
+              }}
               className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-[#101313] hover:bg-[#141818] border border-[#222827] rounded-xl text-xs font-mono transition-colors"
               title="Universal Document Vault Readiness"
             >
@@ -142,17 +184,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
               <span className="font-bold text-[#a9f46b]">{readinessPercentage}%</span>
             </button>
 
-            {/* Quick Profile Pill / Trigger */}
+            {/* User / Sign In Pill */}
             <button
-              onClick={() => setIsOnboardingOpen(true)}
+              onClick={() => setIsAuthModalOpen(true)}
               className="flex items-center gap-2 px-3 py-1.5 bg-[#101313] hover:bg-[#141818] border border-[#222827] hover:border-[#38423f] rounded-xl text-xs font-mono text-[#edf1ec] transition-colors"
-              title="Edit Student Match Profile"
-              aria-label="Edit Student Profile"
+              title="Student Account & Demo Personas"
+              aria-label="Student Account & Demo Personas"
             >
               <div className="w-5 h-5 rounded-full bg-[#141818] border border-[#a9f46b]/40 text-[#a9f46b] flex items-center justify-center text-[10px] font-bold">
                 <User className="w-3 h-3" />
               </div>
-              <span className="hidden sm:inline font-bold">{profile.fullName.split(' ')[0]}</span>
+              <span className="hidden sm:inline font-bold">
+                {currentUser?.name ? currentUser.name.split(' ')[0] : 'Sign In'}
+              </span>
               <span className="text-[10px] text-[#a9f46b] bg-[#a9f46b]/10 px-1.5 py-0.2 rounded border border-[#a9f46b]/20">
                 {profile.marksCgpa.toFixed(2)} CGPA
               </span>

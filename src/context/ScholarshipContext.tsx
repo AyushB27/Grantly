@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import type {
   Scholarship,
   StudentProfile,
@@ -25,6 +25,16 @@ export type ActiveTab =
   | 'stack' // Stretch: Stack Planner
   | 'calculator'; // Tuition Gap visualizer
 
+export type AppView = 'landing' | 'app';
+export type AppTheme = 'dark' | 'light';
+
+export interface UserSession {
+  name: string;
+  email: string;
+  avatarText: string;
+  isDemo?: boolean;
+}
+
 const INITIAL_FILTERS: FilterState = {
   searchQuery: '',
   academicLevel: 'All',
@@ -35,6 +45,13 @@ const INITIAL_FILTERS: FilterState = {
   onlyEligible: false,
   onlyAlmostEligible: false,
   sortBy: 'match',
+};
+
+const DEFAULT_USER: UserSession = {
+  name: 'Aarav Sharma',
+  email: 'aarav.sharma@iitd.ac.in',
+  avatarText: 'AS',
+  isDemo: true,
 };
 
 interface ScholarshipContextValue {
@@ -71,6 +88,18 @@ interface ScholarshipContextValue {
   isOnboardingOpen: boolean;
   setIsOnboardingOpen: (open: boolean) => void;
   resetAllToSeedData: () => void;
+  // Theme & View controls
+  theme: AppTheme;
+  toggleTheme: () => void;
+  setTheme: (t: AppTheme) => void;
+  currentView: AppView;
+  setCurrentView: (v: AppView) => void;
+  // Auth controls
+  currentUser: UserSession | null;
+  login: (email: string, name?: string, newProfile?: Partial<StudentProfile>) => void;
+  logout: () => void;
+  isAuthModalOpen: boolean;
+  setIsAuthModalOpen: (open: boolean) => void;
 }
 
 const ScholarshipContext = createContext<ScholarshipContextValue | undefined>(undefined);
@@ -96,12 +125,69 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     ['ind-grant-01', 'ind-grant-03']
   );
 
+  const [theme, setThemeState] = useLocalStorage<AppTheme>('grantly_theme_v2', 'dark');
+  const [currentView, setCurrentView] = useLocalStorage<AppView>('grantly_view_v2', 'landing');
+  const [currentUser, setCurrentUser] = useLocalStorage<UserSession | null>(
+    'grantly_current_user_v2',
+    DEFAULT_USER
+  );
+
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
   const [selectedScholarship, setSelectedScholarship] = useState<Scholarship | null>(null);
   const [comparisonIds, setComparisonIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<ActiveTab>('discovery');
   const [workspaceScholarshipId, setWorkspaceScholarshipId] = useState<string | null>(null);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Sync theme with HTML document attribute & root class
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.className = theme;
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  }, [setThemeState]);
+
+  const setTheme = useCallback(
+    (t: AppTheme) => {
+      setThemeState(t);
+    },
+    [setThemeState]
+  );
+
+  const login = useCallback(
+    (email: string, name?: string, newProfile?: Partial<StudentProfile>) => {
+      const resolvedName = name || email.split('@')[0];
+      const initials = resolvedName
+        .split(' ')
+        .map((p) => p[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+
+      setCurrentUser({
+        name: resolvedName,
+        email,
+        avatarText: initials || 'ST',
+        isDemo: false,
+      });
+
+      if (newProfile) {
+        setProfile((prev) => ({
+          ...prev,
+          fullName: resolvedName,
+          ...newProfile,
+        }));
+      }
+    },
+    [setCurrentUser, setProfile]
+  );
+
+  const logout = useCallback(() => {
+    setCurrentUser(null);
+  }, [setCurrentUser]);
 
   const updateProfile = useCallback(
     (updates: Partial<StudentProfile>) => {
@@ -196,33 +282,13 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     [setTrackedApplications]
   );
 
-  const updateDocumentStatus = useCallback(
-    (docId: string, status: DocumentStatus) => {
-      setDocumentVault((prev) =>
-        prev.map((doc) =>
-          doc.id === docId
-            ? { ...doc, status, lastUpdated: new Date().toISOString().split('T')[0] }
-            : doc
-        )
-      );
-    },
-    [setDocumentVault]
-  );
-
-  // F5 live readiness calculation
-  const readinessPercentage = useMemo(() => {
-    if (documentVault.length === 0) return 0;
-    const uploadedCount = documentVault.filter((d) => d.status === 'uploaded').length;
-    return Math.round((uploadedCount / documentVault.length) * 100);
-  }, [documentVault]);
-
   const toggleComparison = useCallback((id: string) => {
     setComparisonIds((prev) => {
       if (prev.includes(id)) {
         return prev.filter((item) => item !== id);
       }
       if (prev.length >= 3) {
-        return [...prev.slice(1), id];
+        return [prev[1], prev[2], id];
       }
       return [...prev, id];
     });
@@ -231,6 +297,21 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const clearComparison = useCallback(() => {
     setComparisonIds([]);
   }, []);
+
+  const updateDocumentStatus = useCallback(
+    (docId: string, status: DocumentStatus) => {
+      setDocumentVault((prev) =>
+        prev.map((doc) => (doc.id === docId ? { ...doc, status } : doc))
+      );
+    },
+    [setDocumentVault]
+  );
+
+  const readinessPercentage = useMemo(() => {
+    if (documentVault.length === 0) return 0;
+    const uploaded = documentVault.filter((d) => d.status === 'uploaded').length;
+    return Math.round((uploaded / documentVault.length) * 100);
+  }, [documentVault]);
 
   const toggleStackScholarship = useCallback(
     (id: string) => {
@@ -253,9 +334,17 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setFilters(INITIAL_FILTERS);
     setComparisonIds([]);
     setSelectedScholarship(null);
-  }, [setProfile, setTrackedApplications, setDocumentVault, setStackScholarshipIds]);
+    setWorkspaceScholarshipId(null);
+    setCurrentUser(DEFAULT_USER);
+  }, [
+    setProfile,
+    setTrackedApplications,
+    setDocumentVault,
+    setStackScholarshipIds,
+    setCurrentUser,
+  ]);
 
-  const value = useMemo(
+  const value = useMemo<ScholarshipContextValue>(
     () => ({
       scholarships: MOCK_SCHOLARSHIPS,
       profile,
@@ -286,6 +375,16 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
       isOnboardingOpen,
       setIsOnboardingOpen,
       resetAllToSeedData,
+      theme,
+      toggleTheme,
+      setTheme,
+      currentView,
+      setCurrentView,
+      currentUser,
+      login,
+      logout,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
     }),
     [
       profile,
@@ -312,6 +411,15 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
       clearStack,
       isOnboardingOpen,
       resetAllToSeedData,
+      theme,
+      toggleTheme,
+      setTheme,
+      currentView,
+      setCurrentView,
+      currentUser,
+      login,
+      logout,
+      isAuthModalOpen,
     ]
   );
 
