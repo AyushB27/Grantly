@@ -76,9 +76,9 @@ export const ScholarshipStackPlanner: React.FC = () => {
             <span className="eyebrow text-sky-700 dark:text-sky-400">MULTI-GRANT PLANNER</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
             Scholarship Stacking & Concurrency Engine
-          </h1>
+          </h2>
 
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             Combine multiple non-conflicting awards (e.g. Government tuition fee waivers stacked with

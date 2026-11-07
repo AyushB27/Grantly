@@ -70,9 +70,9 @@ export const DocumentVaultView: React.FC = () => {
             <span className="eyebrow text-[var(--text-muted)]">CENTRALIZED REUSABLE VAULT</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
             Universal Document Vault & Readiness Score
-          </h1>
+          </h2>
 
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             Scholarship rejections occur mostly from last-minute missing certificates, invalid formats, or expired seals.

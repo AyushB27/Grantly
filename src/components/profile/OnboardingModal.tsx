@@ -144,21 +144,21 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         {/* Progress Header */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="eyebrow text-[#a9f46b]">
+            <span className="eyebrow text-emerald-700 dark:text-emerald-400">
               STEP {step} OF {totalSteps} —{' '}
               {step === 1 && 'ACADEMIC IDENTITY'}
               {step === 2 && 'ACADEMIC MARKS & TARGET FEES'}
               {step === 3 && 'SOCIAL & FINANCIAL STATUS'}
               {step === 4 && 'DOMICILE & VERIFICATION'}
             </span>
-            <span className="font-mono text-xs text-[#89918c]">
+            <span className="font-mono text-xs text-[var(--text-secondary)]">
               {Math.round((step / totalSteps) * 100)}% COMPLETE
             </span>
           </div>
 
-          <div className="h-1.5 w-full bg-[#191f1e] rounded-full overflow-hidden border border-[#222827]">
+          <div className="h-1.5 w-full bg-[var(--bg-card-hover)] rounded-full overflow-hidden border border-[var(--border-card)]">
             <div
-              className="h-full bg-[#a9f46b] transition-all duration-300"
+              className="h-full bg-emerald-600 dark:bg-emerald-500 transition-all duration-300"
               style={{ width: `${(step / totalSteps) * 100}%` }}
               role="progressbar"
               aria-valuenow={Math.round((step / totalSteps) * 100)}
@@ -172,15 +172,16 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         {step === 1 && (
           <div className="space-y-4 animate-in fade-in duration-200">
             <div>
-              <label htmlFor="fullName" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="fullName" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                 Full Legal Name (as per Aadhaar / Marks Card)
               </label>
               <input
                 id="fullName"
                 type="text"
+                maxLength={80}
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors"
                 placeholder="e.g. Ananya Sharma"
               />
               {errors.fullName && (
@@ -192,38 +193,40 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="course" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+                <label htmlFor="course" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                   Course Title
                 </label>
                 <input
                   id="course"
                   type="text"
+                  maxLength={80}
                   value={formData.course}
                   onChange={(e) => setFormData({ ...formData, course: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors"
                   placeholder="e.g. B.Tech Computer Science"
                 />
                 {errors.course && (
-                  <p className="text-xs text-[#ff8e91] mt-1 flex items-center gap-1">
+                  <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.course}
                   </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="branch" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+                <label htmlFor="branch" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                   Specialization / Branch
                 </label>
                 <input
                   id="branch"
                   type="text"
+                  maxLength={80}
                   value={formData.branch}
                   onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors"
                   placeholder="e.g. Computer Science & Engg"
                 />
                 {errors.branch && (
-                  <p className="text-xs text-[#ff8e91] mt-1 flex items-center gap-1">
+                  <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                     <AlertCircle className="w-3.5 h-3.5" /> {errors.branch}
                   </p>
                 )}
@@ -232,7 +235,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="academicLevel" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+                <label htmlFor="academicLevel" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                   Academic Level
                 </label>
                 <select
@@ -241,7 +244,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                   onChange={(e) =>
                     setFormData({ ...formData, academicLevel: e.target.value as EducationLevel })
                   }
-                  className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors cursor-pointer"
                 >
                   {EDUCATION_LEVELS.map((level) => (
                     <option key={level} value={level}>
@@ -252,7 +255,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
               </div>
 
               <div>
-                <label htmlFor="currentYear" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+                <label htmlFor="currentYear" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                   Current Year of Study
                 </label>
                 <select
@@ -264,7 +267,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                       currentYear: e.target.value as StudentProfile['currentYear'],
                     })
                   }
-                  className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors cursor-pointer"
                 >
                   {CURRENT_YEARS.map((yr) => (
                     <option key={yr} value={yr}>
@@ -280,10 +283,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         {/* Step 2: Performance & Fee Needs */}
         {step === 2 && (
           <div className="space-y-4 animate-in fade-in duration-200">
-            <div className="p-4 bg-[#141818] border border-[#222827] rounded-xl">
-              <label htmlFor="marksCgpa" className="flex items-center justify-between text-xs font-mono uppercase text-[#89918c] mb-2">
+            <div className="p-4 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl">
+              <label htmlFor="marksCgpa" className="flex items-center justify-between text-xs font-mono uppercase text-[var(--text-secondary)] mb-2">
                 <span>Academic CGPA (10.0 Scale)</span>
-                <span className="text-[#a9f46b] font-bold text-sm">
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold text-sm">
                   {formData.marksCgpa.toFixed(2)} CGPA (~{formData.marksPercentage}%)
                 </span>
               </label>
@@ -295,44 +298,46 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 step="0.05"
                 value={formData.marksCgpa}
                 onChange={(e) => handleCgpaChange(parseFloat(e.target.value))}
-                className="w-full accent-[#a9f46b] cursor-pointer"
+                className="w-full accent-emerald-600 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-[#525c57] mt-1">
+              <div className="flex justify-between text-[10px] font-mono text-[var(--text-muted)] mt-1">
                 <span>5.0 (Pass)</span>
                 <span>7.5 (First Class)</span>
                 <span>8.5 (Distinction)</span>
                 <span>10.0 (Perfect)</span>
               </div>
               {errors.marksCgpa && (
-                <p className="text-xs text-[#ff8e91] mt-1 flex items-center gap-1">
+                <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3.5 h-3.5" /> {errors.marksCgpa}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="targetAnnualFees" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="targetAnnualFees" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                 Target Annual Tuition & College Fees (₹)
               </label>
               <div className="relative">
-                <IndianRupee className="w-4 h-4 text-[#89918c] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <IndianRupee className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   id="targetAnnualFees"
                   type="number"
                   step="5000"
+                  min="0"
+                  max="5000000"
                   value={formData.targetAnnualFees}
                   onChange={(e) =>
                     setFormData({ ...formData, targetAnnualFees: parseInt(e.target.value) || 0 })
                   }
-                  className="w-full pl-10 pr-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                  className="w-full pl-10 pr-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors"
                   placeholder="e.g. 120000"
                 />
               </div>
-              <p className="text-[11px] text-[#525c57] mt-1">
+              <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 Used to compute the Tuition Gap Visualizer and net out-of-pocket college costs.
               </p>
               {errors.targetAnnualFees && (
-                <p className="text-xs text-[#ff8e91] mt-1 flex items-center gap-1">
+                <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                   <AlertCircle className="w-3.5 h-3.5" /> {errors.targetAnnualFees}
                 </p>
               )}
@@ -344,7 +349,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         {step === 3 && (
           <div className="space-y-4 animate-in fade-in duration-200">
             <div>
-              <label htmlFor="socialCategory" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="socialCategory" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                 Reservation & Social Category
               </label>
               <select
@@ -353,7 +358,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 onChange={(e) =>
                   setFormData({ ...formData, socialCategory: e.target.value as SocialCategory })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors cursor-pointer"
               >
                 {SOCIAL_CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -369,7 +374,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
             </div>
 
             <div>
-              <label htmlFor="familyAnnualIncome" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="familyAnnualIncome" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                 Family Annual Gross Income Bracket
               </label>
               <select
@@ -378,7 +383,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                 onChange={(e) =>
                   setFormData({ ...formData, familyAnnualIncome: e.target.value as IncomeBracket })
                 }
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors cursor-pointer"
               >
                 {INCOME_BRACKETS.map((bracket) => (
                   <option key={bracket} value={bracket}>
@@ -386,46 +391,46 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-[#525c57] mt-1">
+              <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 NSP & corporate trusts require verified income certificates under specified ceilings.
               </p>
             </div>
 
             {/* Special Considerations checkboxes */}
             <div className="pt-2 space-y-2.5">
-              <span className="block text-xs font-mono uppercase text-[#89918c]">
+              <span className="block text-xs font-mono uppercase text-[var(--text-secondary)]">
                 Special Criteria Affirmations
               </span>
 
-              <label className="flex items-center gap-3 p-3 bg-[#141818] border border-[#222827] hover:border-[#38423f] rounded-xl cursor-pointer transition-colors">
+              <label className="flex items-center gap-3 p-3 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] hover:border-[var(--border-card-hover)] rounded-xl cursor-pointer transition-colors">
                 <input
                   type="checkbox"
                   checked={formData.isFirstGen}
                   onChange={(e) => setFormData({ ...formData, isFirstGen: e.target.checked })}
-                  className="w-4 h-4 accent-[#a9f46b] rounded"
+                  className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
                 />
                 <div>
-                  <span className="text-xs font-semibold text-[#edf1ec] block">
+                  <span className="text-xs font-semibold text-[var(--text-primary)] block">
                     First-Generation College Student
                   </span>
-                  <span className="text-[11px] text-[#89918c]">
+                  <span className="text-[11px] text-[var(--text-secondary)]">
                     Neither parent graduated from a recognized higher educational institute.
                   </span>
                 </div>
               </label>
 
-              <label className="flex items-center gap-3 p-3 bg-[#141818] border border-[#222827] hover:border-[#38423f] rounded-xl cursor-pointer transition-colors">
+              <label className="flex items-center gap-3 p-3 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] hover:border-[var(--border-card-hover)] rounded-xl cursor-pointer transition-colors">
                 <input
                   type="checkbox"
                   checked={formData.isSingleGirlChild}
                   onChange={(e) => setFormData({ ...formData, isSingleGirlChild: e.target.checked })}
-                  className="w-4 h-4 accent-[#a9f46b] rounded"
+                  className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
                 />
                 <div>
-                  <span className="text-xs font-semibold text-[#edf1ec] block">
+                  <span className="text-xs font-semibold text-[var(--text-primary)] block">
                     Single Girl Child Candidate
                   </span>
-                  <span className="text-[11px] text-[#89918c]">
+                  <span className="text-[11px] text-[var(--text-secondary)]">
                     Eligible for exclusive UGC / Corporate STEM girl child scholarships.
                   </span>
                 </div>
@@ -438,14 +443,14 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         {step === 4 && (
           <div className="space-y-4 animate-in fade-in duration-200">
             <div>
-              <label htmlFor="regionState" className="block text-xs font-mono uppercase text-[#89918c] mb-1.5">
+              <label htmlFor="regionState" className="block text-xs font-mono uppercase text-[var(--text-secondary)] mb-1.5">
                 Domicile State / Union Territory
               </label>
               <select
                 id="regionState"
                 value={formData.regionState}
                 onChange={(e) => setFormData({ ...formData, regionState: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] focus:ring-1 focus:ring-[#a9f46b] rounded-xl text-sm text-[#edf1ec] outline-none transition-colors"
+                className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl text-sm text-[var(--text-primary)] outline-none transition-colors cursor-pointer"
               >
                 {POPULAR_STATES.map((st) => (
                   <option key={st} value={st}>
@@ -453,36 +458,36 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-[#525c57] mt-1">
+              <p className="text-[11px] text-[var(--text-muted)] mt-1">
                 State DBT portals require matching permanent domicile certificates.
               </p>
             </div>
 
             {/* Profile Review Summary Card */}
-            <div className="p-4 bg-[#141818] border border-[#222827] rounded-xl space-y-3">
-              <span className="eyebrow text-[#a9f46b] block">VERIFIED PROFILE DIGEST</span>
+            <div className="p-4 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] rounded-xl space-y-3">
+              <span className="eyebrow text-emerald-700 dark:text-emerald-400 block">VERIFIED PROFILE DIGEST</span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <span className="text-[#89918c] block text-[10px]">CANDIDATE</span>
-                  <span className="font-semibold text-[#edf1ec]">{formData.fullName}</span>
+                  <span className="text-[var(--text-secondary)] block text-[10px]">CANDIDATE</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{formData.fullName}</span>
                 </div>
                 <div>
-                  <span className="text-[#89918c] block text-[10px]">ACADEMIC SCORE</span>
-                  <span className="font-semibold text-[#a9f46b]">{formData.marksCgpa.toFixed(2)} CGPA</span>
+                  <span className="text-[var(--text-secondary)] block text-[10px]">ACADEMIC SCORE</span>
+                  <span className="font-semibold text-emerald-700 dark:text-emerald-400">{formData.marksCgpa.toFixed(2)} CGPA</span>
                 </div>
                 <div>
-                  <span className="text-[#89918c] block text-[10px]">CATEGORY & INCOME</span>
-                  <span className="font-semibold text-[#edf1ec]">
+                  <span className="text-[var(--text-secondary)] block text-[10px]">CATEGORY & INCOME</span>
+                  <span className="font-semibold text-[var(--text-primary)]">
                     {formData.socialCategory} • {formData.familyAnnualIncome.split(' ')[0]}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[#89918c] block text-[10px]">DOMICILE</span>
-                  <span className="font-semibold text-[#edf1ec]">{formData.regionState}</span>
+                  <span className="text-[var(--text-secondary)] block text-[10px]">DOMICILE</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{formData.regionState}</span>
                 </div>
               </div>
-              <div className="pt-2 border-t border-[#222827] flex items-center gap-2 text-[11px] text-[#89918c]">
-                <CheckCircle2 className="w-4 h-4 text-[#a9f46b]" />
+              <div className="pt-2 border-t border-[var(--border-card)] flex items-center gap-2 text-[11px] text-[var(--text-secondary)]">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Zero duplicate form filling: all 20+ grants auto-evaluate against this record.</span>
               </div>
             </div>
@@ -490,12 +495,12 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
         )}
 
         {/* Modal Action Controls */}
-        <div className="pt-4 border-t border-[#222827] flex items-center justify-between gap-3">
+        <div className="pt-4 border-t border-[var(--border-card)] flex items-center justify-between gap-3">
           {step > 1 ? (
             <button
               type="button"
               onClick={handleBack}
-              className="btn-panel px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5"
+              className="btn-panel px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back</span>
@@ -508,7 +513,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 text-xs text-[#89918c] hover:text-[#edf1ec] transition-colors"
+              className="px-4 py-2.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
             >
               Cancel
             </button>

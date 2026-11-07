@@ -106,9 +106,9 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
                   </span>
                 )}
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
                 {scholarship.title}
-              </h1>
+              </h2>
             </div>
 
             <div className="flex items-center gap-3">

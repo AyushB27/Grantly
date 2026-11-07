@@ -60,6 +60,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   return (
     <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)] flex selection:bg-emerald-500/20 transition-colors">
+      {/* Accessible Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-bold focus:text-xs focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* 1. Dedicated Side Drawer / Sidebar (NO TOP NAVBAR) */}
       <AppSidebar
         isMobileOpen={mobileSidebarOpen}
@@ -120,8 +128,12 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </header>
 
         {/* 3. Dashboard Functional Workspace */}
-        <main id="main-content" className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto" tabIndex={-1}>
-          {children}
+        <main id="main-content" className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto flex flex-col justify-between" tabIndex={-1}>
+          <div>{children}</div>
+          <footer className="mt-12 pt-6 border-t border-[var(--border-card)] text-center text-xs text-[var(--text-muted)] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span>GRANTLY • Rethinking the Scholarship Journey for Indian Scholars</span>
+            <span className="font-mono text-[11px]">Zero Cloud Leakage • 100% Client Sovereign</span>
+          </footer>
         </main>
       </div>
     </div>

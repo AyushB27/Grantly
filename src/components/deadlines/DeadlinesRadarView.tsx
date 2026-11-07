@@ -165,9 +165,9 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
             <span className="eyebrow text-[var(--text-muted)]">DEADLINES RADAR</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
             Urgency Timeline & Deadlines Radar
-          </h1>
+          </h2>
 
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             Never miss an educational grant due to buried dates. Partitioned transparently into

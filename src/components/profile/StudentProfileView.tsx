@@ -42,9 +42,9 @@ export const StudentProfileView: React.FC = () => {
             </div>
             <div>
               <span className="eyebrow text-emerald-700 dark:text-emerald-400 block">STUDENT PROFILE RECORD</span>
-              <h1 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
+              <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">
                 {profile.fullName} • Credentials
-              </h1>
+              </h2>
               <p className="text-xs text-[var(--text-secondary)]">
                 Matches Central NSP, state DBT portals, and corporate CSR schemes against these verified details.
               </p>

@@ -202,9 +202,9 @@ export const AuthPage: React.FC = () => {
                 <span>STUDENT FINANCIAL EMPOWERMENT</span>
               </div>
 
-              <h2 className="text-3xl font-black text-[var(--text-primary)] tracking-tight leading-tight">
+              <h1 className="text-3xl font-black text-[var(--text-primary)] tracking-tight leading-tight">
                 Unlock Every Rupee of Financial Assistance You Deserve.
-              </h2>
+              </h1>
 
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                 Over 20+ verified government, state, and CSR scholarship schemes mapped to your

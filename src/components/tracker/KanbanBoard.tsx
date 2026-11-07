@@ -113,9 +113,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
             <span className="text-[var(--text-muted)]">•</span>
             <span className="eyebrow text-[var(--text-muted)]">5 PROGRESS STAGES</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
             My Scholarship Applications
-          </h1>
+          </h2>
           <p className="text-xs text-[var(--text-secondary)]">
             Track your applications step-by-step from saving schemes to preparing documents, submitting, and winning.
           </p>

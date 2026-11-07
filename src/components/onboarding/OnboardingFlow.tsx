@@ -239,6 +239,7 @@ export const OnboardingFlow: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
+        <h1 className="sr-only">Student Profile Onboarding Calibration</h1>
         <div className="w-full max-w-3xl">
           {isCompleted ? (
             /* Celebration Screen */
@@ -297,10 +298,10 @@ export const OnboardingFlow: React.FC = () => {
               {step === 1 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-black text-[#edf1ec] tracking-tight">
+                    <h2 className="text-2xl font-black text-[var(--text-primary)] tracking-tight">
                       Tell us about your college & degree
                     </h2>
-                    <p className="text-xs text-[#89918c] mt-1">
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">
                       Scholarship quotas and criteria depend directly on your university pedigree and marks.
                     </p>
                   </div>
@@ -308,49 +309,51 @@ export const OnboardingFlow: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Full Name */}
                     <div className="space-y-1.5 sm:col-span-2">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Full Name (as per Aadhaar / 10th Certificate)
                       </label>
                       <input
                         type="text"
+                        maxLength={80}
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                         placeholder="e.g. Aarav Sharma"
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500"
                       />
                       {errors.fullName && (
-                        <p className="text-[10px] text-red-400 font-mono">{errors.fullName}</p>
+                        <p className="text-[10px] text-red-500 font-mono">{errors.fullName}</p>
                       )}
                     </div>
 
                     {/* University Name */}
                     <div className="space-y-1.5 sm:col-span-2">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         University or College Name
                       </label>
                       <div className="relative">
-                        <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                        <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                         <input
                           type="text"
+                          maxLength={100}
                           value={formData.university || ''}
                           onChange={(e) => setFormData({ ...formData, university: e.target.value })}
                           placeholder="e.g. IIT Delhi, Anna University, Mumbai University"
-                          className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                          className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500"
                         />
                       </div>
                       {errors.university && (
-                        <p className="text-[10px] text-red-400 font-mono">{errors.university}</p>
+                        <p className="text-[10px] text-red-500 font-mono">{errors.university}</p>
                       )}
 
                       {/* Quick University Suggestion Chips */}
                       <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                        <span className="text-[10px] text-[#525c57] font-mono">Popular:</span>
+                        <span className="text-[10px] text-[var(--text-muted)] font-mono">Popular:</span>
                         {POPULAR_UNIVERSITIES.slice(0, 5).map((uni) => (
                           <button
                             key={uni}
                             type="button"
                             onClick={() => setFormData({ ...formData, university: uni })}
-                            className="px-2 py-0.5 rounded-lg bg-[#141818] border border-[#222827] hover:border-[#a9f46b]/40 text-[10px] font-mono text-[#89918c] hover:text-[#edf1ec] transition-colors"
+                            className="px-2 py-0.5 rounded-lg bg-[var(--bg-card-subtle)] border border-[var(--border-card)] hover:border-emerald-500/40 text-[10px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                           >
                             {uni}
                           </button>
@@ -360,7 +363,7 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* Academic Level */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Academic Level
                       </label>
                       <select
@@ -368,7 +371,7 @@ export const OnboardingFlow: React.FC = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, academicLevel: e.target.value as EducationLevel })
                         }
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-3 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-3 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         {EDUCATION_LEVELS.map((level) => (
                           <option key={level} value={level}>
@@ -380,7 +383,7 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* Current Year */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Current Year of Study
                       </label>
                       <select
@@ -391,7 +394,7 @@ export const OnboardingFlow: React.FC = () => {
                             currentYear: e.target.value as StudentProfile['currentYear'],
                           })
                         }
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-3 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-3 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         {CURRENT_YEARS.map((yr) => (
                           <option key={yr} value={yr}>
@@ -403,32 +406,34 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* Course Title */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Course / Degree Name
                       </label>
                       <input
                         type="text"
+                        maxLength={80}
                         value={formData.course}
                         onChange={(e) => setFormData({ ...formData, course: e.target.value })}
                         placeholder="e.g. B.Tech Computer Science, MBBS, B.Sc Physics"
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500"
                       />
                       {errors.course && (
-                        <p className="text-[10px] text-red-400 font-mono">{errors.course}</p>
+                        <p className="text-[10px] text-red-500 font-mono">{errors.course}</p>
                       )}
                     </div>
 
                     {/* Branch / Stream */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Branch / Specialization
                       </label>
                       <input
                         type="text"
+                        maxLength={80}
                         value={formData.branch}
                         onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
                         placeholder="e.g. Computer Science & Engg"
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500"
                       />
                       <div className="flex flex-wrap items-center gap-1.5 pt-1">
                         {POPULAR_BRANCHES.slice(0, 4).map((br) => (
@@ -436,7 +441,7 @@ export const OnboardingFlow: React.FC = () => {
                             key={br}
                             type="button"
                             onClick={() => setFormData({ ...formData, branch: br })}
-                            className="px-2 py-0.5 rounded-lg bg-[#141818] border border-[#222827] hover:border-[#a9f46b]/40 text-[9px] font-mono text-[#89918c] hover:text-[#edf1ec] transition-colors"
+                            className="px-2 py-0.5 rounded-lg bg-[var(--bg-card-subtle)] border border-[var(--border-card)] hover:border-emerald-500/40 text-[9px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                           >
                             {br.split(' ')[0]}
                           </button>
@@ -446,50 +451,53 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* CGPA and Percentage */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Current CGPA (0.0 – 10.0 scale)
                       </label>
                       <div className="relative">
-                        <Percent className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                        <Percent className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                         <input
                           type="number"
                           step="0.01"
                           min="0"
                           max="10"
                           value={formData.marksCgpa}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const val = Math.max(0, Math.min(10, parseFloat(e.target.value) || 0));
                             setFormData({
                               ...formData,
-                              marksCgpa: parseFloat(e.target.value) || 0,
-                              marksPercentage: Math.round((parseFloat(e.target.value) || 0) * 9.5),
-                            })
-                          }
-                          className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                              marksCgpa: val,
+                              marksPercentage: Math.round(val * 9.5),
+                            });
+                          }}
+                          className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 font-mono"
                         />
                       </div>
                       {errors.marksCgpa && (
-                        <p className="text-[10px] text-red-400 font-mono">{errors.marksCgpa}</p>
+                        <p className="text-[10px] text-red-500 font-mono">{errors.marksCgpa}</p>
                       )}
                     </div>
 
                     {/* Target Annual Tuition Fees */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Annual College Fee (₹)
                       </label>
                       <div className="relative">
-                        <IndianRupee className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                        <IndianRupee className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                         <input
                           type="number"
                           step="10000"
+                          min="0"
+                          max="5000000"
                           value={formData.targetAnnualFees}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
-                              targetAnnualFees: parseInt(e.target.value, 10) || 0,
+                              targetAnnualFees: Math.max(0, parseInt(e.target.value, 10) || 0),
                             })
                           }
-                          className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                          className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 font-mono"
                         />
                       </div>
                     </div>
@@ -501,10 +509,10 @@ export const OnboardingFlow: React.FC = () => {
               {step === 2 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-black text-[#edf1ec] tracking-tight">
+                    <h2 className="text-2xl font-black text-[var(--text-primary)] tracking-tight">
                       Socio-Economic & Need Verification
                     </h2>
-                    <p className="text-xs text-[#89918c] mt-1">
+                    <p className="text-xs text-[var(--text-secondary)] mt-1">
                       Over 60% of Indian scholarships are affirmative (caste, income, gender, or state domicile).
                     </p>
                   </div>
@@ -512,7 +520,7 @@ export const OnboardingFlow: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Social Category */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Reservation / Social Category
                       </label>
                       <select
@@ -520,7 +528,7 @@ export const OnboardingFlow: React.FC = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, socialCategory: e.target.value as SocialCategory })
                         }
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-3 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-3 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         {SOCIAL_CATEGORIES.map((cat) => (
                           <option key={cat} value={cat}>
@@ -532,7 +540,7 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* Family Annual Income */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Family Annual Income Band
                       </label>
                       <select
@@ -540,7 +548,7 @@ export const OnboardingFlow: React.FC = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, familyAnnualIncome: e.target.value as IncomeBracket })
                         }
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-3 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-3 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         {INCOME_BRACKETS.map((inc) => (
                           <option key={inc} value={inc}>
@@ -552,13 +560,13 @@ export const OnboardingFlow: React.FC = () => {
 
                     {/* Domicile State */}
                     <div className="space-y-1.5 sm:col-span-2">
-                      <label className="text-xs font-mono font-medium text-[#89918c] block">
+                      <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                         Home State / Domicile
                       </label>
                       <select
                         value={formData.regionState}
                         onChange={(e) => setFormData({ ...formData, regionState: e.target.value })}
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl px-3 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b]"
+                        className="w-full bg-[var(--bg-card)] border border-[var(--border-card)] rounded-xl px-3 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         {POPULAR_STATES.map((st) => (
                           <option key={st} value={st}>
@@ -569,8 +577,8 @@ export const OnboardingFlow: React.FC = () => {
                     </div>
 
                     {/* Special Criteria Checkboxes */}
-                    <div className="sm:col-span-2 p-4 bg-[#141818] border border-[#222827] rounded-2xl space-y-3">
-                      <span className="eyebrow text-[#a9f46b] text-[10px] block font-bold">
+                    <div className="sm:col-span-2 p-4 bg-[var(--bg-card-subtle)] border border-[var(--border-card)] rounded-2xl space-y-3">
+                      <span className="eyebrow text-emerald-700 dark:text-emerald-400 text-[10px] block font-bold">
                         AFFIRMATIVE CRITERIA TAGS
                       </span>
 
@@ -581,13 +589,13 @@ export const OnboardingFlow: React.FC = () => {
                           onChange={(e) =>
                             setFormData({ ...formData, isFirstGen: e.target.checked })
                           }
-                          className="mt-0.5 rounded text-[#a9f46b] focus:ring-[#a9f46b]"
+                          className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 accent-emerald-600 cursor-pointer"
                         />
                         <div className="text-xs">
-                          <span className="font-bold text-[#edf1ec] block">
+                          <span className="font-bold text-[var(--text-primary)] block">
                             First-Generation College Learner
                           </span>
-                          <span className="text-[11px] text-[#89918c]">
+                          <span className="text-[11px] text-[var(--text-secondary)]">
                             First in your immediate family to pursue a university degree.
                           </span>
                         </div>
@@ -600,13 +608,13 @@ export const OnboardingFlow: React.FC = () => {
                           onChange={(e) =>
                             setFormData({ ...formData, isSingleGirlChild: e.target.checked })
                           }
-                          className="mt-0.5 rounded text-[#a9f46b] focus:ring-[#a9f46b]"
+                          className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 accent-emerald-600 cursor-pointer"
                         />
                         <div className="text-xs">
-                          <span className="font-bold text-[#edf1ec] block">
+                          <span className="font-bold text-[var(--text-primary)] block">
                             Single Girl Child in Family
                           </span>
-                          <span className="text-[11px] text-[#89918c]">
+                          <span className="text-[11px] text-[var(--text-secondary)]">
                             Eligible for exclusive AICTE Pragati & CBSE national grants.
                           </span>
                         </div>
@@ -620,7 +628,7 @@ export const OnboardingFlow: React.FC = () => {
               {step === 3 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-black text-[#edf1ec] tracking-tight">
+                    <h2 className="text-2xl font-black text-[var(--text-primary)] tracking-tight">
                       Document Readiness & Matched Schemes
                     </h2>
                     <p className="text-xs text-[#89918c] mt-1">
@@ -672,22 +680,22 @@ export const OnboardingFlow: React.FC = () => {
                             <div
                               className={`w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold transition-colors ${
                                 isReady
-                                  ? 'bg-[#a9f46b] text-[#090b0b]'
-                                  : 'bg-[#141818] border border-[#222827]'
+                                  ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950'
+                                  : 'bg-[var(--bg-card)] border border-[var(--border-card)]'
                               }`}
                             >
                               {isReady && '✓'}
                             </div>
                             <div>
                               <span className="text-xs font-bold block">{doc.name}</span>
-                              <span className="text-[10px] font-mono text-[#525c57]">{doc.tag}</span>
+                              <span className="text-[10px] font-mono text-[var(--text-muted)]">{doc.tag}</span>
                             </div>
                           </div>
                           <span
                             className={`text-[10px] font-mono px-2 py-0.5 rounded-md ${
                               isReady
-                                ? 'bg-[#a9f46b]/10 text-[#a9f46b]'
-                                : 'bg-[#222827] text-[#89918c]'
+                                ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-500/30'
+                                : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)]'
                             }`}
                           >
                             {isReady ? 'Uploaded' : 'Pending'}
@@ -700,12 +708,12 @@ export const OnboardingFlow: React.FC = () => {
               )}
 
               {/* Navigation CTAs */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#222827]">
+              <div className="flex items-center justify-between pt-4 border-t border-[var(--border-card)]">
                 {step > 1 ? (
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="btn-panel px-4 py-2.5 rounded-xl text-xs font-mono font-medium flex items-center gap-2 text-[#89918c] hover:text-[#edf1ec]"
+                    className="btn-panel px-4 py-2.5 rounded-xl text-xs font-mono font-medium flex items-center gap-2 cursor-pointer"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     <span>Previous Step</span>
@@ -717,7 +725,7 @@ export const OnboardingFlow: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="btn-mint px-6 py-2.5 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 cursor-pointer shadow-sm"
+                  className="btn-mint px-6 py-2.5 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 cursor-pointer shadow-xs"
                 >
                   <span>{step === totalSteps ? 'Complete Calibration' : 'Continue'}</span>
                   <ArrowRight className="w-4 h-4" />

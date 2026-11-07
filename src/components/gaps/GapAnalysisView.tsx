@@ -55,9 +55,9 @@ export const GapAnalysisView: React.FC<GapAnalysisViewProps> = ({
             <span className="eyebrow text-[var(--text-muted)]">ELIGIBILITY ADVISOR</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
             "Almost Eligible" Gap Analysis & Fixes
-          </h1>
+          </h2>
 
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             Students routinely abandon scholarships because of a single ambiguous criteria.

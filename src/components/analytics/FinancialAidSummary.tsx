@@ -55,9 +55,9 @@ export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
               <span className="text-[var(--text-muted)]">•</span>
               <span className="eyebrow text-sky-700 dark:text-sky-400">FEE GAP VISUALIZER</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
               College Tuition Coverage & Net Out-of-Pocket
-            </h1>
+            </h2>
             <p className="text-xs text-[var(--text-secondary)] mt-0.5">
               Track how your matched Central, State, and CSR scholarships close your college tuition gap.
             </p>

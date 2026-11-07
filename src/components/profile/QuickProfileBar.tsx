@@ -28,7 +28,7 @@ export const QuickProfileBar: React.FC = () => {
                 <Sparkles className="w-2.5 h-2.5" /> Deterministic Matching Active
               </span>
             </div>
-            <div className="flex flex-wrap items-center gap-2 mt-1">
+            <div className="flex flex-wrap items-center gap-2 mt-1" aria-live="polite" aria-atomic="true">
               <span className="font-bold text-[var(--text-primary)] text-sm">{profile.fullName}</span>
               <span className="text-[var(--text-muted)]">•</span>
               <span className="px-2 py-0.5 rounded-md bg-[var(--bg-card-hover)] text-emerald-700 dark:text-emerald-400 border border-[var(--border-card)] font-mono text-xs font-bold">

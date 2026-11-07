@@ -671,6 +671,14 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* 8. Semantic Accessible Footer */}
+      <footer className="py-8 px-4 sm:px-8 border-t border-[#1e293b] text-center text-xs text-[#94a3b8]">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span>GRANTLY • From Scholarship Search to Scholarship Success</span>
+          <span>100% Free &amp; Open Access • Client-Side Sovereign</span>
+        </div>
+      </footer>
     </div>
   );
 };
