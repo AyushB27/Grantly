@@ -25,7 +25,7 @@ interface ScholarshipCardProps {
 /**
  * Interactive scholarship card displaying match percentage, "Why you match", and effort estimates
  */
-export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
+export const ScholarshipCard: React.FC<ScholarshipCardProps> = React.memo(({
   scholarship,
   onOpenDetails,
   onOpenWorkspace,
@@ -224,4 +224,6 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
       </div>
     </article>
   );
-};
+});
+
+ScholarshipCard.displayName = 'ScholarshipCard';

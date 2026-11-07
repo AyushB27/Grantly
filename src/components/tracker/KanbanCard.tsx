@@ -23,7 +23,7 @@ const STAGES: ApplicationStage[] = ['saved', 'preparing', 'submitted', 'under_re
 /**
  * Application card within Kanban columns featuring stage transition buttons and task progress
  */
-export const KanbanCard: React.FC<KanbanCardProps> = ({
+export const KanbanCard: React.FC<KanbanCardProps> = React.memo(({
   scholarship,
   application,
   onOpenWorkspace,
@@ -167,4 +167,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
       </div>
     </article>
   );
-};
+});
+
+KanbanCard.displayName = 'KanbanCard';

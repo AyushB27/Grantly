@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { DocumentStatus, DocumentVaultItem } from '../../types/scholarship';
 import {
@@ -10,6 +10,139 @@ import {
   Layers,
   ShieldCheck,
 } from 'lucide-react';
+
+interface DocumentRowCardProps {
+  doc: DocumentVaultItem;
+  isToggled: boolean;
+  onStatusChange: (docId: string, newStatus: DocumentStatus) => void;
+}
+
+const getStatusBadge = (status: DocumentStatus) => {
+  switch (status) {
+    case 'uploaded':
+      return {
+        bg: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
+        label: 'VERIFIED IN VAULT',
+        icon: CheckCircle2,
+      };
+    case 'expiring':
+      return {
+        bg: 'bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 border-amber-200 dark:border-amber-500/30',
+        label: 'RENEWAL DUE SOON',
+        icon: Clock,
+      };
+    case 'missing':
+    default:
+      return {
+        bg: 'bg-red-50 dark:bg-red-500/10 text-red-800 dark:text-red-400 border-red-200 dark:border-red-500/30',
+        label: 'ACTION REQUIRED',
+        icon: AlertTriangle,
+      };
+  }
+};
+
+const DocumentRowCard = React.memo<DocumentRowCardProps>(({
+  doc,
+  isToggled,
+  onStatusChange,
+}) => {
+  const badge = getStatusBadge(doc.status);
+  const BadgeIcon = badge.icon;
+
+  return (
+    <article
+      className={`bg-[var(--bg-card)] border rounded-2xl p-5 transition-all space-y-4 shadow-xs ${
+        isToggled
+          ? 'border-emerald-500 scale-[1.01]'
+          : 'border-[var(--border-card)] hover:border-[var(--border-card-hover)]'
+      }`}
+      aria-labelledby={`doc-title-${doc.id}`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-[var(--bg-card-hover)] border border-[var(--border-card)] flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
+            <FileText className="w-4 h-4" />
+          </div>
+          <div className="space-y-0.5 min-w-0">
+            <span className="eyebrow text-[var(--text-muted)] block text-[9px]">{doc.category}</span>
+            <h2 id={`doc-title-${doc.id}`} className="text-sm font-bold text-[var(--text-primary)] tracking-tight truncate">
+              {doc.name}
+            </h2>
+            <p className="text-[11px] text-[var(--text-muted)] line-clamp-1">
+              {doc.description}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border flex items-center gap-1 shrink-0 ${badge.bg}`}
+        >
+          <BadgeIcon className="w-3 h-3" />
+          <span>{badge.label}</span>
+        </div>
+      </div>
+
+      {/* Document metadata & reuse info */}
+      <div className="p-3 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+          <Layers className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
+          <span className="truncate">
+            Universal reuse across <strong className="text-[var(--text-primary)]">all matching schemes</strong>
+          </span>
+        </div>
+        {doc.expiryNote && (
+          <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 shrink-0 ml-2">
+            {doc.expiryNote}
+          </span>
+        )}
+      </div>
+
+      {/* Action Controls for Status */}
+      <div className="pt-2 border-t border-[var(--border-card)] flex items-center justify-between gap-2">
+        <span className="text-[11px] text-[var(--text-muted)]">Toggle Status:</span>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => onStatusChange(doc.id, 'uploaded')}
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
+              doc.status === 'uploaded'
+                ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 font-bold shadow-xs'
+                : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-emerald-700 dark:hover:text-emerald-400'
+            }`}
+          >
+            ✓ Ready
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onStatusChange(doc.id, 'expiring')}
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
+              doc.status === 'expiring'
+                ? 'bg-amber-600 text-white dark:bg-amber-500 dark:text-slate-950 font-bold shadow-xs'
+                : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-amber-700 dark:hover:text-amber-400'
+            }`}
+          >
+            ▲ Expiring
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onStatusChange(doc.id, 'missing')}
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
+              doc.status === 'missing'
+                ? 'bg-red-600 text-white dark:bg-red-500 dark:text-slate-950 font-bold shadow-xs'
+                : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-700 dark:hover:text-red-400'
+            }`}
+          >
+            ✕ Missing
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+});
+DocumentRowCard.displayName = 'DocumentRowCard';
 
 /**
  * Document vault dashboard view with live Application Readiness gauge and category filters
@@ -23,44 +156,24 @@ export const DocumentVaultView: React.FC = () => {
 
   const categories = ['All', 'Academic', 'Income & Social', 'Identity', 'Institutional'];
 
-  const filteredDocs =
-    filterCategory === 'All'
+  const filteredDocs = useMemo(() => {
+    return filterCategory === 'All'
       ? documentVault
       : documentVault.filter((d) => d.category === filterCategory);
+  }, [documentVault, filterCategory]);
 
-  const uploadedCount = documentVault.filter((d) => d.status === 'uploaded').length;
-  const missingCount = documentVault.filter((d) => d.status === 'missing').length;
-  const expiringCount = documentVault.filter((d) => d.status === 'expiring').length;
+  const uploadedCount = useMemo(() => documentVault.filter((d) => d.status === 'uploaded').length, [documentVault]);
+  const missingCount = useMemo(() => documentVault.filter((d) => d.status === 'missing').length, [documentVault]);
+  const expiringCount = useMemo(() => documentVault.filter((d) => d.status === 'expiring').length, [documentVault]);
 
-  const handleStatusChange = (docId: string, newStatus: DocumentStatus) => {
-    updateDocumentStatus(docId, newStatus);
-    setJustToggledId(docId);
-    setTimeout(() => setJustToggledId(null), 1200);
-  };
-
-  const getStatusBadge = (status: DocumentStatus) => {
-    switch (status) {
-      case 'uploaded':
-        return {
-          bg: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
-          label: 'VERIFIED IN VAULT',
-          icon: CheckCircle2,
-        };
-      case 'expiring':
-        return {
-          bg: 'bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 border-amber-200 dark:border-amber-500/30',
-          label: 'RENEWAL DUE SOON',
-          icon: Clock,
-        };
-      case 'missing':
-      default:
-        return {
-          bg: 'bg-red-50 dark:bg-red-500/10 text-red-800 dark:text-red-400 border-red-200 dark:border-red-500/30',
-          label: 'ACTION REQUIRED',
-          icon: AlertTriangle,
-        };
-    }
-  };
+  const handleStatusChange = useCallback(
+    (docId: string, newStatus: DocumentStatus) => {
+      updateDocumentStatus(docId, newStatus);
+      setJustToggledId(docId);
+      setTimeout(() => setJustToggledId(null), 1200);
+    },
+    [updateDocumentStatus]
+  );
 
   return (
     <section aria-label="Document Vault and Application Readiness" className="space-y-6">
@@ -182,105 +295,14 @@ export const DocumentVaultView: React.FC = () => {
 
       {/* Documents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredDocs.map((doc: DocumentVaultItem) => {
-          const badge = getStatusBadge(doc.status);
-          const BadgeIcon = badge.icon;
-          const isToggled = justToggledId === doc.id;
-
-          return (
-            <article
-              key={doc.id}
-              className={`bg-[var(--bg-card)] border rounded-2xl p-5 transition-all space-y-4 shadow-xs ${
-                isToggled
-                  ? 'border-emerald-500 scale-[1.01]'
-                  : 'border-[var(--border-card)] hover:border-[var(--border-card-hover)]'
-              }`}
-              aria-labelledby={`doc-title-${doc.id}`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-xl bg-[var(--bg-card-hover)] border border-[var(--border-card)] flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
-                    <FileText className="w-4 h-4" />
-                  </div>
-                  <div className="space-y-0.5 min-w-0">
-                    <span className="eyebrow text-[var(--text-muted)] block text-[9px]">{doc.category}</span>
-                    <h2 id={`doc-title-${doc.id}`} className="text-sm font-bold text-[var(--text-primary)] tracking-tight truncate">
-                      {doc.name}
-                    </h2>
-                    <p className="text-[11px] text-[var(--text-muted)] line-clamp-1">
-                      {doc.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border flex items-center gap-1 shrink-0 ${badge.bg}`}
-                >
-                  <BadgeIcon className="w-3 h-3" />
-                  <span>{badge.label}</span>
-                </div>
-              </div>
-
-              {/* Document metadata & reuse info */}
-              <div className="p-3 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 text-[var(--text-secondary)]">
-                  <Layers className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
-                  <span className="truncate">
-                    Universal reuse across <strong className="text-[var(--text-primary)]">all matching schemes</strong>
-                  </span>
-                </div>
-                {doc.expiryNote && (
-                  <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 shrink-0 ml-2">
-                    {doc.expiryNote}
-                  </span>
-                )}
-              </div>
-
-              {/* Action Controls for Status */}
-              <div className="pt-2 border-t border-[var(--border-card)] flex items-center justify-between gap-2">
-                <span className="text-[11px] text-[var(--text-muted)]">Toggle Status:</span>
-
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => handleStatusChange(doc.id, 'uploaded')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
-                      doc.status === 'uploaded'
-                        ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 font-bold shadow-xs'
-                        : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-emerald-700 dark:hover:text-emerald-400'
-                    }`}
-                  >
-                    ✓ Ready
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleStatusChange(doc.id, 'expiring')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
-                      doc.status === 'expiring'
-                        ? 'bg-amber-600 text-white dark:bg-amber-500 dark:text-slate-950 font-bold shadow-xs'
-                        : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-amber-700 dark:hover:text-amber-400'
-                    }`}
-                  >
-                    ▲ Expiring
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleStatusChange(doc.id, 'missing')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-colors cursor-pointer ${
-                      doc.status === 'missing'
-                        ? 'bg-red-600 text-white dark:bg-red-500 dark:text-slate-950 font-bold shadow-xs'
-                        : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-700 dark:hover:text-red-400'
-                    }`}
-                  >
-                    ✕ Missing
-                  </button>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        {filteredDocs.map((doc: DocumentVaultItem) => (
+          <DocumentRowCard
+            key={doc.id}
+            doc={doc}
+            isToggled={justToggledId === doc.id}
+            onStatusChange={handleStatusChange}
+          />
+        ))}
       </div>
     </section>
   );
