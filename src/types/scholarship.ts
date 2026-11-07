@@ -82,6 +82,7 @@ export interface Scholarship {
 
 export interface StudentProfile {
   fullName: string;
+  university?: string; // University / College name (e.g. IIT Delhi, Anna University)
   course: string; // e.g. B.Tech Computer Science, MBBS, B.Sc
   currentYear: '1st Year' | '2nd Year' | '3rd Year' | 'Final Year' | 'Postgraduate';
   academicLevel: EducationLevel;

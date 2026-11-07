@@ -723,6 +723,7 @@ export const DEFAULT_DOCUMENT_VAULT: DocumentVaultItem[] = [
  */
 export const DEFAULT_STUDENT_PROFILE: StudentProfile = {
   fullName: 'Aarav Sharma',
+  university: 'IIT Delhi',
   course: 'B.Tech Computer Science & Engineering',
   currentYear: '2nd Year',
   academicLevel: 'Undergraduate',

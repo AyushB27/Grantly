@@ -11,6 +11,7 @@ import {
   Sun,
   Moon,
   Home,
+  LogOut,
 } from 'lucide-react';
 import type { ActiveTab } from '../../context/ScholarshipContext';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
@@ -37,11 +38,11 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   const {
     trackedApplications,
     readinessPercentage,
-    setIsAuthModalOpen,
     theme,
     toggleTheme,
     currentView,
     setCurrentView,
+    logout,
   } = useScholarshipContext();
 
   if (!isOpen) return null;
@@ -176,13 +177,24 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
           <button
             onClick={() => {
-              setIsAuthModalOpen(true);
+              setCurrentView('onboarding');
               onClose();
             }}
-            className="btn-mint w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+            className="btn-panel w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2"
           >
-            <User className="w-4 h-4" />
-            <span>Sign In / Demo Profile</span>
+            <User className="w-4 h-4 text-[#a9f46b]" />
+            <span>Edit Profile & University</span>
+          </button>
+
+          <button
+            onClick={() => {
+              logout();
+              onClose();
+            }}
+            className="w-full py-2.5 px-3 bg-[#141818] border border-red-500/30 hover:border-red-500/60 rounded-xl text-xs font-mono flex items-center justify-center gap-2 text-red-400 transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out to Landing</span>
           </button>
 
           <button

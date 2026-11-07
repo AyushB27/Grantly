@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ScholarshipProvider, useScholarshipContext } from './context/ScholarshipContext';
 import { Navbar } from './components/layout/Navbar';
 import { LandingPage } from './components/landing/LandingPage';
+import { AuthPage } from './components/auth/AuthPage';
+import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { HeroSection } from './components/discovery/HeroSection';
 import { QuickProfileBar } from './components/profile/QuickProfileBar';
 import { SearchAndFilterBar } from './components/discovery/SearchAndFilterBar';
@@ -68,21 +70,30 @@ const MainAppContent: React.FC = () => {
     { id: 'calculator', label: 'Tuition Fee Gap', icon: Calculator },
   ];
 
+  // Standalone dedicated views with zero app navbar
+  if (currentView === 'landing') {
+    return <LandingPage />;
+  }
+
+  if (currentView === 'auth') {
+    return <AuthPage />;
+  }
+
+  if (currentView === 'onboarding') {
+    return <OnboardingFlow />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-[#090b0b] text-[#edf1ec] selection:bg-[#a9f46b] selection:text-[#090b0b]">
-      {/* Accessible Navbar & Skip Landmark */}
+      {/* Accessible Navbar & Skip Landmark (Only in App Workspace View) */}
       <Navbar onOpenComparison={() => setComparisonModalOpen(true)} />
 
       {/* Main Content Landmark */}
       <main id="main-content" className="flex-1 responsive-container py-6" tabIndex={-1}>
-        {/* Landing Page View */}
-        {currentView === 'landing' ? (
-          <LandingPage />
-        ) : (
-          /* Streamlined Workspace View */
-          <>
-            {/* If inside Tracker hub (pipeline, deadlines, stack, or calculator), show clean sub-nav pill */}
-            {(activeTab === 'tracker' ||
+        {/* Streamlined Workspace View */}
+        <>
+          {/* If inside Tracker hub (pipeline, deadlines, stack, or calculator), show clean sub-nav pill */}
+          {(activeTab === 'tracker' ||
               activeTab === 'deadlines' ||
               activeTab === 'stack' ||
               activeTab === 'calculator') && (
@@ -163,7 +174,6 @@ const MainAppContent: React.FC = () => {
               <FinancialAidSummary onNavigateDiscovery={() => setActiveTab('discovery')} />
             )}
           </>
-        )}
       </main>
 
       {/* Authentication Modal with Demo Personas */}

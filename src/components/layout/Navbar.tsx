@@ -3,7 +3,6 @@ import {
   GraduationCap,
   Search,
   CheckSquare,
-  User,
   Layers,
   Menu,
   RotateCcw,
@@ -13,6 +12,7 @@ import {
   Moon,
   Sparkles,
   Home,
+  LogOut,
 } from 'lucide-react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { ActiveTab } from '../../context/ScholarshipContext';
@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
     currentView,
     setCurrentView,
     currentUser,
-    setIsAuthModalOpen,
+    logout,
   } = useScholarshipContext();
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -184,23 +184,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
               <span className="font-bold text-[#a9f46b]">{readinessPercentage}%</span>
             </button>
 
-            {/* User / Sign In Pill */}
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 bg-[#101313] hover:bg-[#141818] border border-[#222827] hover:border-[#38423f] rounded-xl text-xs font-mono text-[#edf1ec] transition-colors"
-              title="Student Account & Demo Personas"
-              aria-label="Student Account & Demo Personas"
-            >
-              <div className="w-5 h-5 rounded-full bg-[#141818] border border-[#a9f46b]/40 text-[#a9f46b] flex items-center justify-center text-[10px] font-bold">
-                <User className="w-3 h-3" />
-              </div>
-              <span className="hidden sm:inline font-bold">
-                {currentUser?.name ? currentUser.name.split(' ')[0] : 'Sign In'}
-              </span>
-              <span className="text-[10px] text-[#a9f46b] bg-[#a9f46b]/10 px-1.5 py-0.2 rounded border border-[#a9f46b]/20">
-                {profile.marksCgpa.toFixed(2)} CGPA
-              </span>
-            </button>
+            {/* User Profile Pill & Sign Out Controls */}
+            <div className="flex items-center gap-1 bg-[#101313] border border-[#222827] rounded-xl p-0.5">
+              <button
+                onClick={() => setCurrentView('onboarding')}
+                className="flex items-center gap-2 px-2.5 py-1 hover:bg-[#141818] rounded-lg text-xs font-mono text-[#edf1ec] transition-colors"
+                title="Edit Student Profile (Onboarding)"
+                aria-label="Edit student profile and university details"
+              >
+                <div className="w-5 h-5 rounded-full bg-[#141818] border border-[#a9f46b]/40 text-[#a9f46b] flex items-center justify-center text-[10px] font-bold">
+                  {currentUser?.avatarText || 'ST'}
+                </div>
+                <div className="text-left hidden sm:block">
+                  <span className="font-bold block leading-none text-xs">
+                    {currentUser?.name ? currentUser.name.split(' ')[0] : 'Student'}
+                  </span>
+                  <span className="text-[9px] text-[#89918c] block leading-none mt-0.5 truncate max-w-[85px]">
+                    {profile.university || 'IIT Delhi'}
+                  </span>
+                </div>
+              </button>
+
+              <button
+                onClick={logout}
+                className="p-1.5 text-[#89918c] hover:text-red-400 hover:bg-[#141818] rounded-lg text-[10px] font-mono transition-colors"
+                title="Sign Out to Landing Page"
+                aria-label="Sign out of Grantly"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
 
             {/* Demo Reset */}
             <button

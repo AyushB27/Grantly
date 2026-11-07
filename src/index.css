@@ -119,7 +119,9 @@ body {
 }
 
 [data-theme="light"] .bg-\[\#131717\],
-.light .bg-\[\#131717\] {
+.light .bg-\[\#131717\],
+[data-theme="light"] .bg-\[\#0d1010\],
+.light .bg-\[\#0d1010\] {
   background-color: #f8fafc !important;
 }
 

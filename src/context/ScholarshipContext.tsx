@@ -25,7 +25,7 @@ export type ActiveTab =
   | 'stack' // Stretch: Stack Planner
   | 'calculator'; // Tuition Gap visualizer
 
-export type AppView = 'landing' | 'app';
+export type AppView = 'landing' | 'auth' | 'onboarding' | 'app';
 export type AppTheme = 'dark' | 'light';
 
 export interface UserSession {
@@ -187,7 +187,8 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   const logout = useCallback(() => {
     setCurrentUser(null);
-  }, [setCurrentUser]);
+    setCurrentView('landing');
+  }, [setCurrentUser, setCurrentView]);
 
   const updateProfile = useCallback(
     (updates: Partial<StudentProfile>) => {
