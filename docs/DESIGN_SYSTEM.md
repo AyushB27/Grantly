@@ -1,33 +1,68 @@
-# GRANTLY Design System & StockFolio Dark Precision Specification
+# GRANTLY Design System & Dual-Mode Institutional Architecture
 
-Grantly adopts the **StockFolio Dark Precision Aesthetic** (`#090b0b`), delivering a high-confidence, institutional dashboard experience that treats educational funding with the same clarity and seriousness as modern financial software.
+Grantly adopts an **Institutional FinTech & EdTech Architecture**, delivering a high-confidence, professional dashboard experience that treats educational funding with the same clarity and seriousness as modern financial software. It features a complete dual-theme engine (Executive Midnight Slate & Clean High-Contrast Light Mode) with dedicated Side Drawer dashboard navigation.
 
 ---
 
-## 1. Color Palette Tokens
+## 1. Color Palette Tokens & Dual-Theme System
 
+Grantly guarantees strict WCAG AAA / AA contrast ratios across both dark and light modes.
+
+### A. Dark Mode Tokens (`[data-theme="dark"]`, Default)
 | Token | Hex Value | Semantic Usage |
 |---|---|---|
-| `--ink` | `#090b0b` | Root canvas background, deep dark atmosphere |
-| `--panel` | `#101313` | Primary card surfaces, modals, and container panels |
-| `--panel-hover` | `#141818` | Elevated states, input fields, and hover states |
-| `--panel-elevated` | `#161c1b` | Secondary chip backgrounds, nested boxes |
-| `--line` | `#222827` | Structural hairline borders (1px) |
-| `--line-subtle` | `#191f1e` | Dividers, empty state dashes, progress rails |
-| `--mint` | `#a9f46b` | Primary brand accent, High Match badges, CTA buttons |
-| `--mint-hover` | `#bcfb8b` | Button hover glow, active highlights |
-| `--mint-dim` | `#7ccb3e` | Progress bars, secondary indicators |
-| `--soft` | `#89918c` | Monospace eyebrows, secondary labels, subtext |
-| `--dim` | `#525c57` | Micro-details, helper hints, deactivated icons |
-| `--text` | `#edf1ec` | High-contrast readable body text and headings |
-| `--negative` | `#ff8e91` | Overdue deadlines, unmet criteria, delete actions |
-| `--warning` | `#f7ba53` | Near-miss gaps, expiring documents, 7-day deadlines |
-| `--blue` | `#70b4ff` | In-progress applications, official link pills |
-| `--purple` | `#c084fc` | First-generation tags, under-review stage |
+| `--bg-app` | `#0b0f19` | Executive Deep Midnight Slate canvas background |
+| `--bg-card` | `#111827` | Primary card surfaces, sidebar, and container panels |
+| `--bg-card-hover` | `#162032` | Elevated states, input fields, and hover states |
+| `--bg-card-subtle` | `#1e293b` | Secondary chip backgrounds, nested boxes |
+| `--border-card` | `#1e293b` | Structural hairline borders (1px) |
+| `--border-card-hover` | `#334155` | Elevated border focus & hover states |
+| `--text-primary` | `#f8fafc` | Crisp Slate 50 primary text & headings |
+| `--text-secondary` | `#94a3b8` | Slate 400 subtext, descriptions, metadata |
+| `--text-muted` | `#64748b` | Slate 500 eyebrows, deactivated icons |
+| `--brand-emerald` | `#10b981` | High-trust Emerald primary CTA accent |
+
+### B. Light Mode Tokens (`[data-theme="light"]`)
+| Token | Hex Value | Semantic Usage |
+|---|---|---|
+| `--bg-app` | `#f8fafc` | Crisp Clean Slate 50 canvas background |
+| `--bg-card` | `#ffffff` | Pure White card surfaces, sidebar, and container panels |
+| `--bg-card-hover` | `#f1f5f9` | Slate 100 elevated states, hover rows, inputs |
+| `--bg-card-subtle` | `#f8fafc` | Subtle inner panel background |
+| `--border-card` | `#e2e8f0` | Slate 200 hairline borders |
+| `--border-card-hover` | `#cbd5e1` | Slate 300 active card border |
+| `--text-primary` | `#0f172a` | Pitch Charcoal Slate 900 (100% sharp readability) |
+| `--text-secondary` | `#334155` | Slate 700 high-contrast secondary labels |
+| `--text-muted` | `#64748b` | Slate 500 metadata and eyebrows |
+| `--brand-emerald` | `#059669` | Deep Emerald 600 high-contrast primary CTA accent |
 
 ---
 
-## 2. Typography & Micro-Copy Rules
+## 2. Dashboard Navigation: Side Drawer Architecture
+
+In alignment with modern institutional SaaS platforms (Linear, Stripe, Supabase), post-login navigation uses an **Executive Left Side Drawer / Sidebar** instead of horizontal navbars:
+1. **Desktop**: Fixed left sidebar (width: 16rem / 18rem on large screens) containing branding, active workspaces, planning tools, active student card, theme toggle, and sign-out.
+2. **Mobile**: Accessible slide-out drawer triggered via the top header hamburger toggle with focus trap and backdrop blur dismiss.
+3. **Dedicated Workspaces**:
+   - `Feed & Match`: Personalized curated scholarships
+   - `Almost Eligible`: Signature F4 gap diagnostics
+   - `Document Vault`: Universal document readiness & live % score
+   - `Pipeline Tracker`: 5-stage application Kanban board
+   - `Deadlines Radar`: Urgency-sorted countdowns
+   - `Stack Planner`: Multi-grant stacking & policy conflict detection
+   - `Tuition Fee Gap`: Net college fee financial visualizer
+
+---
+
+## 3. Scroll Reveal & Transition Architecture
+
+All landing page sections feature hardware-accelerated scroll transitions using an `IntersectionObserver` observing `.reveal-on-scroll`:
+- Smooth `translateY(28px) -> translateY(0)` and `opacity: 0 -> 1` with a `0.65s cubic-bezier(0.16, 1, 0.3, 1)` easing.
+- Respects user accessibility preferences: automatically disables transitions when `prefers-reduced-motion: reduce` is detected.
+
+---
+
+## 4. Typography & Micro-Copy Rules
 
 1. **Heading & Body Font**: `Plus Jakarta Sans` (`400`, `500`, `600`, `700`, `800`, `900`).
 2. **Monospace & Numerical Data**: `DM Mono` (`400`, `500`). Used for:
@@ -42,43 +77,36 @@ Grantly adopts the **StockFolio Dark Precision Aesthetic** (`#090b0b`), deliveri
      font-size: 10px;
      letter-spacing: 1.4px;
      text-transform: uppercase;
-     font-weight: 500;
-     color: var(--soft);
+     font-weight: 600;
+     color: var(--text-muted);
    }
    ```
 
 ---
 
-## 3. Precision Button Classes
+## 5. Standard Institutional Buttons
 
 ### `.btn-mint` (Primary CTA)
 ```css
 .btn-mint {
-  background-color: var(--mint);
-  color: #090b0b;
-  font-weight: 700;
+  background-color: var(--brand-emerald);
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 14px rgba(169, 244, 107, 0.15);
-}
-.btn-mint:hover {
-  background-color: var(--mint-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(169, 244, 107, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(16, 185, 129, 0.25);
 }
 ```
 
 ### `.btn-panel` (Secondary Institutional Button)
 ```css
 .btn-panel {
-  background-color: #121614;
-  border: 1px solid var(--line);
-  color: var(--text);
+  background-color: var(--bg-card-hover);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  font-weight: 500;
+  border-radius: 0.75rem;
   transition: all 0.2s ease;
-}
-.btn-panel:hover {
-  border-color: #38423f;
-  background-color: #171c1a;
-  color: #ffffff;
 }
 ```
 

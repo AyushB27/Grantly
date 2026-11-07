@@ -130,11 +130,11 @@ export const QuickProfileBar: React.FC = () => {
               }
               className="w-full px-2.5 py-1.5 bg-[#101313] border border-[#222827] focus:border-[#a9f46b] rounded-lg text-xs font-mono text-[#edf1ec] outline-none cursor-pointer"
             >
-              <option value="General" className="bg-[#101313]">General (Unreserved)</option>
-              <option value="General (EWS)" className="bg-[#101313]">General (EWS)</option>
-              <option value="OBC (Non-Creamy Layer)" className="bg-[#101313]">OBC (Non-Creamy Layer)</option>
-              <option value="SC" className="bg-[#101313]">SC (Scheduled Caste)</option>
-              <option value="ST" className="bg-[#101313]">ST (Scheduled Tribe)</option>
+              <option value="General">General (Unreserved)</option>
+              <option value="General (EWS)">General (EWS)</option>
+              <option value="OBC (Non-Creamy Layer)">OBC (Non-Creamy Layer)</option>
+              <option value="SC">SC (Scheduled Caste)</option>
+              <option value="ST">ST (Scheduled Tribe)</option>
             </select>
           </div>
 
@@ -151,10 +151,10 @@ export const QuickProfileBar: React.FC = () => {
               }
               className="w-full px-2.5 py-1.5 bg-[#101313] border border-[#222827] focus:border-[#a9f46b] rounded-lg text-xs font-mono text-[#edf1ec] outline-none cursor-pointer"
             >
-              <option value="< ₹2.5 Lakhs (Full EWS)" className="bg-[#101313]">&lt; ₹2.5 Lakhs (Full EWS)</option>
-              <option value="₹2.5L - ₹5 Lakhs" className="bg-[#101313]">₹2.5L - ₹5 Lakhs</option>
-              <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)" className="bg-[#101313]">₹5L - ₹8 Lakhs</option>
-              <option value="> ₹8 Lakhs (General / Creamy Layer)" className="bg-[#101313]">&gt; ₹8 Lakhs</option>
+              <option value="< ₹2.5 Lakhs (Full EWS)">&lt; ₹2.5 Lakhs (Full EWS)</option>
+              <option value="₹2.5L - ₹5 Lakhs">₹2.5L - ₹5 Lakhs</option>
+              <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)">₹5L - ₹8 Lakhs</option>
+              <option value="> ₹8 Lakhs (General / Creamy Layer)">&gt; ₹8 Lakhs</option>
             </select>
           </div>
 

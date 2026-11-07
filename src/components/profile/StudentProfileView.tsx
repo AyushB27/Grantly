@@ -115,10 +115,10 @@ export const StudentProfileView: React.FC = () => {
                 }
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
               >
-                <option value="Undergraduate" className="bg-[#101313]">Undergraduate (B.Tech/MBBS)</option>
-                <option value="Postgraduate" className="bg-[#101313]">Postgraduate (M.Tech/MBA)</option>
-                <option value="PhD / Research" className="bg-[#101313]">PhD / PMRF Research</option>
-                <option value="Class 11-12" className="bg-[#101313]">Class 11-12</option>
+                <option value="Undergraduate">Undergraduate (B.Tech/MBBS)</option>
+                <option value="Postgraduate">Postgraduate (M.Tech/MBA)</option>
+                <option value="PhD / Research">PhD / PMRF Research</option>
+                <option value="Class 11-12">Class 11-12</option>
               </select>
             </div>
 
@@ -135,11 +135,11 @@ export const StudentProfileView: React.FC = () => {
                 }
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
               >
-                <option value="1st Year" className="bg-[#101313]">1st Year</option>
-                <option value="2nd Year" className="bg-[#101313]">2nd Year</option>
-                <option value="3rd Year" className="bg-[#101313]">3rd Year</option>
-                <option value="Final Year" className="bg-[#101313]">Final Year</option>
-                <option value="Postgraduate" className="bg-[#101313]">Postgraduate</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="Final Year">Final Year</option>
+                <option value="Postgraduate">Postgraduate</option>
               </select>
             </div>
 
@@ -174,10 +174,10 @@ export const StudentProfileView: React.FC = () => {
                 }
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
               >
-                <option value="< ₹2.5 Lakhs (Full EWS)" className="bg-[#101313]">&lt; ₹2.5 Lakhs (Full EWS / BPL)</option>
-                <option value="₹2.5L - ₹5 Lakhs" className="bg-[#101313]">₹2.5L - ₹5 Lakhs (CSR eligible)</option>
-                <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)" className="bg-[#101313]">₹5L - ₹8 Lakhs (OBC-NCL / EWS limit)</option>
-                <option value="> ₹8 Lakhs (General / Creamy Layer)" className="bg-[#101313]">&gt; ₹8 Lakhs (General / Creamy Layer)</option>
+                <option value="< ₹2.5 Lakhs (Full EWS)">&lt; ₹2.5 Lakhs (Full EWS / BPL)</option>
+                <option value="₹2.5L - ₹5 Lakhs">₹2.5L - ₹5 Lakhs (CSR eligible)</option>
+                <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)">₹5L - ₹8 Lakhs (OBC-NCL / EWS limit)</option>
+                <option value="> ₹8 Lakhs (General / Creamy Layer)">&gt; ₹8 Lakhs (General / Creamy Layer)</option>
               </select>
             </div>
 
@@ -194,11 +194,11 @@ export const StudentProfileView: React.FC = () => {
                 }
                 className="w-full px-3.5 py-2.5 bg-[#141818] border border-[#222827] focus:border-[#a9f46b] rounded-xl text-xs text-[#edf1ec] outline-none"
               >
-                <option value="General" className="bg-[#101313]">General (Unreserved)</option>
-                <option value="General (EWS)" className="bg-[#101313]">General (EWS)</option>
-                <option value="OBC (Non-Creamy Layer)" className="bg-[#101313]">OBC (Non-Creamy Layer)</option>
-                <option value="SC" className="bg-[#101313]">SC (Scheduled Caste)</option>
-                <option value="ST" className="bg-[#101313]">ST (Scheduled Tribe)</option>
+                <option value="General">General (Unreserved)</option>
+                <option value="General (EWS)">General (EWS)</option>
+                <option value="OBC (Non-Creamy Layer)">OBC (Non-Creamy Layer)</option>
+                <option value="SC">SC (Scheduled Caste)</option>
+                <option value="ST">ST (Scheduled Tribe)</option>
               </select>
             </div>
 

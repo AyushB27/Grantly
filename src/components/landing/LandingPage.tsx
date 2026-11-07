@@ -1,62 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import {
   GraduationCap,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
   Clock,
-  Layers,
-  Award,
   Sun,
   Moon,
-  TrendingUp,
-  FileCheck,
-  Search,
+  ChevronRight,
+  Sparkles,
+  FileCheck2,
+  CheckCircle2,
 } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatters';
+import heroImage from '../../assets/hero.png';
 
-const PREVIEW_SCHOLARSHIPS = [
+interface SchemePreview {
+  id: string;
+  name: string;
+  provider: string;
+  award: number;
+  minCgpa: number;
+  categories: string[];
+  level: string;
+  deadlineText: string;
+}
+
+const FEATURED_SCHEMES: SchemePreview[] = [
   {
-    id: 'rel-preview',
-    title: 'Reliance Foundation Undergraduate Scholarship',
-    provider: 'Reliance Foundation CSR',
-    amount: 200000,
-    match: 94,
-    deadline: 'Closing in 12 days',
-    tag: 'Engineering / STEM',
-    badge: 'CSR Foundation',
+    id: 'sch-1',
+    name: 'Reliance Foundation Undergraduate Scholarship',
+    provider: 'Reliance Foundation (CSR)',
+    award: 200000,
+    minCgpa: 7.5,
+    categories: ['General', 'General (EWS)', 'OBC (Non-Creamy Layer)', 'SC', 'ST'],
+    level: 'Undergraduate',
+    deadlineText: 'Closing Nov 20, 2026',
   },
   {
-    id: 'nsp-preview',
-    title: 'Central Sector Scheme for College Students (NSP)',
-    provider: 'Dept of Higher Education (MHRD)',
-    amount: 20000,
-    match: 88,
-    deadline: 'Closing in 18 days',
-    tag: 'Merit-cum-Means',
-    badge: 'Central Govt (NSP)',
+    id: 'sch-2',
+    name: 'Central Sector Scheme of Scholarships (NSP)',
+    provider: 'Dept of Higher Education (MHRD, Govt of India)',
+    award: 20000,
+    minCgpa: 6.5,
+    categories: ['General', 'General (EWS)', 'OBC (Non-Creamy Layer)', 'SC', 'ST'],
+    level: 'Undergraduate',
+    deadlineText: 'Closing Dec 05, 2026',
   },
   {
-    id: 'pragati-preview',
-    title: 'AICTE Pragati Scholarship Scheme for Girls',
+    id: 'sch-3',
+    name: 'AICTE Pragati Scholarship for Girls',
     provider: 'AICTE Govt of India',
-    amount: 50000,
-    match: 96,
-    deadline: 'Closing in 24 days',
-    tag: 'Women in Tech',
-    badge: 'Govt of India',
+    award: 50000,
+    minCgpa: 6.0,
+    categories: ['General', 'General (EWS)', 'OBC (Non-Creamy Layer)', 'SC', 'ST'],
+    level: 'Undergraduate',
+    deadlineText: 'Closing Dec 15, 2026',
   },
   {
-    id: 'hdfc-preview',
-    title: 'HDFC Bank Parivartan’s ECSS Support',
+    id: 'sch-4',
+    name: 'HDFC Bank Parivartan’s ECSS Educational Support',
     provider: 'HDFC Bank CSR',
-    amount: 75000,
-    match: 82,
-    deadline: 'Closing in 30 days',
-    tag: 'Crisis / Need-Based',
-    badge: 'CSR Foundation',
+    award: 75000,
+    minCgpa: 6.0,
+    categories: ['General (EWS)', 'OBC (Non-Creamy Layer)', 'SC', 'ST'],
+    level: 'Undergraduate',
+    deadlineText: 'Closing Dec 31, 2026',
   },
 ];
 
@@ -65,45 +74,85 @@ export const LandingPage: React.FC = () => {
 
   const totalCatalogPool = scholarships.reduce((acc, s) => acc + s.amount, 0);
 
+  // Interactive Calculator State
+  const [degree, setDegree] = useState<'Engineering' | 'Medical' | 'Sciences' | 'Arts'>('Engineering');
+  const [cgpa, setCgpa] = useState<number>(8.5);
+  const [category, setCategory] = useState<'General' | 'EWS' | 'OBC' | 'SC/ST'>('EWS');
+
+  // Hardware-accelerated smooth scroll reveal transitions
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleGoToAuth = () => {
     setCurrentView('auth');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Dynamic matching preview calculation
+  const calculatedEligibleCount = React.useMemo(() => {
+    let count = 4;
+    if (cgpa >= 8.0) count += 4;
+    if (category === 'EWS' || category === 'SC/ST') count += 3;
+    if (degree === 'Engineering') count += 2;
+    return Math.min(count, 14);
+  }, [degree, cgpa, category]);
+
+  const estimatedFunding = React.useMemo(() => {
+    let amount = 140000;
+    if (cgpa >= 7.5) amount += 100000;
+    if (category === 'EWS') amount += 50000;
+    return amount;
+  }, [cgpa, category]);
+
   return (
-    <div className="min-h-screen bg-[#090b0b] text-[#edf1ec] flex flex-col selection:bg-[#a9f46b] selection:text-[#090b0b] overflow-x-hidden">
-      {/* 1. Standalone Minimalist Landing Header (NO APP NAVBAR, NO TABS) */}
-      <header className="sticky top-0 z-50 h-18 border-b border-[#222827] bg-[#090b0b]/90 backdrop-blur-md px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
-          {/* Brand Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b] shadow-xs">
-              <GraduationCap className="w-5 h-5" />
+    <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] flex flex-col selection:bg-emerald-500/20 font-sans">
+      {/* 1. Sleek Editorial Header (No Nav Links, Only Theme & Sign-in) */}
+      <header className="sticky top-0 z-40 h-16 border-b border-[#1e293b] bg-[#0b0f19]/90 backdrop-blur-md px-4 sm:px-8">
+        <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
+          {/* Brand Mark */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[#111827] border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <GraduationCap className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-black text-lg sm:text-xl tracking-tight text-[#edf1ec] block leading-tight">
+              <span className="font-bold text-base tracking-tight text-[#f8fafc] block leading-tight">
                 GRANTLY
               </span>
-              <span className="eyebrow text-[#a9f46b] block text-[9px]">
-                SCHOLARSHIP CO-PILOT
+              <span className="text-[10px] font-sans font-medium text-emerald-400 block tracking-wide">
+                Scholarship Co-Pilot
               </span>
             </div>
           </div>
 
-          {/* Right Action Controls: Theme Switcher & Single Login/Sign Up Button */}
-          <div className="flex items-center gap-3">
+          {/* Right Action Bar */}
+          <div className="flex items-center gap-2.5">
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-[#101313] border border-[#222827] text-[#89918c] hover:text-[#a9f46b] transition-colors"
+              className="p-2 rounded-lg bg-[#111827] border border-[#1e293b] text-[#94a3b8] hover:text-[#f8fafc] transition-colors cursor-pointer"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title="Toggle theme"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-500" />}
             </button>
 
             <button
               onClick={handleGoToAuth}
-              className="btn-mint px-5 py-2.5 rounded-xl text-xs font-sans font-semibold inline-flex items-center gap-2 shadow-sm transition-all cursor-pointer"
+              className="btn-mint px-4 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
             >
               <span>Sign In / Register</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -112,346 +161,430 @@ export const LandingPage: React.FC = () => {
         </div>
       </header>
 
-      {/* 2. Hero Section */}
-      <section className="relative pt-12 sm:pt-20 pb-16 px-4 sm:px-8">
-        {/* Ambient Glow Orbs */}
-        <div
-          className="absolute top-12 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#a9f46b]/15 via-[#a9f46b]/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
-          aria-hidden="true"
-        />
-
+      {/* 2. Hero Section: Confident Solid Typography, Real Hero Image & Interactive Live Matcher */}
+      <section className="pt-10 sm:pt-14 pb-16 px-4 sm:px-8 border-b border-[#1e293b]">
         <div className="max-w-6xl mx-auto space-y-12">
-          {/* Hero Headlines */}
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#101313] border border-[#222827] text-xs font-sans shadow-xs">
-              <span className="flex h-2 w-2 rounded-full bg-[#10b981]" />
-              <span className="text-emerald-400 font-semibold">CENTRAL, STATE & CSR AID</span>
-              <span className="text-[#525c57]">•</span>
-              <span className="text-[#89918c]">INDIAN HIGHER EDUCATION</span>
+          {/* Top Hero Grid: Headline + Visual Dossier Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left 7 Columns: Editorial Headline & Actions */}
+            <div className="lg:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#111827] border border-[#1e293b] text-xs font-mono text-[#94a3b8]">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>CENTRAL, STATE & CSR SCHOLARSHIPS • INDIAN HIGHER ED</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#f8fafc] tracking-tight leading-[1.12]">
+                Rethinking the Scholarship Experience for Indian Students.
+              </h1>
+
+              <p className="text-base sm:text-lg text-[#94a3b8] leading-relaxed max-w-2xl">
+                Educational financial assistance exists in abundance, but students miss opportunities
+                due to fragmented portals, dense circulars, and late document discovery. Grantly is
+                your dedicated digital co-pilot—discovering what you can win, diagnosing missing items,
+                and guiding you through to disbursement.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  onClick={handleGoToAuth}
+                  className="btn-mint px-6 py-3 text-sm font-semibold inline-flex items-center gap-2 cursor-pointer shadow-md"
+                >
+                  <span>Check Your Eligibility</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <button
+                  onClick={handleGoToAuth}
+                  className="btn-panel px-5 py-3 text-sm font-medium inline-flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Explore Demo Profiles</span>
+                  <ChevronRight className="w-4 h-4 text-[#94a3b8]" />
+                </button>
+              </div>
+
+              {/* Quick Trust Badges */}
+              <div className="pt-4 flex flex-wrap items-center gap-3 text-xs font-mono text-[#94a3b8] border-t border-[#1e293b]/60">
+                <span className="inline-flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  20+ Curated Indian Schemes
+                </span>
+                <span className="text-[#64748b]">•</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  {formatCurrency(totalCatalogPool)} Matched Pool
+                </span>
+                <span className="text-[#64748b]">•</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Deterministic Rule Engine
+                </span>
+              </div>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#edf1ec] tracking-tight leading-[1.15]">
-              Rethinking Educational Aid for{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">
-                Indian Students.
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-[#89918c] max-w-2xl mx-auto leading-relaxed">
-              From scholarship search to scholarship success. Clarity over volume. Confidence over
-              choice. Grantly matches your verified academic profile to real schemes, diagnoses qualification
-              gaps, and secures your documents.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <button
-                onClick={handleGoToAuth}
-                className="btn-mint px-7 py-3.5 rounded-xl text-sm font-sans font-semibold inline-flex items-center gap-2.5 shadow-md hover:shadow-emerald-500/20 transition-all cursor-pointer"
-              >
-                <span>Check Your Eligibility Free</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={handleGoToAuth}
-                className="btn-panel px-6 py-3.5 rounded-xl text-sm font-sans font-medium inline-flex items-center gap-2 text-[#70b4ff] hover:text-[#edf1ec] cursor-pointer"
-              >
-                <Sparkles className="w-4 h-4 text-[#70b4ff]" />
-                <span>Explore Demo Profiles</span>
-              </button>
-            </div>
-          </div>
-
-          {/* 3. Hero Visual Centerpiece: Real-time Eligibility Analysis Card */}
-          <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#141818] to-[#0d1010] border border-[#222827] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-            {/* Subtle Top Card Highlight */}
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent pointer-events-none" />
-
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#222827]">
-              {/* Student Pedigree Badge */}
-              <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
-                  AS
-                </div>
-                <div>
+            {/* Right 5 Columns: Visual Hero Showcase Dossier */}
+            <div className="lg:col-span-5">
+              <div className="bg-[#111827] border border-[#1e293b] rounded-2xl p-5 shadow-lg space-y-4 relative overflow-hidden">
+                {/* Dossier Header */}
+                <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-base text-[#edf1ec]">Aarav Sharma</span>
-                    <span className="px-2 py-0.5 rounded-md bg-[#101313] border border-[#222827] text-[10px] font-sans font-medium text-emerald-400">
-                      Verified Scholar
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                      VERIFIED APPLICATION DOSSIER
                     </span>
                   </div>
-                  <span className="text-xs text-[#89918c]">
-                    B.Tech CSE • 2nd Year • IIT Delhi (EWS Quota)
+                  <span className="text-[10px] font-mono text-[#94a3b8] px-2 py-0.5 rounded bg-[#162032] border border-[#1e293b]">
+                    DigiLocker Linked
                   </span>
                 </div>
-              </div>
 
-              {/* Status Indicator */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#101313] border border-[#222827] text-xs font-sans font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span className="text-emerald-400">Profile Evaluation</span>
-              </div>
-            </div>
-
-            {/* Interactive Card Body: Live Grant Match Preview */}
-            <div className="pt-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              {/* Match Dial & Score */}
-              <div className="md:col-span-4 flex flex-col items-center justify-center p-6 bg-[#101313] border border-[#222827] rounded-2xl text-center space-y-2">
-                <div className="relative w-28 h-28 flex items-center justify-center">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                    <path
-                      className="text-slate-800"
-                      strokeWidth="3"
-                      stroke="currentColor"
-                      fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                {/* Hero Illustration / Mascot with Student Context */}
+                <div className="flex items-center gap-4 bg-[#162032] p-4 rounded-xl border border-[#1e293b]">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-[#111827] border border-emerald-500/20 p-2 shrink-0 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={heroImage}
+                      alt="Grantly Student Financial Co-Pilot"
+                      className="w-full h-full object-contain"
                     />
-                    <path
-                      className="text-emerald-500"
-                      strokeDasharray="94, 100"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      stroke="currentColor"
-                      fill="none"
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-bold text-[#edf1ec] font-mono leading-none">
-                      94%
-                    </span>
-                    <span className="text-[10px] font-sans font-semibold text-emerald-400 mt-0.5">MATCH</span>
                   </div>
-                </div>
-                <span className="text-xs font-medium text-[#89918c]">Reliance Foundation CSR</span>
-              </div>
-
-              {/* Matched Details & Criteria Verification */}
-              <div className="md:col-span-8 space-y-4">
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-lg text-[#edf1ec]">
-                      Reliance Foundation Undergraduate Scholarship
+                  <div className="space-y-1 min-w-0">
+                    <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block">
+                      Active Candidate
+                    </span>
+                    <h3 className="font-bold text-sm text-[#f8fafc] truncate">
+                      Aarav Sharma
                     </h3>
-                    <span className="text-sm font-bold font-mono text-emerald-400">
-                      ₹2,00,000 Total
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#89918c] leading-relaxed">
-                    Provides annual tuition funding across all 4 years of undergraduate study.
-                  </p>
-                </div>
-
-                {/* Criteria Checked Pills */}
-                <div className="grid grid-cols-2 gap-2 text-xs font-sans">
-                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>CGPA 8.65 &gt;= 7.5 Cutoff</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Family Income &lt; ₹15L Cap</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Class 12 Marksheet Verified</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Income Certificate Valid</span>
+                    <p className="text-xs text-[#94a3b8] truncate">
+                      B.Tech Computer Science • IIT Delhi
+                    </p>
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono font-bold text-emerald-400">
+                      <Sparkles className="w-3 h-3" />
+                      94% Match Fit
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2">
-                  <span className="text-xs text-[#525c57]">
-                    Official Portal: scholarships.reliancefoundation.org
-                  </span>
-                  <button
-                    onClick={handleGoToAuth}
-                    className="text-xs font-sans font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>Inspect Scholarship Breakdown</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                {/* Verification Checklist Items */}
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#162032]/60 border border-[#1e293b]">
+                    <div className="flex items-center gap-2">
+                      <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-[#f8fafc] font-medium text-[11px]">Tehsildar Income Cert (&lt; ₹2.5L)</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">VERIFIED</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#162032]/60 border border-[#1e293b]">
+                    <div className="flex items-center gap-2">
+                      <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-[#f8fafc] font-medium text-[11px]">Academic CGPA (8.8 / 10.0)</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">MET</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#162032]/60 border border-[#1e293b]">
+                    <div className="flex items-center gap-2">
+                      <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-[#f8fafc] font-medium text-[11px]">College Bonafide Department</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">ATTACHED</span>
+                  </div>
                 </div>
+
+                {/* Action summary footer */}
+                <div className="pt-2 border-t border-[#1e293b] flex items-center justify-between text-xs">
+                  <span className="text-[#94a3b8] font-mono text-[11px]">Readiness Score</span>
+                  <span className="font-mono font-bold text-emerald-400">100% Ready to Submit</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Live Scheme Matcher Card (Tangible & Functional, Not Marketing Slop) */}
+          <div className="bg-[#111827] border border-[#1e293b] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#1e293b] gap-2">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
+                  INTERACTIVE ELIGIBILITY PREVIEW
+                </span>
+                <h2 className="text-base sm:text-lg font-bold text-[#f8fafc]">
+                  Simulate your academic standing against real schemes
+                </h2>
+              </div>
+              <span className="text-xs font-mono text-[#94a3b8]">
+                Deterministic Rule Matching
+              </span>
+            </div>
+
+            {/* Interactive Inputs Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* Degree Selector */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-[#94a3b8] block">Degree Stream</label>
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#162032] border border-[#1e293b] rounded-xl text-xs">
+                  {(['Engineering', 'Medical', 'Sciences', 'Arts'] as const).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDegree(d)}
+                      className={`py-1.5 px-2 rounded-lg text-center transition-all cursor-pointer ${
+                        degree === d
+                          ? 'bg-emerald-500 text-slate-950 font-bold shadow-xs'
+                          : 'text-[#94a3b8] hover:text-[#f8fafc]'
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Social Category */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-[#94a3b8] block">Reservation / Need Category</label>
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#162032] border border-[#1e293b] rounded-xl text-xs">
+                  {(['General', 'EWS', 'OBC', 'SC/ST'] as const).map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCategory(c)}
+                      className={`py-1.5 px-2 rounded-lg text-center transition-all cursor-pointer ${
+                        category === c
+                          ? 'bg-emerald-500 text-slate-950 font-bold shadow-xs'
+                          : 'text-[#94a3b8] hover:text-[#f8fafc]'
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* CGPA Slider */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-[#94a3b8] font-medium">Academic CGPA</span>
+                  <span className="font-mono font-bold text-emerald-400">{cgpa.toFixed(1)} / 10.0</span>
+                </div>
+                <div className="p-3 bg-[#162032] border border-[#1e293b] rounded-xl flex items-center">
+                  <input
+                    type="range"
+                    min="5.0"
+                    max="10.0"
+                    step="0.1"
+                    value={cgpa}
+                    onChange={(e) => setCgpa(parseFloat(e.target.value))}
+                    className="w-full accent-emerald-500 cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Live Output Banner */}
+            <div className="p-4 rounded-xl bg-[#162032] border border-[#1e293b] grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#94a3b8] block">
+                  QUALIFIED SCHEMES
+                </span>
+                <div className="text-xl font-bold font-mono text-emerald-400">
+                  {calculatedEligibleCount} Opportunities
+                </div>
+              </div>
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#94a3b8] block">
+                  ESTIMATED ANNUAL FUNDING
+                </span>
+                <div className="text-xl font-bold font-mono text-[#f8fafc]">
+                  {formatCurrency(estimatedFunding)} / yr
+                </div>
+              </div>
+              <div className="sm:text-right">
+                <button
+                  onClick={handleGoToAuth}
+                  className="btn-mint px-4 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>View Matched Schemes</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Live Metrics Proof Bar */}
-      <section className="border-y border-[#222827] bg-[#101313]/50 py-8 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 text-center font-mono">
-          <div className="space-y-1">
-            <span className="eyebrow text-[#89918c] text-[10px] block">TOTAL FUNDING POOL</span>
-            <span className="text-2xl sm:text-3xl font-black text-[#a9f46b] block">
-              {formatCurrency(totalCatalogPool)}
+      {/* 3. Section 01: Core Pain Points Transformed */}
+      <section className="reveal-on-scroll py-16 px-4 sm:px-8 border-b border-[#1e293b]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div>
+            <span className="text-xs font-mono text-emerald-400 font-bold block mb-1">
+              01 / COMPARISON
             </span>
-            <span className="text-[11px] text-[#525c57]">Central, State & CSR</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] tracking-tight">
+              The Problem We Solve: From Chaos to Clarity
+            </h2>
+            <p className="text-sm text-[#94a3b8] mt-1 max-w-xl">
+              Compare the friction-filled traditional search against Grantly&apos;s streamlined student co-pilot.
+            </p>
           </div>
 
-          <div className="space-y-1">
-            <span className="eyebrow text-[#89918c] text-[10px] block">VERIFIED SCHEMES</span>
-            <span className="text-2xl sm:text-3xl font-black text-[#edf1ec] block">
-              20 Schemes
-            </span>
-            <span className="text-[11px] text-[#525c57]">NSP, Reliance, Tata, PMRF</span>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* The Old Way */}
+            <div className="p-6 bg-[#111827] border border-red-500/20 rounded-2xl space-y-4">
+              <span className="text-xs font-mono uppercase text-red-400 font-bold tracking-wider block">
+                THE TRADITIONAL MAZE
+              </span>
+              <ul className="space-y-3 text-xs sm:text-sm text-[#94a3b8]">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-red-400 font-bold">✕</span>
+                  <span>Scattered across NSP, individual State DBT portals, and private trust websites.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-red-400 font-bold">✕</span>
+                  <span>Eligibility criteria written in dense bureaucratic PDFs with hidden income clauses.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-red-400 font-bold">✕</span>
+                  <span>Missing documents discovered hours before midnight deadlines.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-red-400 font-bold">✕</span>
+                  <span>Silent rejections with zero feedback on why an application failed.</span>
+                </li>
+              </ul>
+            </div>
 
-          <div className="space-y-1">
-            <span className="eyebrow text-[#89918c] text-[10px] block">CRITERIA ENGINE</span>
-            <span className="text-2xl sm:text-3xl font-black text-[#70b4ff] block">
-              100% Transparent
-            </span>
-            <span className="text-[11px] text-[#525c57]">Verified Multi-Factor Rules</span>
-          </div>
-
-          <div className="space-y-1">
-            <span className="eyebrow text-[#89918c] text-[10px] block">ZERO SPAM / FEES</span>
-            <span className="text-2xl sm:text-3xl font-black text-[#a9f46b] block">
-              ₹0 Cost
-            </span>
-            <span className="text-[11px] text-[#525c57]">Free & Open for All Students</span>
+            {/* The Grantly Way */}
+            <div className="p-6 bg-[#111827] border border-emerald-500/30 rounded-2xl space-y-4 shadow-sm">
+              <span className="text-xs font-mono uppercase text-emerald-400 font-bold tracking-wider block">
+                THE GRANTLY CO-PILOT
+              </span>
+              <ul className="space-y-3 text-xs sm:text-sm text-[#f8fafc]">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>A single verified catalog covering 20+ national, state, and CSR initiatives.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Plain-language requirements with an explicit &ldquo;Why you match&rdquo; score.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Universal Document Vault with live readiness % and expiration monitoring.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span>Signature Gap Analysis pinpointing near-misses (&ldquo;4% below cutoff&rdquo;) with actionable fixes.</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. 4 Core Pillars of Grantly (Bento Grid) */}
-      <section className="py-20 px-4 sm:px-8 max-w-6xl mx-auto space-y-12">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="eyebrow text-[#a9f46b] text-xs font-bold">THE GRANTLY ADVANTAGE</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#edf1ec] tracking-tight">
-            Built to Overcome Every Barrier in Indian Higher Ed Funding
-          </h2>
-          <p className="text-sm text-[#89918c]">
-            Students don’t miss scholarships because they lack merit. They miss them because the
-            journey is fragmented, opaque, and intimidating.
-          </p>
-        </div>
-
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1: Instant Match % */}
-          <div className="p-6 bg-[#101313] border border-[#222827] rounded-3xl space-y-4 hover:border-[#a9f46b]/30 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-[#a9f46b]/10 border border-[#a9f46b]/20 flex items-center justify-center text-[#a9f46b]">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <h3 className="text-lg font-bold text-[#edf1ec]">Personalized Match %</h3>
-            <p className="text-xs text-[#89918c] leading-relaxed">
-              Never read a 50-page official PDF again. Grantly evaluates your CGPA, family income,
-              and state quota to give you an instant transparent match score with an explicit
-              &ldquo;Why You Match&rdquo; rationale.
+      {/* 4. Section 02: 4-Step Student Journey */}
+      <section className="reveal-on-scroll py-16 px-4 sm:px-8 border-b border-[#1e293b]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div>
+            <span className="text-xs font-mono text-emerald-400 font-bold block mb-1">
+              02 / PROCESS
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] tracking-tight">
+              A 4-Step Co-Pilot Journey Built for Confidence
+            </h2>
+            <p className="text-sm text-[#94a3b8] mt-1 max-w-xl">
+              Every feature directly solves an obstacle in the scholarship application pipeline.
             </p>
           </div>
 
-          {/* Card 2: "Almost Eligible" Gap Analysis (Signature Feature) */}
-          <div className="p-6 bg-[#101313] border border-[#222827] rounded-3xl space-y-4 hover:border-[#70b4ff]/30 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-[#70b4ff]/10 border border-[#70b4ff]/20 flex items-center justify-center text-[#70b4ff]">
-              <Search className="w-5 h-5" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-5 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <span className="text-lg font-black font-mono text-emerald-400 block">01</span>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Calibrate Profile</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                Save your college, degree, marks, category, and income band once. Reused everywhere so you never repeat data.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-[#edf1ec]">
-              &ldquo;Almost Eligible&rdquo; Gap Analysis
-            </h3>
-            <p className="text-xs text-[#89918c] leading-relaxed">
-              Don’t get disqualified silently. For near-miss opportunities, Grantly pinpoints
-              the exact shortfall—whether it is 4% marks or a missing domicile certificate—and gives
-              you the remedy before deadlines expire.
-            </p>
-          </div>
 
-          {/* Card 3: Universal Document Vault */}
-          <div className="p-6 bg-[#101313] border border-[#222827] rounded-3xl space-y-4 hover:border-[#a9f46b]/30 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-[#a9f46b]/10 border border-[#a9f46b]/20 flex items-center justify-center text-[#a9f46b]">
-              <FileCheck className="w-5 h-5" />
+            <div className="p-5 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <span className="text-lg font-black font-mono text-emerald-400 block">02</span>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Personalized Feed</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                Review scheme cards with effort estimates, award amounts, and clear reasons why your profile qualifies.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-[#edf1ec]">Universal Document Vault</h3>
-            <p className="text-xs text-[#89918c] leading-relaxed">
-              Organize marksheets, income proof, and bonafide letters once. Live readiness tracking
-              alerts you to expiring certificates so your applications are 100% submission-ready.
-            </p>
-          </div>
 
-          {/* Card 4: 5-Stage Kanban Application Tracker */}
-          <div className="p-6 bg-[#101313] border border-[#222827] rounded-3xl space-y-4 md:col-span-2 lg:col-span-2 hover:border-[#a9f46b]/30 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-[#a9f46b]/10 border border-[#a9f46b]/20 flex items-center justify-center text-[#a9f46b]">
-              <Layers className="w-5 h-5" />
+            <div className="p-5 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <span className="text-lg font-black font-mono text-emerald-400 block">03</span>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Almost Eligible Gaps</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                See exactly what&apos;s short on near-miss grants. Fix an income certificate or explore parallel opportunities you qualify for.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-[#edf1ec]">
-              5-Stage Kanban Tracker & Deadlines Radar
-            </h3>
-            <p className="text-xs text-[#89918c] leading-relaxed">
-              Move seamlessly from Saved → Preparing → Submitted → Under Review → Awarded.
-              Integrated with urgency radar warnings (&ldquo;3 days left&rdquo;, &ldquo;Due this
-              week&rdquo;) so no opportunity slips away.
-            </p>
-          </div>
 
-          {/* Card 5: Multi-Scholarship Stack Planner */}
-          <div className="p-6 bg-[#101313] border border-[#222827] rounded-3xl space-y-4 hover:border-[#70b4ff]/30 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-[#70b4ff]/10 border border-[#70b4ff]/20 flex items-center justify-center text-[#70b4ff]">
-              <Award className="w-5 h-5" />
+            <div className="p-5 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <span className="text-lg font-black font-mono text-emerald-400 block">04</span>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Universal Vault</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                Store certificates once. Track 5 application stages (Saved through to Awarded) without missing a deadline.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-[#edf1ec]">Scholarship Stack Planner</h3>
-            <p className="text-xs text-[#89918c] leading-relaxed">
-              Combine compatible scholarships, detect official government conflicts, and calculate
-              your total net tuition gap in one unified dashboard.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* 6. Featured Official Indian Schemes */}
-      <section className="py-16 px-4 sm:px-8 border-t border-[#222827] bg-[#101313]/30">
+      {/* 5. Section 03: Verified Indian Schemes Showcase */}
+      <section className="reveal-on-scroll py-16 px-4 sm:px-8 border-b border-[#1e293b]">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="eyebrow text-[#a9f46b] text-xs font-bold">VERIFIED SCHOLARSHIPS</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#edf1ec] tracking-tight mt-1">
-                Explore Schemes in the Active Catalog
+              <span className="text-xs font-mono text-emerald-400 font-bold block mb-1">
+                03 / SCHEMES CATALOG
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] tracking-tight">
+                Featured Verified Schemes
               </h2>
+              <p className="text-sm text-[#94a3b8] mt-1">
+                Total catalog pool currently tracking {formatCurrency(totalCatalogPool)} in financial assistance.
+              </p>
             </div>
+
             <button
               onClick={handleGoToAuth}
-              className="text-xs font-mono font-bold text-[#a9f46b] hover:underline flex items-center gap-1.5 cursor-pointer"
+              className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
             >
-              <span>View All 20 Verified Schemes</span>
+              <span>Explore All 20 Schemes</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {PREVIEW_SCHOLARSHIPS.map((scheme) => (
+            {FEATURED_SCHEMES.map((scheme) => (
               <div
                 key={scheme.id}
                 onClick={handleGoToAuth}
-                className="p-5 bg-[#101313] border border-[#222827] hover:border-[#a9f46b]/40 rounded-2xl space-y-3 cursor-pointer transition-all group"
+                className="p-5 bg-[#111827] border border-[#1e293b] hover:border-emerald-500/30 rounded-2xl space-y-3 cursor-pointer transition-all group shadow-xs"
               >
                 <div className="flex items-center justify-between text-[10px] font-mono">
-                  <span className="px-2 py-0.5 rounded-md bg-[#141818] border border-[#222827] text-[#89918c]">
-                    {scheme.badge}
+                  <span className="px-2 py-0.5 rounded-md bg-[#162032] border border-[#1e293b] text-[#94a3b8]">
+                    {scheme.level}
                   </span>
-                  <span className="font-bold text-[#a9f46b]">{scheme.match}% Match</span>
+                  <span className="text-emerald-400 font-bold">Min {scheme.minCgpa} CGPA</span>
                 </div>
 
                 <div className="space-y-1">
-                  <h4 className="font-bold text-sm text-[#edf1ec] group-hover:text-[#a9f46b] transition-colors line-clamp-2">
-                    {scheme.title}
-                  </h4>
-                  <span className="text-[11px] text-[#89918c] block">{scheme.provider}</span>
+                  <h3 className="font-bold text-sm text-[#f8fafc] group-hover:text-emerald-400 transition-colors line-clamp-2">
+                    {scheme.name}
+                  </h3>
+                  <span className="text-[11px] text-[#94a3b8] block">{scheme.provider}</span>
                 </div>
 
-                <div className="pt-2 border-t border-[#222827] flex items-center justify-between">
+                <div className="pt-2 border-t border-[#1e293b] flex items-center justify-between">
                   <div>
-                    <span className="text-[9px] font-mono text-[#525c57] block">AWARD VALUE</span>
-                    <span className="text-sm font-black font-mono text-[#edf1ec]">
-                      {formatCurrency(scheme.amount)}
+                    <span className="text-[9px] font-mono text-[#64748b] block">AWARD</span>
+                    <span className="text-sm font-bold font-mono text-[#f8fafc]">
+                      {formatCurrency(scheme.award)}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#fcd34d] flex items-center gap-1">
+                  <span className="text-[10px] font-mono text-amber-400 flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {scheme.deadline}
+                    {scheme.deadlineText}
                   </span>
                 </div>
               </div>
@@ -460,36 +593,81 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 7. Bottom Conversion Banner */}
-      <section className="py-20 px-4 sm:px-8">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-[#141818] via-[#161c1b] to-[#101313] border border-[#a9f46b]/30 rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="w-16 h-16 rounded-2xl bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center mx-auto text-[#a9f46b]">
-            <Sparkles className="w-8 h-8" />
+      {/* 6. Section 04: Purpose-Built for Inclusion */}
+      <section className="reveal-on-scroll py-16 px-4 sm:px-8 border-b border-[#1e293b]">
+        <div className="max-w-6xl mx-auto space-y-8">
+          <div>
+            <span className="text-xs font-mono text-emerald-400 font-bold block mb-1">
+              04 / ACCESSIBILITY & DIVERSITY
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] tracking-tight">
+              Designed for First-Generation & Diverse Scholars
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                1
+              </div>
+              <h3 className="font-bold text-sm text-[#f8fafc]">First-Generation Learners</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                Clear step-by-step guidance on how to obtain certificates from Tehsildar offices and college registrar bonafide departments.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                2
+              </div>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Mobile-First & Bandwidth Aware</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                Zero heavy images or video bloat. Responsive layouts with touch targets above 44px that load fast even on 3G connections.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#111827] border border-[#1e293b] rounded-2xl space-y-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                3
+              </div>
+              <h3 className="font-bold text-sm text-[#f8fafc]">Complete Privacy & Security</h3>
+              <p className="text-xs text-[#94a3b8] leading-relaxed">
+                All data stored locally in your browser storage. Zero tracking cookies, zero ads, zero monetized student lead selling.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Final Action Banner (Clean, Crisp, No Slop) */}
+      <section className="reveal-on-scroll py-20 px-4 sm:px-8">
+        <div className="max-w-4xl mx-auto bg-[#111827] border border-[#1e293b] rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-sm">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+            <GraduationCap className="w-6 h-6" />
           </div>
 
           <div className="space-y-2 max-w-xl mx-auto">
-            <h2 className="text-2xl sm:text-4xl font-black text-[#edf1ec] tracking-tight">
-              Ready to Secure Your Educational Funding?
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] tracking-tight">
+              Ready to Simplify Your Scholarship Journey?
             </h2>
-            <p className="text-sm text-[#89918c] leading-relaxed">
-              Create your student profile in 2 minutes, get matched to scholarships you can actually
-              win, and track every deadline with certainty.
+            <p className="text-sm text-[#94a3b8] leading-relaxed">
+              Calibrate your profile in two minutes, evaluate matching scholarships you actually qualify for, and never miss a deadline.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="pt-2">
             <button
               onClick={handleGoToAuth}
-              className="btn-mint px-8 py-3.5 rounded-xl text-sm font-sans font-semibold inline-flex items-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all cursor-pointer"
+              className="btn-mint px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Get Started Now — It&apos;s Free</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="flex items-center justify-center gap-2 text-xs font-mono text-[#525c57] pt-4">
-            <ShieldCheck className="w-4 h-4 text-[#a9f46b]" />
-            <span>Built for First-Generation, Tier-1, Tier-2, and Tier-3 Indian Scholars</span>
+          <div className="flex items-center justify-center gap-2 text-xs text-[#64748b] pt-4">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>Built for Indian Students • 100% Free & Open Access</span>
           </div>
         </div>
       </section>

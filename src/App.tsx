@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScholarshipProvider, useScholarshipContext } from './context/ScholarshipContext';
-import { Navbar } from './components/layout/Navbar';
+import { DashboardLayout } from './components/layout/DashboardLayout';
 import { LandingPage } from './components/landing/LandingPage';
 import { AuthPage } from './components/auth/AuthPage';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
@@ -84,97 +84,88 @@ const MainAppContent: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#090b0b] text-[#edf1ec] selection:bg-[#a9f46b] selection:text-[#090b0b]">
-      {/* Accessible Navbar & Skip Landmark (Only in App Workspace View) */}
-      <Navbar onOpenComparison={() => setComparisonModalOpen(true)} />
+    <DashboardLayout onOpenComparison={() => setComparisonModalOpen(true)}>
+      {/* If inside Tracker hub (pipeline, deadlines, stack, or calculator), show clean sub-nav pill */}
+      {(activeTab === 'tracker' ||
+        activeTab === 'deadlines' ||
+        activeTab === 'stack' ||
+        activeTab === 'calculator') && (
+        <div className="mb-6 flex flex-wrap items-center gap-2 p-1.5 bg-[#111827] border border-[#1e293b] rounded-2xl w-fit">
+          {trackerSubNavs.map((sub) => {
+            const Icon = sub.icon;
+            const isActive = activeTab === sub.id;
+            return (
+              <button
+                key={sub.id}
+                onClick={() => setActiveTab(sub.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-medium transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold shadow-xs'
+                    : 'text-[#94a3b8] hover:text-[#f8fafc]'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{sub.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
-      {/* Main Content Landmark */}
-      <main id="main-content" className="flex-1 responsive-container py-6" tabIndex={-1}>
-        {/* Streamlined Workspace View */}
+      {/* F2: Personalized Scholarship Feed */}
+      {activeTab === 'discovery' && (
         <>
-          {/* If inside Tracker hub (pipeline, deadlines, stack, or calculator), show clean sub-nav pill */}
-          {(activeTab === 'tracker' ||
-              activeTab === 'deadlines' ||
-              activeTab === 'stack' ||
-              activeTab === 'calculator') && (
-              <div className="mb-6 flex flex-wrap items-center gap-2 p-1.5 bg-[#101313] border border-[#222827] rounded-2xl w-fit">
-                {trackerSubNavs.map((sub) => {
-                  const Icon = sub.icon;
-                  const isActive = activeTab === sub.id;
-                  return (
-                    <button
-                      key={sub.id}
-                      onClick={() => setActiveTab(sub.id)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
-                        isActive
-                          ? 'bg-[#141818] text-[#a9f46b] border border-[#a9f46b]/40 shadow-xs'
-                          : 'text-[#89918c] hover:text-[#edf1ec]'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      <span>{sub.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
+          <HeroSection
+            totalAvailableFunding={aidAnalytics.totalPotentialFunding}
+            totalGrantsCount={allRawScholarships.length}
+          />
 
-            {/* F2: Personalized Scholarship Feed */}
-            {activeTab === 'discovery' && (
-              <>
-                <HeroSection
-                  totalAvailableFunding={aidAnalytics.totalPotentialFunding}
-                  totalGrantsCount={allRawScholarships.length}
-                />
+          <QuickProfileBar />
 
-                <QuickProfileBar />
+          <SearchAndFilterBar totalResults={filteredScholarships.length} />
 
-                <SearchAndFilterBar totalResults={filteredScholarships.length} />
+          <ScholarshipGrid
+            scholarships={filteredScholarships}
+            onOpenDetails={handleOpenDetails}
+            onOpenWorkspace={handleOpenWorkspace}
+          />
+        </>
+      )}
 
-                <ScholarshipGrid
-                  scholarships={filteredScholarships}
-                  onOpenDetails={handleOpenDetails}
-                  onOpenWorkspace={handleOpenWorkspace}
-                />
-              </>
-            )}
+      {/* F4: Almost Eligible Gap Analysis */}
+      {activeTab === 'gaps' && (
+        <GapAnalysisView
+          onOpenDetails={handleOpenDetails}
+          onOpenWorkspace={handleOpenWorkspace}
+        />
+      )}
 
-            {/* F4: Almost Eligible Gap Analysis */}
-            {activeTab === 'gaps' && (
-              <GapAnalysisView
-                onOpenDetails={handleOpenDetails}
-                onOpenWorkspace={handleOpenWorkspace}
-              />
-            )}
+      {/* F5: Universal Document Vault & Readiness Score */}
+      {activeTab === 'vault' && <DocumentVaultView />}
 
-            {/* F5: Universal Document Vault & Readiness Score */}
-            {activeTab === 'vault' && <DocumentVaultView />}
+      {/* F6: 5-Stage Application Tracker */}
+      {activeTab === 'tracker' && (
+        <KanbanBoard
+          onOpenWorkspace={handleOpenWorkspace}
+          onNavigateDiscovery={() => setActiveTab('discovery')}
+        />
+      )}
 
-            {/* F6: 5-Stage Application Tracker */}
-            {activeTab === 'tracker' && (
-              <KanbanBoard
-                onOpenWorkspace={handleOpenWorkspace}
-                onNavigateDiscovery={() => setActiveTab('discovery')}
-              />
-            )}
+      {/* F7: Deadlines Radar View */}
+      {activeTab === 'deadlines' && (
+        <DeadlinesRadarView
+          onOpenDetails={handleOpenDetails}
+          onOpenWorkspace={handleOpenWorkspace}
+        />
+      )}
 
-            {/* F7: Deadlines Radar View */}
-            {activeTab === 'deadlines' && (
-              <DeadlinesRadarView
-                onOpenDetails={handleOpenDetails}
-                onOpenWorkspace={handleOpenWorkspace}
-              />
-            )}
+      {/* Stretch: Scholarship Stack Planner */}
+      {activeTab === 'stack' && <ScholarshipStackPlanner />}
 
-            {/* Stretch: Scholarship Stack Planner */}
-            {activeTab === 'stack' && <ScholarshipStackPlanner />}
-
-            {/* Tuition Gap Visualizer */}
-            {activeTab === 'calculator' && (
-              <FinancialAidSummary onNavigateDiscovery={() => setActiveTab('discovery')} />
-            )}
-          </>
-      </main>
+      {/* Tuition Gap Visualizer */}
+      {activeTab === 'calculator' && (
+        <FinancialAidSummary onNavigateDiscovery={() => setActiveTab('discovery')} />
+      )}
 
       {/* Authentication Modal with Demo Personas */}
       <AuthModal
@@ -207,7 +198,7 @@ const MainAppContent: React.FC = () => {
         onClose={() => setComparisonModalOpen(false)}
         onSelectForDetails={handleSelectFromComparison}
       />
-    </div>
+    </DashboardLayout>
   );
 };
 

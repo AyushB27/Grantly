@@ -67,11 +67,11 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
             className="px-3.5 py-3 bg-[#101313] border border-[#222827] focus:border-[#a9f46b] rounded-2xl text-xs sm:text-sm font-semibold text-[#edf1ec] outline-none cursor-pointer max-w-[210px]"
             aria-label="Filter by academic level"
           >
-            <option value="All" className="bg-[#101313] text-[#edf1ec]">All Education Levels</option>
-            <option value="Undergraduate" className="bg-[#101313] text-[#edf1ec]">Undergraduate (B.Tech/MBBS)</option>
-            <option value="Postgraduate" className="bg-[#101313] text-[#edf1ec]">Postgraduate (M.Tech/MBA)</option>
-            <option value="PhD / Research" className="bg-[#101313] text-[#edf1ec]">PhD / PMRF Research</option>
-            <option value="Class 11-12" className="bg-[#101313] text-[#edf1ec]">Class 11-12</option>
+            <option value="All">All Education Levels</option>
+            <option value="Undergraduate">Undergraduate (B.Tech/MBBS)</option>
+            <option value="Postgraduate">Postgraduate (M.Tech/MBA)</option>
+            <option value="PhD / Research">PhD / PMRF Research</option>
+            <option value="Class 11-12">Class 11-12</option>
           </select>
 
           {/* Sort Selector */}
@@ -86,11 +86,11 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
               className="px-3.5 py-3 bg-[#101313] border border-[#222827] focus:border-[#a9f46b] rounded-2xl text-xs sm:text-sm font-semibold text-[#edf1ec] outline-none pr-8 cursor-pointer"
               aria-label="Sort scholarships"
             >
-              <option value="match" className="bg-[#101313] text-[#edf1ec]">Best Match Score</option>
-              <option value="deadline" className="bg-[#101313] text-[#edf1ec]">Soonest Deadline</option>
-              <option value="amount_desc" className="bg-[#101313] text-[#edf1ec]">Highest Award (₹)</option>
-              <option value="amount_asc" className="bg-[#101313] text-[#edf1ec]">Lowest Award (₹)</option>
-              <option value="effort" className="bg-[#101313] text-[#edf1ec]">Lowest Effort Time</option>
+              <option value="match">Best Match Score</option>
+              <option value="deadline">Soonest Deadline</option>
+              <option value="amount_desc">Highest Award (₹)</option>
+              <option value="amount_asc">Lowest Award (₹)</option>
+              <option value="effort">Lowest Effort Time</option>
             </select>
             <ArrowUpDown className="w-3.5 h-3.5 text-[#89918c] absolute right-3 top-4 pointer-events-none" />
           </div>

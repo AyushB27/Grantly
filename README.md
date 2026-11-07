@@ -56,14 +56,15 @@ In India, educational financial assistance exists in abundance, yet eligible stu
 
 ---
 
-## 3. Dual-Theme Design System (Dark Precision & Clean Light Mode)
+## 3. Dual-Theme Design System & Side Drawer Architecture
 
-Grantly features an instant dual-theme engine supporting both high-contrast modes:
-- **StockFolio Dark Precision**: Deep `#090b0b` ink canvas, `#101313` panel cards, `#222827` hairline borders, and `#a9f46b` electric mint accents.
-- **Clean Slate Light Mode**: `#f8fafc` canvas, `#ffffff` pure white cards, `#e2e8f0` crisp borders, `#0f172a` deep slate text, and `#059669` emerald accents.
-- **Dedicated Landing Page**: Full-featured overview showcasing the 4-step journey, verified Indian schemes catalog, and live pool metrics.
-- **Student Authentication & Demo Personas**: Instant 1-click login for authentic student personas (Aarav - B.Tech EWS, Ananya - STEM Girl Child, Rohan - Research Scholar) alongside email registration.
-- **Simplified User Flow**: Streamlined 4-pillar navigation (`Feed & Match`, `Almost Eligible`, `Document Vault`, `Pipeline Tracker`), with zero clutter and no extraneous footer.
+Grantly features an instant dual-theme engine and modern institutional dashboard architecture:
+- **Executive Midnight Slate**: Deep `#0b0f19` canvas, `#111827` cards & sidebar, `#1e293b` hairline borders, and `#10b981` emerald accents.
+- **Clean High-Contrast Light Mode**: `#f8fafc` canvas, `#ffffff` pure white cards & sidebar, `#e2e8f0` borders, `#0f172a` pitch charcoal text, and `#059669` deep emerald accents with 100% sharp readability on all inputs, cards, and dropdown options.
+- **Dedicated Landing Page**: Modern, editorial showcase featuring hardware-accelerated scroll transitions, authentic student dossier visuals, and an interactive real-time eligibility simulator widget (no multi-color gradients, no AI slop, no fake links).
+- **Post-Login Side Drawer Navigation**: Modern SaaS left sidebar (like Linear or Stripe) with zero navbar clutter and no redundant "Overview" tab. Direct access to `Feed & Match`, `Almost Eligible`, `Document Vault`, `Pipeline Tracker`, `Deadlines Radar`, `Stack Planner`, and `Tuition Fee Gap`.
+- **Student Authentication & Demo Personas**: Instant 1-click login for authentic student personas (Aarav - B.Tech EWS, Ananya - STEM Girl Child, Rohan - Research Scholar) alongside email registration and comprehensive onboarding.
+- **Simplified User Flow**: Clean institutional dashboard layout with zero extraneous marketing headers or footer clutter.
 
 ---
 
