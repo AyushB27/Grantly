@@ -191,42 +191,42 @@ export const AuthPage: React.FC = () => {
       <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
         <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Visual & Trust Showcase (Hidden on small screens) */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col justify-between p-8 bg-gradient-to-br from-[#101313] via-[#141818] to-[#0d1010] border border-[#222827] rounded-3xl relative overflow-hidden shadow-2xl min-h-[580px]">
+          <div className="hidden lg:flex lg:col-span-5 flex-col justify-between p-8 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-3xl relative overflow-hidden shadow-xl min-h-[580px] transition-colors">
             {/* Ambient Background Aura */}
-            <div className="absolute -top-16 -right-16 w-64 h-64 bg-[#a9f46b]/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-[#70b4ff]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-16 -right-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="space-y-6 relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141818] border border-[#a9f46b]/30 text-xs font-mono text-[#a9f46b]">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-card-hover)] border border-emerald-500/30 text-xs font-mono text-emerald-600 dark:text-emerald-400">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>STUDENT FINANCIAL EMPOWERMENT</span>
               </div>
 
-              <h2 className="text-3xl font-black text-[#edf1ec] tracking-tight leading-tight">
+              <h2 className="text-3xl font-black text-[var(--text-primary)] tracking-tight leading-tight">
                 Unlock Every Rupee of Financial Assistance You Deserve.
               </h2>
 
-              <p className="text-sm text-[#89918c] leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                 Over 20+ verified government, state, and CSR scholarship schemes mapped to your
                 specific academic pedigree, caste reservation, and family income band.
               </p>
 
               {/* Highlights List */}
               <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-xs text-[#edf1ec]">
-                  <div className="w-5 h-5 rounded-full bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] shrink-0">
+                <div className="flex items-center gap-3 text-xs text-[var(--text-primary)]">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
                     <CheckCircle2 className="w-3 h-3" />
                   </div>
                   <span>Verified Multi-Factor Eligibility Scoring</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-[#edf1ec]">
-                  <div className="w-5 h-5 rounded-full bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] shrink-0">
+                <div className="flex items-center gap-3 text-xs text-[var(--text-primary)]">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
                     <CheckCircle2 className="w-3 h-3" />
                   </div>
                   <span>Universal Document Vault with Expiry Warnings</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-[#edf1ec]">
-                  <div className="w-5 h-5 rounded-full bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] shrink-0">
+                <div className="flex items-center gap-3 text-xs text-[var(--text-primary)]">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
                     <CheckCircle2 className="w-3 h-3" />
                   </div>
                   <span>Zero-Loss Deadlines Radar with Urgency Badges</span>
@@ -235,35 +235,35 @@ export const AuthPage: React.FC = () => {
             </div>
 
             {/* Testimonial / Trust Card */}
-            <div className="mt-8 p-4 rounded-2xl bg-[#090b0b]/60 border border-[#222827] space-y-2 relative z-10">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#a9f46b]">
+            <div className="mt-8 p-4 rounded-2xl bg-[var(--bg-card-hover)] border border-[var(--border-card)] space-y-2 relative z-10 shadow-xs">
+              <div className="flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400">
                 <Award className="w-4 h-4" />
                 <span>VERIFIED SCHOLAR WIN</span>
               </div>
-              <p className="text-xs text-[#89918c] italic leading-relaxed">
+              <p className="text-xs text-[var(--text-secondary)] italic leading-relaxed">
                 &ldquo;Grantly diagnosed that I was just 2 documents away from qualifying for the
                 Reliance Foundation grant. Got ₹2,00,000 sanctioned for my degree.&rdquo;
               </p>
-              <span className="text-[10px] font-mono text-[#525c57] block">
+              <span className="text-[10px] font-mono text-[var(--text-muted)] block">
                 — Aarav S., B.Tech CSE (IIT Delhi)
               </span>
             </div>
           </div>
 
           {/* Right Column: Interactive Auth Card */}
-          <div className="lg:col-span-7 bg-[#101313] border border-[#222827] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+          <div className="lg:col-span-7 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 transition-colors">
             {/* Tab Switcher: Sign In vs Create Account */}
-            <div className="flex p-1 bg-[#141818] border border-[#222827] rounded-2xl">
+            <div className="flex p-1 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-2xl">
               <button
                 type="button"
                 onClick={() => {
                   setAuthMode('signin');
                   setError('');
                 }}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all ${
+                className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                   authMode === 'signin'
-                    ? 'bg-[#222827] text-[#a9f46b] shadow-xs'
-                    : 'text-[#89918c] hover:text-[#edf1ec]'
+                    ? 'bg-[var(--bg-card)] text-emerald-600 dark:text-emerald-400 border border-[var(--border-card)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 Sign In
@@ -274,10 +274,10 @@ export const AuthPage: React.FC = () => {
                   setAuthMode('signup');
                   setError('');
                 }}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all ${
+                className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                   authMode === 'signup'
-                    ? 'bg-[#222827] text-[#a9f46b] shadow-xs'
-                    : 'text-[#89918c] hover:text-[#edf1ec]'
+                    ? 'bg-[var(--bg-card)] text-emerald-600 dark:text-emerald-400 border border-[var(--border-card)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 Create Account
@@ -285,28 +285,28 @@ export const AuthPage: React.FC = () => {
             </div>
 
             {/* 1-Click Demo Personas for Judges & Evaluators */}
-            <div className="space-y-2.5 bg-[#141818]/70 border border-[#222827] p-3.5 rounded-2xl">
+            <div className="space-y-2.5 bg-[var(--bg-card-hover)] border border-[var(--border-card)] p-3.5 rounded-2xl">
               <div className="flex items-center justify-between">
-                <span className="eyebrow text-[#a9f46b] text-[10px] flex items-center gap-1.5 font-bold">
+                <span className="eyebrow text-emerald-600 dark:text-emerald-400 text-[10px] flex items-center gap-1.5 font-bold">
                   <Sparkles className="w-3 h-3" />
                   EXPLORE WITH DEMO STUDENT PROFILES
                 </span>
-                <span className="text-[10px] text-[#525c57] font-mono">1-Click Preview</span>
+                <span className="text-[10px] text-[var(--text-muted)] font-mono">1-Click Preview</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {DEMO_PERSONAS.map((persona) => (
                   <button
                     key={persona.id}
                     onClick={() => handleSelectDemoPersona(persona)}
-                    className="p-2.5 bg-[#101313] hover:bg-[#191e1d] border border-[#222827] hover:border-[#a9f46b]/40 rounded-xl text-left transition-all group"
+                    className="p-2.5 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-card)] hover:border-emerald-500/40 rounded-xl text-left transition-all group shadow-xs cursor-pointer"
                   >
-                    <div className="font-bold text-xs text-[#edf1ec] group-hover:text-[#a9f46b] truncate">
+                    <div className="font-bold text-xs text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 truncate">
                       {persona.name}
                     </div>
-                    <div className="text-[10px] font-mono text-[#89918c] truncate">
+                    <div className="text-[10px] font-mono text-[var(--text-secondary)] truncate">
                       {persona.university}
                     </div>
-                    <div className="text-[9px] font-mono text-[#525c57] mt-0.5 truncate">
+                    <div className="text-[9px] font-mono text-[var(--text-muted)] mt-0.5 truncate">
                       {persona.role}
                     </div>
                   </button>
@@ -316,7 +316,7 @@ export const AuthPage: React.FC = () => {
 
             {/* Error Banner */}
             {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400 font-mono">
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-500 font-mono">
                 {error}
               </div>
             )}
@@ -326,33 +326,33 @@ export const AuthPage: React.FC = () => {
               {authMode === 'signup' && (
                 <>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-mono font-medium text-[#89918c] block">
+                    <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                       Full Name
                     </label>
                     <div className="relative">
-                      <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                      <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                       <input
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="e.g. Aarav Sharma"
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b] transition-colors"
+                        className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-mono font-medium text-[#89918c] block">
+                    <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                       College / University Name
                     </label>
                     <div className="relative">
-                      <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                      <Building className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                       <input
                         type="text"
                         value={university}
                         onChange={(e) => setUniversity(e.target.value)}
                         placeholder="e.g. IIT Delhi, Anna University, Mumbai University"
-                        className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b] transition-colors"
+                        className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -360,40 +360,40 @@ export const AuthPage: React.FC = () => {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-xs font-mono font-medium text-[#89918c] block">
+                <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                  <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="student@university.ac.in"
-                    className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b] transition-colors"
+                    className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-mono font-medium text-[#89918c] block">
+                  <label className="text-xs font-mono font-medium text-[var(--text-secondary)] block">
                     Password
                   </label>
                   {authMode === 'signin' && (
-                    <span className="text-[10px] font-mono text-[#70b4ff] hover:underline cursor-pointer">
+                    <span className="text-[10px] font-mono text-sky-600 dark:text-sky-400 hover:underline cursor-pointer">
                       Forgot?
                     </span>
                   )}
                 </div>
                 <div className="relative">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#525c57]" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-[#141818] border border-[#222827] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#edf1ec] focus:outline-none focus:border-[#a9f46b] transition-colors"
+                    className="w-full bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[var(--text-primary)] focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
@@ -410,7 +410,7 @@ export const AuthPage: React.FC = () => {
               </button>
             </form>
 
-            <div className="text-center pt-2 text-xs text-[#89918c]">
+            <div className="text-center pt-2 text-xs text-[var(--text-secondary)]">
               {authMode === 'signin' ? (
                 <span>
                   New to Grantly?{' '}
@@ -419,7 +419,7 @@ export const AuthPage: React.FC = () => {
                       setAuthMode('signup');
                       setError('');
                     }}
-                    className="text-[#a9f46b] hover:underline font-bold"
+                    className="text-emerald-600 dark:text-emerald-400 hover:underline font-bold cursor-pointer"
                   >
                     Create an account
                   </button>
@@ -432,7 +432,7 @@ export const AuthPage: React.FC = () => {
                       setAuthMode('signin');
                       setError('');
                     }}
-                    className="text-[#a9f46b] hover:underline font-bold"
+                    className="text-emerald-600 dark:text-emerald-400 hover:underline font-bold cursor-pointer"
                   >
                     Sign In
                   </button>
@@ -440,8 +440,8 @@ export const AuthPage: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-[#525c57] pt-2 border-t border-[#222827]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#a9f46b]" />
+            <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-card)]">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>Encrypted Student Data • 100% Free & Open Access</span>
             </div>
           </div>

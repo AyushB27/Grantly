@@ -218,19 +218,19 @@ export const OnboardingFlow: React.FC = () => {
 
       {/* Step Progress Bar */}
       {!isCompleted && (
-        <div className="w-full bg-[#101313] border-b border-[#222827]">
+        <div className="w-full bg-[var(--bg-card)] border-b border-[var(--border-card)]">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between text-xs font-mono">
-            <span className="text-[#89918c]">
-              Step <span className="text-[#a9f46b] font-bold">{step}</span> of {totalSteps}:{' '}
+            <span className="text-[var(--text-secondary)]">
+              Step <span className="text-emerald-600 dark:text-emerald-400 font-bold">{step}</span> of {totalSteps}:{' '}
               {step === 1 && 'Academic & University Profile'}
               {step === 2 && 'Socio-Economic & Need'}
               {step === 3 && 'Document Readiness & Live Matches'}
             </span>
-            <span className="text-[#525c57]">{Math.round((step / totalSteps) * 100)}% Complete</span>
+            <span className="text-[var(--text-muted)]">{Math.round((step / totalSteps) * 100)}% Complete</span>
           </div>
-          <div className="w-full h-1 bg-[#141818]">
+          <div className="w-full h-1 bg-[var(--bg-card-hover)]">
             <div
-              className="h-full bg-[#a9f46b] transition-all duration-300"
+              className="h-full bg-emerald-500 transition-all duration-300"
               style={{ width: `${(step / totalSteps) * 100}%` }}
             />
           </div>
@@ -242,17 +242,17 @@ export const OnboardingFlow: React.FC = () => {
         <div className="w-full max-w-3xl">
           {isCompleted ? (
             /* Celebration Screen */
-            <div className="p-8 sm:p-12 bg-[#101313] border border-[#222827] rounded-3xl text-center space-y-6 shadow-2xl relative overflow-hidden">
-              <div className="w-20 h-20 rounded-full bg-[#a9f46b]/15 border-2 border-[#a9f46b] flex items-center justify-center mx-auto text-[#a9f46b] shadow-lg shadow-[#a9f46b]/20 animate-bounce">
+            <div className="p-8 sm:p-12 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-3xl text-center space-y-6 shadow-xl relative overflow-hidden transition-colors">
+              <div className="w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-500 flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 shadow-lg shadow-emerald-500/20 animate-bounce">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
 
               <div className="space-y-2">
-                <span className="eyebrow text-[#a9f46b] text-xs">PROFILE CALIBRATION COMPLETE</span>
-                <h2 className="text-3xl font-black text-[#edf1ec] tracking-tight">
+                <span className="eyebrow text-emerald-600 dark:text-emerald-400 text-xs">PROFILE CALIBRATION COMPLETE</span>
+                <h2 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
                   Welcome aboard, {formData.fullName}!
                 </h2>
-                <p className="text-sm text-[#89918c] max-w-lg mx-auto leading-relaxed">
+                <p className="text-sm text-[var(--text-secondary)] max-w-lg mx-auto leading-relaxed">
                   Grantly has analyzed your credentials against India&apos;s leading Central, State, and
                   CSR scholarship schemes.
                 </p>
@@ -260,21 +260,21 @@ export const OnboardingFlow: React.FC = () => {
 
               {/* Summary Metrics */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto text-left font-mono">
-                <div className="p-3 bg-[#141818] border border-[#222827] rounded-2xl">
-                  <span className="text-[10px] text-[#89918c] block">MATCHED SCHOLARSHIPS</span>
-                  <span className="text-xl font-black text-[#a9f46b] block">
+                <div className="p-3 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-2xl">
+                  <span className="text-[10px] text-[var(--text-secondary)] block">MATCHED SCHOLARSHIPS</span>
+                  <span className="text-xl font-black text-emerald-600 dark:text-emerald-400 block">
                     {matchedCount} Schemes
                   </span>
                 </div>
-                <div className="p-3 bg-[#141818] border border-[#222827] rounded-2xl">
-                  <span className="text-[10px] text-[#89918c] block">POTENTIAL FUNDING</span>
-                  <span className="text-xl font-black text-[#edf1ec] block">
+                <div className="p-3 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-2xl">
+                  <span className="text-[10px] text-[var(--text-secondary)] block">POTENTIAL FUNDING</span>
+                  <span className="text-xl font-black text-[var(--text-primary)] block">
                     {formatCurrency(totalMatchFunding)}
                   </span>
                 </div>
-                <div className="p-3 bg-[#141818] border border-[#222827] rounded-2xl">
-                  <span className="text-[10px] text-[#89918c] block">VAULT READINESS</span>
-                  <span className="text-xl font-black text-[#70b4ff] block">
+                <div className="p-3 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-2xl">
+                  <span className="text-[10px] text-[var(--text-secondary)] block">VAULT READINESS</span>
+                  <span className="text-xl font-black text-sky-600 dark:text-sky-400 block">
                     {readinessScore}%
                   </span>
                 </div>
@@ -292,7 +292,7 @@ export const OnboardingFlow: React.FC = () => {
             </div>
           ) : (
             /* Multi-step Form Card */
-            <div className="bg-[#101313] border border-[#222827] rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+            <div className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-3xl p-6 sm:p-10 shadow-xl space-y-8 transition-colors">
               {/* Step 1: Academic & University */}
               {step === 1 && (
                 <div className="space-y-6">
