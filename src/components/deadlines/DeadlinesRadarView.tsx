@@ -127,9 +127,9 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenWorkspace(scholarship.id)}
-                className="btn-panel px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#a9f46b]"
+                className="btn-panel px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-600 dark:text-emerald-400"
               >
-                In Pipeline
+                ✓ Tracking
               </button>
             ) : (
               <button
@@ -196,7 +196,7 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
                   : 'bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]'
               }`}
             >
-              My Tracked Pipeline ({trackedApplications.length})
+              My Tracked Applications ({trackedApplications.length})
             </button>
           </div>
         </div>

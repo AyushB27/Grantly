@@ -20,28 +20,28 @@ const SECTION_HEADERS: Record<ActiveTab, { title: string; subtitle: string }> = 
     subtitle: 'Verified Central, State, and CSR grants matching your profile',
   },
   gaps: {
-    title: 'Almost Eligible Gap Diagnostics',
-    subtitle: 'Actionable steps to qualify for near-miss high-value scholarships',
+    title: 'Almost Eligible Advisor',
+    subtitle: 'Simple, actionable steps to qualify for near-miss high-value scholarships',
   },
   vault: {
-    title: 'Universal Document Vault',
+    title: 'My Document Vault',
     subtitle: 'Upload documents once and verify readiness across all portal guidelines',
   },
   tracker: {
-    title: 'Application Pipeline',
-    subtitle: '5-stage progress tracking from saved through to fund disbursement',
+    title: 'My Applications',
+    subtitle: 'Step-by-step progress tracking from saved schemes to winning awards',
   },
   deadlines: {
-    title: 'Deadlines Radar',
-    subtitle: 'Time-sensitive opportunities organized by closing urgency',
+    title: 'Upcoming Deadlines',
+    subtitle: 'Time-sensitive opportunities organized by closing dates and urgency',
   },
   stack: {
-    title: 'Scholarship Stack Planner',
-    subtitle: 'Combine compatible awards and identify official policy restrictions',
+    title: 'Combine Scholarships',
+    subtitle: 'Check which scholarships you can safely take together without conflicts',
   },
   calculator: {
-    title: 'Net Tuition Fee Gap Analysis',
-    subtitle: 'Evaluate total matched assistance against your annual institution expenses',
+    title: 'College Fee Coverage Calculator',
+    subtitle: 'See how much of your annual college fee is covered by scholarships',
   },
 };
 
@@ -100,10 +100,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               <span className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">{readinessPercentage}%</span>
             </div>
 
-            {/* Pipeline Count Pill */}
+            {/* Applications Count Pill */}
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-xs font-sans">
               <CheckSquare className="w-4 h-4 text-sky-600 dark:text-sky-400" />
-              <span className="text-[var(--text-secondary)]">Active:</span>
+              <span className="text-[var(--text-secondary)]">Tracked:</span>
               <span className="font-bold text-[var(--text-primary)] font-mono">{trackedApplications.length}</span>
             </div>
 

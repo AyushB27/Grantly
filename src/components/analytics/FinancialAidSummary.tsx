@@ -108,7 +108,7 @@ export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
           {/* Card 2: Pending Applications */}
           <div className="bg-[#141818] border border-[#70b4ff]/30 p-4 rounded-xl space-y-1">
             <div className="flex items-center justify-between text-xs font-mono text-[#70b4ff]">
-              <span>IN-PIPELINE (PENDING)</span>
+              <span>APPLICATIONS IN PROGRESS</span>
               <TrendingUp className="w-4 h-4 text-[#70b4ff]" />
             </div>
             <div className="text-2xl font-bold font-mono text-[#70b4ff]">
@@ -155,7 +155,7 @@ export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
             <div
               className="bg-[#70b4ff] h-full transition-all duration-500"
               style={{ width: `${appliedPercent}%` }}
-              title={`Pending Pipeline: ${formatCurrency(totalAppliedAmount)} (${appliedPercent}%)`}
+              title={`In Progress Applications: ${formatCurrency(totalAppliedAmount)} (${appliedPercent}%)`}
             />
           </div>
 

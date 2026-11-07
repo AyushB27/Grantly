@@ -259,9 +259,9 @@ export const GapAnalysisView: React.FC<GapAnalysisViewProps> = ({
                       <button
                         type="button"
                         onClick={() => onOpenWorkspace(scholarship.id)}
-                        className="btn-panel px-3 py-1.5 rounded-xl text-xs font-bold text-[#a9f46b]"
+                        className="btn-panel px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400"
                       >
-                        In Pipeline
+                        ✓ Tracking
                       </button>
                     ) : (
                       <button

@@ -53,27 +53,27 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   }[] = [
     {
       id: 'discovery',
-      label: 'Feed & Match',
+      label: 'Find Scholarships',
       description: 'Personalized Schemes',
       icon: Search,
     },
     {
       id: 'gaps',
       label: 'Almost Eligible',
-      description: 'Gap Diagnostics',
+      description: 'Quick Fixes to Qualify',
       icon: AlertCircle,
     },
     {
       id: 'vault',
       label: 'Document Vault',
-      description: 'Readiness & Uploads',
+      description: 'Certificates & Readiness',
       icon: ShieldCheck,
       badge: `${readinessPercentage}%`,
     },
     {
       id: 'tracker',
-      label: 'Pipeline Tracker',
-      description: '5-Stage Application Board',
+      label: 'My Applications',
+      description: 'Track Progress & Stages',
       icon: CheckSquare,
       badge: trackedApplications.length > 0 ? trackedApplications.length : undefined,
     },
@@ -84,9 +84,9 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     label: string;
     icon: React.ElementType;
   }[] = [
-    { id: 'deadlines', label: 'Deadlines Radar', icon: Clock },
-    { id: 'stack', label: 'Stack Planner', icon: Layers },
-    { id: 'calculator', label: 'Tuition Fee Gap', icon: Calculator },
+    { id: 'deadlines', label: 'Upcoming Deadlines', icon: Clock },
+    { id: 'stack', label: 'Combine Scholarships', icon: Layers },
+    { id: 'calculator', label: 'College Fee Calculator', icon: Calculator },
   ];
 
   const handleSelectTab = (tabId: ActiveTab) => {

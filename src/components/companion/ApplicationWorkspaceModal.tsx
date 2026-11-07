@@ -213,10 +213,10 @@ const WorkspaceContent: React.FC<{
         />
       </div>
 
-      {/* 5-Stage Pipeline Transitions Footer */}
+      {/* Stage Progress Transitions Footer */}
       <div className="pt-4 border-t border-[var(--border-card)] flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="eyebrow text-[var(--text-muted)] mr-1">MOVE TO:</span>
+          <span className="eyebrow text-[var(--text-muted)] mr-1">MOVE STAGE:</span>
           {(['saved', 'preparing', 'submitted', 'under_review', 'result'] as ApplicationStage[]).map(
             (stg) => (
               <button

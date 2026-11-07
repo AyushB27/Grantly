@@ -489,7 +489,7 @@ export const LandingPage: React.FC = () => {
               A 4-Step Co-Pilot Journey Built for Confidence
             </h2>
             <p className="text-sm text-[#94a3b8] mt-1 max-w-xl">
-              Every feature directly solves an obstacle in the scholarship application pipeline.
+              Every feature directly solves an obstacle students face when finding and winning scholarships.
             </p>
           </div>
 

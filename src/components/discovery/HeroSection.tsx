@@ -55,23 +55,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       </div>
 
-      {/* 3. Active Applications in Pipeline */}
+      {/* 3. Active Applications Tracked */}
       <div
         onClick={() => setActiveTab('tracker')}
-        className="p-4 bg-[#111827] border border-[#1e293b] hover:border-emerald-500/30 rounded-2xl flex items-center justify-between cursor-pointer transition-all group"
+        className="p-4 bg-[var(--bg-card)] border border-[var(--border-card)] hover:border-emerald-500/30 rounded-2xl flex items-center justify-between cursor-pointer transition-all group shadow-xs"
       >
         <div className="space-y-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#94a3b8] block font-semibold">
-            APPLICATION PIPELINE
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)] block font-semibold">
+            APPLICATIONS TRACKED
           </span>
-          <div className="text-xl font-bold font-mono text-[#f8fafc] group-hover:text-emerald-400 transition-colors">
+          <div className="text-xl font-bold font-mono text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
             {trackedApplications.length} Tracked
           </div>
-          <span className="text-[11px] text-[#64748b] block">
-            Saved → Preparing → Submitted
+          <span className="text-[11px] text-[var(--text-muted)] block">
+            Saved → In Progress → Won
           </span>
         </div>
-        <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
           <CheckSquare className="w-5 h-5" />
         </div>
       </div>
