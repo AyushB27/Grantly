@@ -11,7 +11,14 @@ export const StudentProfileView: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile(sanitizeProfileStrings(profile));
+    updateProfile(
+      sanitizeProfileStrings({
+        ...profile,
+        fullName: profile.fullName.trim(),
+        branch: profile.branch.trim(),
+        regionState: profile.regionState.trim(),
+      })
+    );
     setSavedAlert(true);
     setTimeout(() => setSavedAlert(false), 2500);
   };
@@ -76,6 +83,7 @@ export const StudentProfileView: React.FC = () => {
               <input
                 id="prof-name"
                 type="text"
+                maxLength={80}
                 value={profile.fullName}
                 onChange={(e) => updateProfile({ fullName: e.target.value })}
                 className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
@@ -153,6 +161,7 @@ export const StudentProfileView: React.FC = () => {
               <input
                 id="prof-branch"
                 type="text"
+                maxLength={80}
                 value={profile.branch}
                 onChange={(e) => updateProfile({ branch: e.target.value })}
                 className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"
@@ -212,6 +221,7 @@ export const StudentProfileView: React.FC = () => {
               <input
                 id="prof-region"
                 type="text"
+                maxLength={60}
                 value={profile.regionState}
                 onChange={(e) => updateProfile({ regionState: e.target.value })}
                 className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border-card)] focus:border-emerald-500 rounded-xl text-xs text-[var(--text-primary)] outline-none"

@@ -34,9 +34,9 @@ describe('Security & Sanitization Utilities', () => {
   });
 
   describe('sanitizeUrl', () => {
-    it('allows standard https and http URLs', () => {
+    it('enforces secure https protocol and upgrades insecure http URLs', () => {
       expect(sanitizeUrl('https://scholarships.gov.in')).toBe('https://scholarships.gov.in');
-      expect(sanitizeUrl('http://example.edu.in')).toBe('http://example.edu.in');
+      expect(sanitizeUrl('http://example.edu.in')).toBe('https://example.edu.in');
     });
 
     it('blocks dangerous javascript: pseudo-protocol', () => {

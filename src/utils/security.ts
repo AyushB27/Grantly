@@ -45,15 +45,23 @@ export function sanitizeUrl(url: unknown, fallback: string = '#'): string {
   const trimmed = url.trim();
 
   // Block dangerous protocols
-  const isDangerous = /^(javascript:|data:|vbscript:)/i.test(trimmed);
+  const isDangerous = /^(javascript:|data:|vbscript:|file:)/i.test(trimmed);
   if (isDangerous) {
     return fallback;
   }
 
-  // Allow standard web protocols
-  const isSafeProtocol = /^(https?:\/\/|mailto:|\/)/i.test(trimmed);
-  if (!isSafeProtocol && !trimmed.startsWith('#')) {
-    // If protocol is missing, default to https://
+  // Enforce secure HTTPS protocol for external links
+  if (/^http:\/\//i.test(trimmed)) {
+    return trimmed.replace(/^http:\/\//i, 'https://');
+  }
+
+  // Allow safe relative paths, anchors, or mailto
+  if (/^(\/|#|mailto:)/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  // If protocol is missing, enforce https://
+  if (!/^https:\/\//i.test(trimmed)) {
     return `https://${trimmed}`;
   }
 

@@ -3,6 +3,7 @@ import { Modal } from '../common/Modal';
 import type { Scholarship, ApplicationStage } from '../../types/scholarship';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import { calculateEssayMetrics, getDeadlineUrgency } from '../../utils/formatters';
+import { sanitizeUrl } from '../../utils/security';
 import {
   CheckSquare,
   FileEdit,
@@ -162,6 +163,7 @@ const WorkspaceContent: React.FC<{
         <textarea
           id="essay-scratchpad"
           rows={5}
+          maxLength={5000}
           value={essayDraft}
           onChange={(e) => {
             setEssayDraft(e.target.value);
@@ -202,6 +204,7 @@ const WorkspaceContent: React.FC<{
         <input
           id="app-notes"
           type="text"
+          maxLength={500}
           value={notes}
           onChange={(e) => {
             setNotes(e.target.value);
@@ -236,7 +239,7 @@ const WorkspaceContent: React.FC<{
         </div>
 
         <a
-          href={scholarship.portalUrl}
+          href={sanitizeUrl(scholarship.portalUrl)}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-mint inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold"
