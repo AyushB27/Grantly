@@ -103,9 +103,9 @@ export const LandingPage: React.FC = () => {
 
             <button
               onClick={handleGoToAuth}
-              className="btn-mint px-5 py-2.5 rounded-xl text-xs font-mono font-bold inline-flex items-center gap-2 shadow-lg hover:shadow-[#a9f46b]/20 transition-all cursor-pointer"
+              className="btn-mint px-5 py-2.5 rounded-xl text-xs font-sans font-semibold inline-flex items-center gap-2 shadow-sm transition-all cursor-pointer"
             >
-              <span>Login / Sign Up</span>
+              <span>Sign In / Register</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -123,23 +123,23 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Hero Headlines */}
           <div className="text-center max-w-3xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#101313] border border-[#222827] text-xs font-mono shadow-xs">
-              <span className="flex h-2 w-2 rounded-full bg-[#a9f46b] animate-ping" />
-              <span className="text-[#a9f46b] font-bold">FAIE v3.1 ALIGNED</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#101313] border border-[#222827] text-xs font-sans shadow-xs">
+              <span className="flex h-2 w-2 rounded-full bg-[#10b981]" />
+              <span className="text-emerald-400 font-semibold">CENTRAL, STATE & CSR AID</span>
               <span className="text-[#525c57]">•</span>
-              <span className="text-[#89918c]">INDIAN SCHOLARSHIP ECOSYSTEM</span>
+              <span className="text-[#89918c]">INDIAN HIGHER EDUCATION</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#edf1ec] tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#edf1ec] tracking-tight leading-[1.15]">
               Rethinking Educational Aid for{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a9f46b] via-[#bcfb8b] to-[#7ccb3e]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">
                 Indian Students.
               </span>
             </h1>
 
             <p className="text-base sm:text-lg text-[#89918c] max-w-2xl mx-auto leading-relaxed">
               From scholarship search to scholarship success. Clarity over volume. Confidence over
-              choice. Grantly matches your verified profile to real schemes, diagnoses qualification
+              choice. Grantly matches your verified academic profile to real schemes, diagnoses qualification
               gaps, and secures your documents.
             </p>
 
@@ -147,7 +147,7 @@ export const LandingPage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <button
                 onClick={handleGoToAuth}
-                className="btn-mint px-7 py-3.5 rounded-2xl text-sm font-mono font-bold inline-flex items-center gap-2.5 shadow-xl hover:shadow-[#a9f46b]/25 transition-all cursor-pointer"
+                className="btn-mint px-7 py-3.5 rounded-xl text-sm font-sans font-semibold inline-flex items-center gap-2.5 shadow-md hover:shadow-emerald-500/20 transition-all cursor-pointer"
               >
                 <span>Check Your Eligibility Free</span>
                 <ArrowRight className="w-4 h-4" />
@@ -155,42 +155,42 @@ export const LandingPage: React.FC = () => {
 
               <button
                 onClick={handleGoToAuth}
-                className="btn-panel px-6 py-3.5 rounded-2xl text-sm font-mono font-bold inline-flex items-center gap-2 text-[#70b4ff] hover:text-[#edf1ec] cursor-pointer"
+                className="btn-panel px-6 py-3.5 rounded-xl text-sm font-sans font-medium inline-flex items-center gap-2 text-[#70b4ff] hover:text-[#edf1ec] cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-[#70b4ff]" />
-                <span>Explore 1-Click Demo</span>
+                <span>Explore Demo Profiles</span>
               </button>
             </div>
           </div>
 
-          {/* 3. Hero Visual Centerpiece: Animated Interactive Live Eligibility Scanner */}
+          {/* 3. Hero Visual Centerpiece: Real-time Eligibility Analysis Card */}
           <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#141818] to-[#0d1010] border border-[#222827] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-            {/* Animated Laser Scan Beam */}
-            <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#a9f46b] to-transparent opacity-60 animate-pulse pointer-events-none" />
+            {/* Subtle Top Card Highlight */}
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent pointer-events-none" />
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[#222827]">
               {/* Student Pedigree Badge */}
               <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-[#a9f46b]/10 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] font-black text-lg">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
                   AS
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-base text-[#edf1ec]">Aarav Sharma</span>
-                    <span className="px-2 py-0.5 rounded-md bg-[#101313] border border-[#222827] text-[10px] font-mono text-[#a9f46b]">
+                    <span className="px-2 py-0.5 rounded-md bg-[#101313] border border-[#222827] text-[10px] font-sans font-medium text-emerald-400">
                       Verified Scholar
                     </span>
                   </div>
-                  <span className="text-xs font-mono text-[#89918c]">
+                  <span className="text-xs text-[#89918c]">
                     B.Tech CSE • 2nd Year • IIT Delhi (EWS Quota)
                   </span>
                 </div>
               </div>
 
               {/* Status Indicator */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#101313] border border-[#222827] text-xs font-mono">
-                <span className="w-2 h-2 rounded-full bg-[#a9f46b] animate-ping" />
-                <span className="text-[#a9f46b]">LIVE SCANNER ACTIVE</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#101313] border border-[#222827] text-xs font-sans font-medium">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="text-emerald-400">Profile Evaluation</span>
               </div>
             </div>
 
@@ -201,16 +201,16 @@ export const LandingPage: React.FC = () => {
                 <div className="relative w-28 h-28 flex items-center justify-center">
                   <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                     <path
-                      className="text-[#1e2423]"
-                      strokeWidth="3.5"
+                      className="text-slate-800"
+                      strokeWidth="3"
                       stroke="currentColor"
                       fill="none"
                       d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     />
                     <path
-                      className="text-[#a9f46b]"
+                      className="text-emerald-500"
                       strokeDasharray="94, 100"
-                      strokeWidth="3.5"
+                      strokeWidth="3"
                       strokeLinecap="round"
                       stroke="currentColor"
                       fill="none"
@@ -218,13 +218,13 @@ export const LandingPage: React.FC = () => {
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-black text-[#edf1ec] font-mono leading-none">
+                    <span className="text-2xl font-bold text-[#edf1ec] font-mono leading-none">
                       94%
                     </span>
-                    <span className="text-[9px] font-mono text-[#a9f46b] mt-0.5">MATCH</span>
+                    <span className="text-[10px] font-sans font-semibold text-emerald-400 mt-0.5">MATCH</span>
                   </div>
                 </div>
-                <span className="eyebrow text-[#89918c] text-[10px]">RELIANCE FOUNDATION CSR</span>
+                <span className="text-xs font-medium text-[#89918c]">Reliance Foundation CSR</span>
               </div>
 
               {/* Matched Details & Criteria Verification */}
@@ -234,42 +234,42 @@ export const LandingPage: React.FC = () => {
                     <h3 className="font-bold text-lg text-[#edf1ec]">
                       Reliance Foundation Undergraduate Scholarship
                     </h3>
-                    <span className="text-sm font-black font-mono text-[#a9f46b]">
+                    <span className="text-sm font-bold font-mono text-emerald-400">
                       ₹2,00,000 Total
                     </span>
                   </div>
                   <p className="text-xs text-[#89918c] leading-relaxed">
-                    Provides annual tuition funding across all 4 years of engineering degree.
+                    Provides annual tuition funding across all 4 years of undergraduate study.
                   </p>
                 </div>
 
                 {/* Criteria Checked Pills */}
-                <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                  <div className="flex items-center gap-2 p-2 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
+                <div className="grid grid-cols-2 gap-2 text-xs font-sans">
+                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                     <span>CGPA 8.65 &gt;= 7.5 Cutoff</span>
                   </div>
-                  <div className="flex items-center gap-2 p-2 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
+                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                     <span>Family Income &lt; ₹15L Cap</span>
                   </div>
-                  <div className="flex items-center gap-2 p-2 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
-                    <span>Class 12 Marksheet in Vault</span>
+                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Class 12 Marksheet Verified</span>
                   </div>
-                  <div className="flex items-center gap-2 p-2 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
-                    <span>Income Certificate Verified</span>
+                  <div className="flex items-center gap-2 p-2.5 bg-[#101313] border border-[#222827] rounded-xl text-[#edf1ec]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Income Certificate Valid</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  <span className="text-xs font-mono text-[#525c57]">
+                  <span className="text-xs text-[#525c57]">
                     Official Portal: scholarships.reliancefoundation.org
                   </span>
                   <button
                     onClick={handleGoToAuth}
-                    className="text-xs font-mono font-bold text-[#a9f46b] hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs font-sans font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
                   >
                     <span>Inspect Scholarship Breakdown</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -301,11 +301,11 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="space-y-1">
-            <span className="eyebrow text-[#89918c] text-[10px] block">MATCH ACCURACY</span>
+            <span className="eyebrow text-[#89918c] text-[10px] block">CRITERIA ENGINE</span>
             <span className="text-2xl sm:text-3xl font-black text-[#70b4ff] block">
-              100% Deterministic
+              100% Transparent
             </span>
-            <span className="text-[11px] text-[#525c57]">FAIE v3.1 Engine</span>
+            <span className="text-[11px] text-[#525c57]">Verified Multi-Factor Rules</span>
           </div>
 
           <div className="space-y-1">
@@ -480,7 +480,7 @@ export const LandingPage: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <button
               onClick={handleGoToAuth}
-              className="btn-mint px-8 py-3.5 rounded-2xl text-sm font-mono font-bold inline-flex items-center gap-2 shadow-xl hover:shadow-[#a9f46b]/25 transition-all cursor-pointer"
+              className="btn-mint px-8 py-3.5 rounded-xl text-sm font-sans font-semibold inline-flex items-center gap-2 shadow-md hover:shadow-emerald-500/20 transition-all cursor-pointer"
             >
               <span>Get Started Now — It&apos;s Free</span>
               <ArrowRight className="w-4 h-4" />

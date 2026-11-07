@@ -283,7 +283,7 @@ export const OnboardingFlow: React.FC = () => {
               <div className="pt-4">
                 <button
                   onClick={handleLaunchDashboard}
-                  className="btn-mint px-8 py-3.5 rounded-2xl text-sm font-mono font-bold inline-flex items-center gap-2 shadow-xl cursor-pointer"
+                  className="btn-mint px-8 py-3.5 rounded-xl text-sm font-sans font-semibold inline-flex items-center gap-2 shadow-md cursor-pointer"
                 >
                   <span>Launch My Scholarship Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
@@ -717,7 +717,7 @@ export const OnboardingFlow: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="btn-mint px-6 py-2.5 rounded-xl text-xs font-mono font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                  className="btn-mint px-6 py-2.5 rounded-xl text-xs font-sans font-semibold flex items-center gap-2 cursor-pointer shadow-sm"
                 >
                   <span>{step === totalSteps ? 'Complete Calibration' : 'Continue'}</span>
                   <ArrowRight className="w-4 h-4" />

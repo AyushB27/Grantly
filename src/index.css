@@ -1,43 +1,44 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
-   GRANTLY DUAL-THEME DESIGN SYSTEM (Dark Precision & Clean Light)
+   GRANTLY MODERN EXECUTIVE DESIGN SYSTEM (Dark Precision & Clean Light)
+   Refined for Trust, Professional Elegance, and High-Impact Usability
    ------------------------------------------------------------- */
 
 :root, [data-theme="dark"], .dark {
-  --ink: #090b0b;
-  --panel: #101313;
-  --panel-hover: #141818;
-  --panel-elevated: #161c1b;
-  --line: #222827;
-  --line-subtle: #191f1e;
-  --mint: #a9f46b;
-  --mint-hover: #bcfb8b;
-  --mint-dim: #7ccb3e;
-  --soft: #89918c;
-  --dim: #525c57;
-  --text: #edf1ec;
-  --negative: #ff8e91;
-  --warning: #f7ba53;
-  --blue: #70b4ff;
-  --purple: #c084fc;
+  --ink: #0b0f19; /* Executive Deep Slate Midnight */
+  --panel: #111827; /* Rich Slate 900 Card */
+  --panel-hover: #162032; /* Slate 800 Hover */
+  --panel-elevated: #1e293b;
+  --line: #1e293b; /* Crisp Slate Border */
+  --line-subtle: #334155;
+  --mint: #10b981; /* High-trust Emerald */
+  --mint-hover: #059669;
+  --mint-dim: #047857;
+  --soft: #94a3b8; /* Slate 400 */
+  --dim: #64748b; /* Slate 500 */
+  --text: #f8fafc; /* Crisp Slate 50 */
+  --negative: #ef4444;
+  --warning: #f59e0b;
+  --blue: #38bdf8;
+  --purple: #818cf8;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'DM Mono', monospace;
 }
 
 [data-theme="light"], .light {
-  --ink: #f8fafc;
-  --panel: #ffffff;
-  --panel-hover: #f1f5f9;
-  --panel-elevated: #f8fafc;
-  --line: #e2e8f0;
+  --ink: #f8fafc; /* Pristine Slate 50 */
+  --panel: #ffffff; /* Pure White Card */
+  --panel-hover: #f1f5f9; /* Slate 100 Hover */
+  --panel-elevated: #ffffff;
+  --line: #e2e8f0; /* Crisp Slate 200 Border */
   --line-subtle: #cbd5e1;
-  --mint: #059669;
+  --mint: #059669; /* Rich Deep Emerald */
   --mint-hover: #047857;
   --mint-dim: #10b981;
-  --soft: #64748b;
-  --dim: #94a3b8;
-  --text: #0f172a;
+  --soft: #475569; /* Slate 600 */
+  --dim: #64748b; /* Slate 500 */
+  --text: #0f172a; /* Slate 900 */
   --negative: #e11d48;
   --warning: #d97706;
   --blue: #2563eb;
@@ -63,29 +64,32 @@ body {
   font-size: 10px;
   letter-spacing: 1.4px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--soft);
 }
 
 /* Custom Precision Buttons */
 .btn-mint {
   background-color: var(--mint);
-  color: #090b0b;
-  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 14px rgba(169, 244, 107, 0.15);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(16, 185, 129, 0.25);
 }
 
 .btn-mint:hover {
   background-color: var(--mint-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(169, 244, 107, 0.25);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
 }
 
 .btn-panel {
   background-color: var(--panel-hover);
   border: 1px solid var(--line);
   color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
@@ -95,9 +99,83 @@ body {
 }
 
 /* -------------------------------------------------------------
-   LIGHT MODE TARGETED OVERRIDES FOR INSTANT HIGH-CONTRAST THEME
+   DARK MODE MODERN EXECUTIVE SLATE MAP (Soft, Elegant, Professional)
    ------------------------------------------------------------- */
+:root .bg-\[\#090b0b\],
+.dark .bg-\[\#090b0b\],
+[data-theme="dark"] .bg-\[\#090b0b\] {
+  background-color: #0b0f19 !important;
+}
 
+:root .bg-\[\#101313\],
+.dark .bg-\[\#101313\],
+[data-theme="dark"] .bg-\[\#101313\] {
+  background-color: #111827 !important;
+}
+
+:root .bg-\[\#141818\],
+.dark .bg-\[\#141818\],
+[data-theme="dark"] .bg-\[\#141818\] {
+  background-color: #162032 !important;
+}
+
+:root .bg-\[\#161c1b\],
+.dark .bg-\[\#161c1b\],
+[data-theme="dark"] .bg-\[\#161c1b\] {
+  background-color: #1e293b !important;
+}
+
+:root .bg-\[\#0d1010\],
+.dark .bg-\[\#0d1010\],
+[data-theme="dark"] .bg-\[\#0d1010\] {
+  background-color: #0b0f19 !important;
+}
+
+:root .border-\[\#222827\],
+.dark .border-\[\#222827\],
+[data-theme="dark"] .border-\[\#222827\] {
+  border-color: #1e293b !important;
+}
+
+:root .border-\[\#38423f\],
+.dark .border-\[\#38423f\],
+[data-theme="dark"] .border-\[\#38423f\] {
+  border-color: #334155 !important;
+}
+
+:root .text-\[\#a9f46b\],
+.dark .text-\[\#a9f46b\],
+[data-theme="dark"] .text-\[\#a9f46b\] {
+  color: #10b981 !important;
+}
+
+:root .border-\[\#a9f46b\],
+.dark .border-\[\#a9f46b\],
+[data-theme="dark"] .border-\[\#a9f46b\] {
+  border-color: #10b981 !important;
+}
+
+:root .text-\[\#edf1ec\],
+.dark .text-\[\#edf1ec\],
+[data-theme="dark"] .text-\[\#edf1ec\] {
+  color: #f8fafc !important;
+}
+
+:root .text-\[\#89918c\],
+.dark .text-\[\#89918c\],
+[data-theme="dark"] .text-\[\#89918c\] {
+  color: #94a3b8 !important;
+}
+
+:root .text-\[\#525c57\],
+.dark .text-\[\#525c57\],
+[data-theme="dark"] .text-\[\#525c57\] {
+  color: #64748b !important;
+}
+
+/* -------------------------------------------------------------
+   LIGHT MODE TARGETED OVERRIDES (Crisp, High-Trust FinTech Style)
+   ------------------------------------------------------------- */
 [data-theme="light"] .bg-\[\#090b0b\],
 .light .bg-\[\#090b0b\] {
   background-color: #f8fafc !important;
@@ -110,7 +188,7 @@ body {
 
 [data-theme="light"] .bg-\[\#141818\],
 .light .bg-\[\#141818\] {
-  background-color: #f8fafc !important;
+  background-color: #f1f5f9 !important;
 }
 
 [data-theme="light"] .bg-\[\#121614\],
@@ -152,25 +230,35 @@ body {
 
 [data-theme="light"] .text-\[\#89918c\],
 .light .text-\[\#89918c\] {
-  color: #64748b !important;
+  color: #475569 !important;
 }
 
 [data-theme="light"] .text-\[\#525c57\],
 .light .text-\[\#525c57\] {
-  color: #94a3b8 !important;
+  color: #64748b !important;
+}
+
+[data-theme="light"] .text-\[\#a9f46b\],
+.light .text-\[\#a9f46b\] {
+  color: #059669 !important;
+}
+
+[data-theme="light"] .border-\[\#a9f46b\],
+.light .border-\[\#a9f46b\] {
+  border-color: #059669 !important;
 }
 
 [data-theme="light"] .btn-mint,
 .light .btn-mint {
   background-color: #059669 !important;
   color: #ffffff !important;
-  box-shadow: 0 2px 14px rgba(5, 150, 105, 0.2) !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(5, 150, 105, 0.25) !important;
 }
 
 [data-theme="light"] .btn-mint:hover,
 .light .btn-mint:hover {
   background-color: #047857 !important;
-  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35) !important;
 }
 
 [data-theme="light"] .btn-panel,
@@ -188,13 +276,13 @@ body {
 
 [data-theme="light"] .eyebrow,
 .light .eyebrow {
-  color: #64748b !important;
+  color: #475569 !important;
 }
 
 /* Light mode modal overlay */
 [data-theme="light"] .bg-black\/80,
 .light .bg-black\/80 {
-  background-color: rgba(15, 23, 42, 0.6) !important;
+  background-color: rgba(15, 23, 42, 0.5) !important;
 }
 
 /* Light mode select options */

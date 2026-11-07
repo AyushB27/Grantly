@@ -217,7 +217,7 @@ export const AuthPage: React.FC = () => {
                   <div className="w-5 h-5 rounded-full bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] shrink-0">
                     <CheckCircle2 className="w-3 h-3" />
                   </div>
-                  <span>Deterministic FAIE v3.1 Match Accuracy</span>
+                  <span>Verified Multi-Factor Eligibility Scoring</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs text-[#edf1ec]">
                   <div className="w-5 h-5 rounded-full bg-[#a9f46b]/15 border border-[#a9f46b]/30 flex items-center justify-center text-[#a9f46b] shrink-0">
@@ -289,9 +289,9 @@ export const AuthPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <span className="eyebrow text-[#a9f46b] text-[10px] flex items-center gap-1.5 font-bold">
                   <Sparkles className="w-3 h-3" />
-                  1-CLICK JUDGE DEMO PERSONAS
+                  EXPLORE WITH DEMO STUDENT PROFILES
                 </span>
-                <span className="text-[10px] text-[#525c57] font-mono">Instant Login</span>
+                <span className="text-[10px] text-[#525c57] font-mono">1-Click Preview</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {DEMO_PERSONAS.map((persona) => (
@@ -401,7 +401,7 @@ export const AuthPage: React.FC = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full btn-mint py-3 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-lg mt-2 cursor-pointer"
+                className="w-full btn-mint py-3 rounded-xl text-sm font-sans font-semibold flex items-center justify-center gap-2 shadow-md mt-2 cursor-pointer"
               >
                 <span>
                   {authMode === 'signin' ? 'Sign In to Grantly' : 'Continue to Student Onboarding'}
