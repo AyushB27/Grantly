@@ -72,10 +72,10 @@ export interface Scholarship {
   familyIncomeCapMax: number; // 0 for no cap, or ceiling in INR
   description: string;
   plainEnglishSummary: string;
-  whyYouMatchSummary: string; // F2 mandatory "Why you match" summary
+  whyYouMatchSummary: string; // Mandatory "Why you match" summary
   eligibilityCriteria: EligibilityRuleItem[];
   requiredDocuments: string[];
-  applicationSteps: ApplicationStepItem[]; // F3 3-5 guided steps
+  applicationSteps: ApplicationStepItem[]; // 3-5 guided steps
   verifiedSource: boolean;
   portalUrl: string;
   acceptanceRateEstimate: string;
@@ -87,6 +87,7 @@ export interface Scholarship {
 ```typescript
 export interface StudentProfile {
   fullName: string;
+  university?: string; // University / College name (e.g. IIT Delhi, Anna University)
   course: string;
   currentYear: '1st Year' | '2nd Year' | '3rd Year' | 'Final Year' | 'Postgraduate';
   academicLevel: EducationLevel;
@@ -112,7 +113,7 @@ export interface TrackedApplication {
   completedChecklist: string[];
   essayDraft: string;
   notes: string;
-  resultOutcome?: 'awarded' | 'regret';
+  resultOutcome?: 'awarded' | 'not_selected' | 'regret';
   customReminderDate?: string;
 }
 ```

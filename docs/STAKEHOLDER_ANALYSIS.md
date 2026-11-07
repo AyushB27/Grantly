@@ -95,7 +95,7 @@ quadrantChart
 | Attribute | Details |
 | :--- | :--- |
 | **Profile** | Ministry of Education, Ministry of Social Justice & Empowerment, Ministry of Tribal Affairs, State Social Welfare Departments (MAHADBT, SSP Karnataka, Medhabruti Odisha). |
-| **Core Pain Points** | • Budget allocations lapse because eligible students fail to complete complex application pipelines.<br/>• Enormous administrative overhead auditing duplicate/conflicting applications ("double-dipping").<br/>• High bounce rate of applications due to minor paperwork defects. |
+| **Core Pain Points** | • Budget allocations lapse because eligible students fail to complete complex application procedures.<br/>• Enormous administrative overhead auditing duplicate/conflicting applications ("double-dipping").<br/>• High bounce rate of applications due to minor paperwork defects. |
 | **Grantly Value Proposition** | • Pre-screens students against precise eligibility rules (domicile, income ceiling, marks).<br/>• **Multi-Scholarship Planner** warns students against illegal concurrent double-dipping.<br/>• Increases quality and correctness of incoming submissions to official government portals. |
 | **Success Metrics** | • Higher utilization of annual fiscal scholarship budgets.<br/>• Decreased rejection rates at state/central verification nodes. |
 

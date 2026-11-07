@@ -8,21 +8,7 @@ Grantly adopts an **Institutional FinTech & EdTech Architecture**, delivering a 
 
 Grantly guarantees strict WCAG AAA / AA contrast ratios across both dark and light modes.
 
-### A. Dark Mode Tokens (`[data-theme="dark"]`, Default)
-| Token | Hex Value | Semantic Usage |
-|---|---|---|
-| `--bg-app` | `#0b0f19` | Executive Deep Midnight Slate canvas background |
-| `--bg-card` | `#111827` | Primary card surfaces, sidebar, and container panels |
-| `--bg-card-hover` | `#162032` | Elevated states, input fields, and hover states |
-| `--bg-card-subtle` | `#1e293b` | Secondary chip backgrounds, nested boxes |
-| `--border-card` | `#1e293b` | Structural hairline borders (1px) |
-| `--border-card-hover` | `#334155` | Elevated border focus & hover states |
-| `--text-primary` | `#f8fafc` | Crisp Slate 50 primary text & headings |
-| `--text-secondary` | `#94a3b8` | Slate 400 subtext, descriptions, metadata |
-| `--text-muted` | `#64748b` | Slate 500 eyebrows, deactivated icons |
-| `--brand-emerald` | `#10b981` | High-trust Emerald primary CTA accent |
-
-### B. Light Mode Tokens (`[data-theme="light"]`)
+### A. Light Mode Tokens (`[data-theme="light"]`, Default in `:root`)
 | Token | Hex Value | Semantic Usage |
 |---|---|---|
 | `--bg-app` | `#f8fafc` | Crisp Clean Slate 50 canvas background |
@@ -36,6 +22,20 @@ Grantly guarantees strict WCAG AAA / AA contrast ratios across both dark and lig
 | `--text-muted` | `#64748b` | Slate 500 metadata and eyebrows |
 | `--brand-emerald` | `#059669` | Deep Emerald 600 high-contrast primary CTA accent |
 
+### B. Dark Mode Tokens (`[data-theme="dark"]`, Executive Midnight)
+| Token | Hex Value | Semantic Usage |
+|---|---|---|
+| `--bg-app` | `#0b0f19` | Executive Deep Midnight Slate canvas background |
+| `--bg-card` | `#111827` | Primary card surfaces, sidebar, and container panels |
+| `--bg-card-hover` | `#162032` | Elevated states, input fields, and hover states |
+| `--bg-card-subtle` | `#1e293b` | Secondary chip backgrounds, nested boxes |
+| `--border-card` | `#1e293b` | Structural hairline borders (1px) |
+| `--border-card-hover` | `#334155` | Elevated border focus & hover states |
+| `--text-primary` | `#f8fafc` | Crisp Slate 50 primary text & headings |
+| `--text-secondary` | `#94a3b8` | Slate 400 subtext, descriptions, metadata |
+| `--text-muted` | `#64748b` | Slate 500 eyebrows, deactivated icons |
+| `--brand-emerald` | `#10b981` | High-trust Emerald primary CTA accent |
+
 ---
 
 ## 2. Dashboard Navigation: Side Drawer Architecture
@@ -44,13 +44,13 @@ In alignment with modern institutional SaaS platforms (Linear, Stripe, Supabase)
 1. **Desktop**: Fixed left sidebar (width: 16rem / 18rem on large screens) containing branding, active workspaces, planning tools, active student card, theme toggle, and sign-out.
 2. **Mobile**: Accessible slide-out drawer triggered via the top header hamburger toggle with focus trap and backdrop blur dismiss.
 3. **Dedicated Workspaces**:
-   - `Feed & Match`: Personalized curated scholarships
-   - `Almost Eligible`: Signature F4 gap diagnostics
+   - `Find Scholarships`: Personalized curated schemes matching profile
+   - `Almost Eligible`: Signature gap diagnostics and instant remedies
    - `Document Vault`: Universal document readiness & live % score
-   - `Pipeline Tracker`: 5-stage application Kanban board
-   - `Deadlines Radar`: Urgency-sorted countdowns
-   - `Stack Planner`: Multi-grant stacking & policy conflict detection
-   - `Tuition Fee Gap`: Net college fee financial visualizer
+   - `My Applications`: 5-stage application progress tracking board
+   - `Upcoming Deadlines`: Urgency-sorted countdowns (Urgent, Upcoming, Archived)
+   - `Combine Scholarships`: Multi-grant stacking & policy conflict detection
+   - `College Fee Calculator`: Net college fee coverage visualizer
 
 ---
 
@@ -116,5 +116,5 @@ All landing page sections feature hardware-accelerated scroll transitions using 
 
 - **Mobile (< 768px)**: `1rem` horizontal padding, single-column stacked grids, touch targets ≥ 44px.
 - **Tablet (769px – 1024px)**: `1.75rem` padding, 2-column card layouts, compact toolbar.
-- **Desktop (≥ 1025px)**: Max container width `1320px` centered with `2.25rem` padding, 3-column scholarship grid, 5-column Kanban pipeline.
+- **Desktop (≥ 1025px)**: Max container width `1320px` centered with `2.25rem` padding, 3-column scholarship grid, 5-column Kanban application board.
 - **Zero Horizontal Scroll**: Strict `overflow-x: hidden` on viewport with fluid `flex` and `grid` layouts.
