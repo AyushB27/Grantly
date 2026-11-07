@@ -10,6 +10,9 @@ import {
   Info,
 } from 'lucide-react';
 
+/**
+ * Multi-scholarship planner dashboard view with automated concurrency conflict detection
+ */
 export const ScholarshipStackPlanner: React.FC = () => {
   const {
     scholarships,

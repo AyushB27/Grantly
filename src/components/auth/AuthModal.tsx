@@ -98,6 +98,9 @@ const DEMO_PERSONAS: {
   },
 ];
 
+/**
+ * Modal dialog for student authentication and instant 1-click demo personas
+ */
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const { login, setCurrentView, setIsOnboardingOpen } = useScholarshipContext();
 

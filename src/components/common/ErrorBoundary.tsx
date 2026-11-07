@@ -12,6 +12,9 @@ interface ErrorBoundaryState {
   errorInfo: ErrorInfo | null;
 }
 
+/**
+ * Global application ErrorBoundary providing graceful crash recovery and local storage reset
+ */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);

@@ -10,6 +10,9 @@ interface ModalProps {
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl';
 }
 
+/**
+ * Accessible dialog modal with keyboard focus trap, Escape key handling, and background inerting
+ */
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,

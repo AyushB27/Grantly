@@ -3,6 +3,9 @@ import { useScholarshipContext } from '../../context/ScholarshipContext';
 import type { IncomeBracket, SocialCategory } from '../../types/scholarship';
 import { Sliders, ChevronDown, ChevronUp, Sparkles, UserCheck } from 'lucide-react';
 
+/**
+ * Inline profile simulator bar allowing real-time CGPA, income, and category adjustments
+ */
 export const QuickProfileBar: React.FC = () => {
   const { profile, updateProfile, setIsOnboardingOpen } = useScholarshipContext();
   const [isExpanded, setIsExpanded] = useState(false);

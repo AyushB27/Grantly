@@ -107,6 +107,9 @@ const DEMO_PERSONAS: {
   },
 ];
 
+/**
+ * Standalone authentication page supporting email sign-in/up and 1-click test student personas
+ */
 export const AuthPage: React.FC = () => {
   const { setCurrentView, login, updateProfile, theme, toggleTheme } = useScholarshipContext();
 

@@ -24,6 +24,9 @@ interface AppSidebarProps {
   onOpenComparison?: () => void;
 }
 
+/**
+ * SaaS dashboard side navigation bar and responsive mobile drawer
+ */
 export const AppSidebar: React.FC<AppSidebarProps> = ({
   isMobileOpen = false,
   onMobileClose,

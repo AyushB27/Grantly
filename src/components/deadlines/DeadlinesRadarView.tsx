@@ -16,6 +16,9 @@ interface DeadlinesRadarViewProps {
   onOpenWorkspace: (scholarshipId: string) => void;
 }
 
+/**
+ * Deadlines radar view partitioned into overdue, closing this week, and upcoming portals
+ */
 export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
   onOpenDetails,
   onOpenWorkspace,

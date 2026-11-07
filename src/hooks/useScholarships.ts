@@ -1,14 +1,27 @@
+/**
+ * Reactive Scholarship Matching, Filtering, and Analytics Hook
+ * Automatically computes real-time 5-factor match scores, "Why you match" rationales,
+ * multi-facet filter criteria, and institutional financial aid metrics.
+ */
+
 import { useMemo } from 'react';
 import { useScholarshipContext } from '../context/ScholarshipContext';
 import { calculateMatchScore } from '../utils/matchCalculator';
 import type { Scholarship, MatchScoreBreakdown } from '../types/scholarship';
 import { getDeadlineUrgency } from '../utils/formatters';
 
+/**
+ * Enriched scholarship model containing computed match score and factor breakdown
+ */
 export interface EnrichedScholarship extends Scholarship {
   matchBreakdown: MatchScoreBreakdown;
   matchScore: number;
 }
 
+/**
+ * Primary reactive hook exposing filtered scholarship collections, sorted tiers,
+ * and aggregated financial aid analytics derived from the active student profile.
+ */
 export function useScholarships() {
   const { scholarships, profile, filters, trackedApplications } = useScholarshipContext();
 

@@ -11,6 +11,9 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
+/**
+ * Document vault dashboard view with live Application Readiness gauge and category filters
+ */
 export const DocumentVaultView: React.FC = () => {
   const { documentVault, updateDocumentStatus, readinessPercentage, setActiveTab } =
     useScholarshipContext();

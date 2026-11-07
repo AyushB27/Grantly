@@ -1,8 +1,19 @@
+/**
+ * Deterministic Eligibility & Match Scoring Engine for GRANTLY
+ * Evaluates student profiles against institutional scholarship criteria across 5 dimensions:
+ * Academic Merit (30%), Education Level (25%), Social Category & Gender (15%),
+ * Family Income Ceiling (20%), and State Domicile (10%).
+ */
+
 import type { Scholarship, StudentProfile, MatchScoreBreakdown } from '../types/scholarship';
 
 /**
- * Deterministic Eligibility & Match Scoring Engine
- * Powers matching criteria, "Why you match" lines, and "Almost Eligible" Gap Analysis
+ * Calculates a comprehensive match breakdown, percentage score, plain-English rationales,
+ * warning flags, and diagnostic shortfalls for a given scholarship and student profile.
+ * 
+ * @param scholarship Target scholarship with institutional criteria benchmarks
+ * @param profile Active student profile attributes
+ * @returns Complete MatchScoreBreakdown object with percentage and gap diagnoses
  */
 export function calculateMatchScore(
   scholarship: Scholarship,

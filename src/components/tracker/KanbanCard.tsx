@@ -20,6 +20,9 @@ interface KanbanCardProps {
 
 const STAGES: ApplicationStage[] = ['saved', 'preparing', 'submitted', 'under_review', 'result'];
 
+/**
+ * Application card within Kanban columns featuring stage transition buttons and task progress
+ */
 export const KanbanCard: React.FC<KanbanCardProps> = ({
   scholarship,
   application,

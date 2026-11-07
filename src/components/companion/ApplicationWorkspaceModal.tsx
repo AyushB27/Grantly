@@ -252,6 +252,9 @@ const WorkspaceContent: React.FC<{
   );
 };
 
+/**
+ * Guided application workspace modal containing document checklist and essay guidance
+ */
 export const ApplicationWorkspaceModal: React.FC<ApplicationWorkspaceModalProps> = ({
   scholarship,
   onClose,

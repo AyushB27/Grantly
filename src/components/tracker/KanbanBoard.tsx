@@ -57,6 +57,9 @@ const COLUMNS: {
   },
 ];
 
+/**
+ * 5-stage application tracking Kanban board with accessible status advance controls
+ */
 export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   onOpenWorkspace,
   onNavigateDiscovery,

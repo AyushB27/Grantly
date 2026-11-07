@@ -11,6 +11,9 @@ interface ComparisonModalProps {
   onSelectForDetails: (scholarshipId: string) => void;
 }
 
+/**
+ * Side-by-side comparison modal for evaluating multiple scholarships simultaneously
+ */
 export const ComparisonModal: React.FC<ComparisonModalProps> = ({
   isOpen,
   onClose,

@@ -68,6 +68,9 @@ const POPULAR_STATES = [
   'Punjab',
 ];
 
+/**
+ * In-dashboard multi-step modal dialog for modifying student profile and eligibility attributes
+ */
 export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClose }) => {
   const { profile, updateProfile } = useScholarshipContext();
 

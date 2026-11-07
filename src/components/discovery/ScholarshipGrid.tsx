@@ -10,6 +10,9 @@ interface ScholarshipGridProps {
   onOpenWorkspace: (scholarshipId: string) => void;
 }
 
+/**
+ * Responsive grid container rendering personalized scholarship cards with empty state recovery
+ */
 export const ScholarshipGrid: React.FC<ScholarshipGridProps> = ({
   scholarships,
   onOpenDetails,

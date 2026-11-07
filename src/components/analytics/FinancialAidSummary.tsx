@@ -13,6 +13,9 @@ interface FinancialAidSummaryProps {
   onNavigateDiscovery: () => void;
 }
 
+/**
+ * Financial aid analytics and college tuition fee gap calculator
+ */
 export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
   onNavigateDiscovery,
 }) => {

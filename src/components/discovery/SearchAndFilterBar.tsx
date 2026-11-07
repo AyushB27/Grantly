@@ -20,6 +20,9 @@ const CATEGORIES: ('All' | CategoryTag)[] = [
   'Single Girl Child',
 ];
 
+/**
+ * Interactive search, sort, and multi-facet filtering bar
+ */
 export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalResults }) => {
   const { filters, updateFilters, resetFilters } = useScholarshipContext();
 

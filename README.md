@@ -146,3 +146,195 @@ Grantly is pre-configured with [`vercel.json`](vercel.json) for zero-configurati
 
 Built for the **GRANTLY - Rethinking the Scholarship Experience** Frontend Hackathon Challenge.  
 Licensed under the [MIT License](LICENSE).
+
+
+---
+
+## 8. Project Structure & Directory Blueprint
+
+```
+Grantly/
+├── docs/                               # Comprehensive Technical Documentation
+│   ├── ACCESSIBILITY.md                # WCAG 2.1 AA/AAA compliance & ARIA landmarks
+│   ├── ACCESSIBILITY_AUDIT.md          # Visual contrast, focus states & screen readers
+│   ├── ARCHITECTURE.md                 # System decomposition & state data flow
+│   ├── DATA_MODEL.md                   # TypeScript interfaces & scholarship schemas
+│   ├── DESIGN_SYSTEM.md                # Dual-theme tokens & CSS variable architecture
+│   ├── DESIGN_THINKING.md              # 5-stage DT methodology & user personas
+│   ├── FEATURES_SPECIFICATION.md       # Functional requirements for all modules
+│   ├── MATCHING_LOGIC.md               # 5-factor scoring engine & gap diagnosis
+│   ├── SECURITY.md                     # Input sanitization & edge security policies
+│   ├── STAKEHOLDER_ANALYSIS.md         # Multi-sided ecosystem impact analysis
+│   └── USER_FLOWS.md                   # First-gen, mobile-first & final-year journeys
+├── public/                             # Static Assets & Metadata
+│   ├── favicon.svg                     # Grantly graduation cap SVG brand icon
+│   ├── manifest.webmanifest            # Progressive web application manifest
+│   └── robots.txt                      # Search crawler configuration
+├── src/                                # Application Source Code
+│   ├── components/                     # Modular React Components
+│   │   ├── analytics/                  # Financial aid summary & college fee calculator
+│   │   ├── auth/                       # Dual-mode authentication & 1-click test personas
+│   │   ├── common/                     # Reusable UI primitives (Badge, Modal, ErrorBoundary)
+│   │   ├── companion/                  # Guided application workspace & essay assistance
+│   │   ├── deadlines/                  # Urgency-partitioned deadlines radar view
+│   │   ├── details/                    # Comprehensive scholarship detail view & roadmaps
+│   │   ├── discovery/                  # Personalized feed, hero section, search & filters
+│   │   ├── gaps/                       # "Almost Eligible" gap analysis & fix advisor
+│   │   ├── landing/                    # Editorial showcase & interactive profile simulator
+│   │   ├── layout/                     # SaaS sidebar drawer & main dashboard layout
+│   │   ├── onboarding/                 # Full-screen multi-step onboarding wizard
+│   │   ├── profile/                    # In-dashboard profile modal & quick profile bar
+│   │   ├── stack/                      # Multi-scholarship planner & conflict detector
+│   │   ├── tracker/                    # 5-stage application Kanban progress tracker
+│   │   └── vault/                      # Reusable document vault & live readiness gauge
+│   ├── context/                        # Global Application State
+│   │   └── ScholarshipContext.tsx      # Unidirectional state store & action dispatchers
+│   ├── data/                           # Verified Seed & Benchmark Data
+│   │   └── mockScholarships.ts         # 20 real Indian central, state & CSR schemes
+│   ├── hooks/                          # Reusable Custom React Hooks
+│   │   ├── useLocalStorage.ts          # Resilient, type-safe browser storage hook
+│   │   └── useScholarships.ts          # Reactive matching, sorting, filtering & analytics
+│   ├── types/                          # Shared TypeScript Declarations
+│   │   └── scholarship.ts              # Core domain models, enums & interfaces
+│   ├── utils/                          # Pure Deterministic Utility Functions
+│   │   ├── formatters.ts               # INR currency, CGPA %, and deadline date math
+│   │   ├── matchCalculator.ts          # 5-factor scoring engine & gap diagnostic logic
+│   │   ├── security.ts                 # Input sanitization, safe JSON parsing & URL validation
+│   │   └── stackConflictDetector.ts   # Concurrency rules & government double-dipping flags
+│   ├── App.tsx                         # View router, modal orchestration & root dashboard
+│   ├── index.css                       # Tailwind CSS v4 directives & dual-theme tokens
+│   └── main.tsx                        # Application mount entry point & root ErrorBoundary
+├── .env.example                        # Documented environment configuration
+├── CHANGELOG.md                        # Standard Keep a Changelog version release notes
+├── CONTRIBUTING.md                     # Contributor workflow & coding quality standards
+├── package.json                        # Project dependencies, build scripts & metadata
+├── tsconfig.json                       # Strict TypeScript 5.x compiler configuration
+├── vercel.json                         # Edge headers (CSP, HSTS) & SPA rewrite rules
+└── vite.config.ts                      # Vite build pipeline & vendor chunk partitioning
+```
+
+---
+
+## 9. Comprehensive Scripts & Automation
+
+Grantly provides a comprehensive npm script toolchain for development, quality verification, and production release:
+
+| Command | Tool | Purpose |
+|---|---|---|
+| `npm run dev` | Vite | Spawns local hot-module-replacement (HMR) development server at `http://localhost:5173` |
+| `npm run build` | TypeScript + Vite | Executes strict type checking (`tsc`) and compiles minified production assets into `/dist` |
+| `npm run preview` | Vite Preview | Serves production build locally to test routing, asset loading, and CSP headers |
+| `npm run lint` | Oxlint | Runs lightning-fast static analysis (enforces 0 warnings and 0 errors standard) |
+| `npm test` | Vitest | Executes the complete automated test suite (formatters, match logic, security, hooks) |
+| `npm run test:ui` | Vitest UI | Launches interactive visual test runner in browser |
+| `npm run test:coverage` | Vitest Coverage | Generates statement, branch, and function code coverage reports |
+
+---
+
+## 10. Testing Strategy & Reliability
+
+Grantly enforces automated regression testing via [Vitest](https://vitest.dev/) to ensure mathematical precision and data sanitization:
+
+- **Mathematical Match Precision (`matchCalculator.test.ts`)**:
+  - Validates exact 30/25/15/20/10 weight allocation across CGPA, education level, category/gender, income ceiling, and domicile.
+  - Verifies tier boundary enforcement: High Match ($\ge 75\%$), Moderate Match ($50-74\%$), Low Match ($< 50\%$).
+  - Asserts near-miss diagnosis logic accurately flags shortfalls (e.g., `-0.2 CGPA`) with actionable remediation guidance.
+- **Security & Data Sanitization (`security.test.ts`)**:
+  - Tests HTML entity escaping against XSS vectors (`<script>`, `javascript:`, inline event handlers).
+  - Verifies safe URL sanitizer only allows valid `https://` protocols, neutralizing malformed or malicious links.
+  - Verifies `safeJsonParse` recovers gracefully from malformed or corrupted browser storage with zero crashes.
+- **Concurrency & Conflict Detection (`stackConflictDetector.test.ts`)**:
+  - Validates detection of mutual exclusion between Central NSP schemes and State Government DBT awards.
+  - Tests private CSR co-stacking allowances with government tuition fee waivers.
+- **State Hydration Resilience (`useLocalStorage.test.ts`)**:
+  - Verifies fault-tolerant fallback to initial state when encountering corrupt or unparseable stored JSON.
+  - Validates reactive synchronization and cross-tab window event propagation.
+
+Run all tests:
+```bash
+npm test
+```
+
+---
+
+## 11. Production Deployment & Edge Security Headers
+
+Grantly is deployed on the **Vercel Global Edge Network** with hardened HTTP response headers declared in [`vercel.json`](vercel.json):
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self';" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 12. Browser Support & Offline Capability
+
+Grantly is engineered for broad compatibility across modern desktop and mobile browsers, ensuring students on low-cost Android smartphones experience fluid performance:
+
+| Browser | Minimum Version | Supported Features |
+|---|:---:|---|
+| **Google Chrome / Chromium** | 90+ | Full features, CSS container queries, SVG favicons, Web Storage |
+| **Mozilla Firefox** | 90+ | Full features, strict CSS variable theming, focus-visible |
+| **Apple Safari / iOS Safari** | 15+ | Full features, WebKit momentum scrolling, safe-area insets |
+| **Microsoft Edge** | 90+ | Full features, enterprise edge rendering |
+| **Android Webview / Chrome** | 90+ | Mobile touch gestures, bottom drawers, responsive card layouts |
+
+- **Offline-First Persistence**: Profile data, application statuses, and document checklists persist in browser `localStorage`. Students can review saved applications and draft essays without active internet connectivity.
+
+---
+
+## 13. Security & Local Privacy Architecture
+
+- **Zero Remote Exfiltration**: Grantly stores all student profiles, family income records, and academic marksheets exclusively within the client browser. No personal identifiable information (PII) is transmitted to third-party tracking servers.
+- **Zero Insecure DOM APIs**: Codebase strictly forbids `dangerouslySetInnerHTML`, `innerHTML`, `eval()`, or `new Function()`.
+- **String Trimming & Length Limits**: All user inputs undergo length constraints and automated whitespace sanitization.
+- **Safe External Navigation**: All outbound links to government portals (NSP, MAHADBT, SSP) enforce `target="_blank" rel="noopener noreferrer"` and validate `https://` protocol compliance.
+
+---
+
+## 14. Accessibility (WCAG 2.1 AA Compliance)
+
+- **Landmark Navigation**: Clear semantic structuring using `<header>`, `<nav>`, `<main>`, `<aside>`, and `<footer>` tags.
+- **Skip-to-Content Link**: Dedicated `<SkipLink />` at document root allows keyboard-only users to bypass navigation straight to `#main-content`.
+- **Modal Focus Trapping**: Modals trap Tab/Shift+Tab focus cycles and listen to the `Escape` key for dismiss actions, restoring focus to invoking triggers upon exit.
+- **Screen Reader Announcements**: Dynamic updates (filters, profile adjustments, status transitions) use polite ARIA live regions (`aria-live="polite"`).
+- **Reduced Motion Support**: Honoring the user's OS-level motion preference through `@media (prefers-reduced-motion: reduce)` rules that automatically disable animations and transitions.
+
+---
+
+## 15. Strategic Roadmap
+
+- [x] **v1.0.0 (Current Release)**: 
+  - Deterministic 5-factor eligibility matching engine.
+  - "Almost Eligible" shortfall diagnostic advisor.
+  - Reusable document vault with live readiness score.
+  - 5-stage application tracking Kanban board.
+  - Deadlines radar view partitioned by urgency.
+  - Multi-scholarship concurrency conflict detector.
+  - High-contrast Dual-Theme Design System (Midnight Slate / Crisp Light).
+- [ ] **v1.1.0 (Upcoming)**:
+  - Multilingual localization supporting Hindi, Tamil, Telugu, Marathi, and Bengali.
+  - Government DigiLocker OAuth integration for 1-click verified document imports.
+  - Automated WhatsApp and SMS notification reminders for closing application deadlines.
+  - Exportable institutional scholarship verification report for college financial aid offices.

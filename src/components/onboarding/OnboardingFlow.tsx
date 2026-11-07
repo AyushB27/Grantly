@@ -92,6 +92,9 @@ const ESSENTIAL_DOCUMENTS = [
   { id: 'doc-5', name: 'College Bonafide Proof & Fee Receipt', tag: 'Institutional' },
 ];
 
+/**
+ * Full-screen guided onboarding wizard flow for initializing student profile and academic criteria
+ */
 export const OnboardingFlow: React.FC = () => {
   const { profile, updateProfile, setCurrentView, scholarships } = useScholarshipContext();
 

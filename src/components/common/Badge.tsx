@@ -8,6 +8,9 @@ interface BadgeProps {
   className?: string;
 }
 
+/**
+ * Accessible colored badge primitive for categories, urgency flags, and match tiers
+ */
 export const Badge: React.FC<BadgeProps> = ({
   children,
   variant = 'neutral',

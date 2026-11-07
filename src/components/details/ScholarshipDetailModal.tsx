@@ -26,6 +26,9 @@ interface ScholarshipDetailModalProps {
   onOpenWorkspace: (scholarshipId: string) => void;
 }
 
+/**
+ * Scholarship detail view modal with plain-English summary, 3-way criteria checklist, and sequential roadmap
+ */
 export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
   scholarship,
   onClose,

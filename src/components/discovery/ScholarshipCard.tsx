@@ -22,6 +22,9 @@ interface ScholarshipCardProps {
   onOpenWorkspace: (scholarshipId: string) => void;
 }
 
+/**
+ * Interactive scholarship card displaying match percentage, "Why you match", and effort estimates
+ */
 export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   scholarship,
   onOpenDetails,

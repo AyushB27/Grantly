@@ -8,6 +8,9 @@ interface HeroSectionProps {
   totalGrantsCount: number;
 }
 
+/**
+ * Dashboard discovery hero banner displaying total matched funding pool and readiness gauge
+ */
 export const HeroSection: React.FC<HeroSectionProps> = ({
   totalAvailableFunding,
   totalGrantsCount,

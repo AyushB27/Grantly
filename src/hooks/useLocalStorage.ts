@@ -1,3 +1,9 @@
+/**
+ * Resilient Browser LocalStorage Persistence Hook
+ * Provides fault-tolerant hydration, defensive JSON parsing, and schema validation
+ * for client-side profile, application tracking, and document vault records.
+ */
+
 import { useState, useEffect } from 'react';
 import { safeJsonParse } from '../utils/security';
 

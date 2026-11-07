@@ -69,6 +69,9 @@ const FEATURED_SCHEMES: SchemePreview[] = [
   },
 ];
 
+/**
+ * Editorial landing page showcase with interactive scholarship eligibility simulator
+ */
 export const LandingPage: React.FC = () => {
   const { setCurrentView, scholarships, theme, toggleTheme } = useScholarshipContext();
 

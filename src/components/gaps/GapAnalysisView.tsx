@@ -18,6 +18,9 @@ interface GapAnalysisViewProps {
   onOpenWorkspace: (scholarshipId: string) => void;
 }
 
+/**
+ * "Almost Eligible" gap analysis dashboard view detailing shortfall diagnoses, remedies, and matched alternatives
+ */
 export const GapAnalysisView: React.FC<GapAnalysisViewProps> = ({
   onOpenDetails,
   onOpenWorkspace,

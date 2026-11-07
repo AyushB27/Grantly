@@ -5,6 +5,9 @@ import { CheckCircle2, Save, RotateCcw } from 'lucide-react';
 import { DEFAULT_STUDENT_PROFILE } from '../../data/mockScholarships';
 import { sanitizeProfileStrings } from '../../utils/security';
 
+/**
+ * Comprehensive student profile settings view with input sanitization and form validation
+ */
 export const StudentProfileView: React.FC = () => {
   const { profile, updateProfile } = useScholarshipContext();
   const [savedAlert, setSavedAlert] = useState(false);

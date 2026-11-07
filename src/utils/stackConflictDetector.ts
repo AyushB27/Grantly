@@ -1,5 +1,14 @@
+/**
+ * Multi-Grant Concurrency and Stack Conflict Detection Utilities
+ * Evaluates dual-benefit eligibility rules across Indian Central Govt (NSP),
+ * State Govt DBT schemes, and private CSR trusts to prevent disqualifications.
+ */
+
 import type { Scholarship } from '../types/scholarship';
 
+/**
+ * Concurrency conflict record detailing competing awards and policy rationale
+ */
 export interface StackConflict {
   grantA: string;
   grantB: string;
@@ -9,6 +18,9 @@ export interface StackConflict {
 /**
  * Pure evaluation function that detects legal and policy concurrency conflicts
  * across a set of simultaneously selected scholarships.
+ * 
+ * @param scholarships Array of scholarship models selected in the planner
+ * @returns Array of detected concurrency conflicts with institutional reasons
  */
 export function detectStackConflicts(scholarships: Scholarship[]): StackConflict[] {
   const conflicts: StackConflict[] = [];

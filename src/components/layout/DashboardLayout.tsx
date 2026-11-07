@@ -45,6 +45,9 @@ const SECTION_HEADERS: Record<ActiveTab, { title: string; subtitle: string }> = 
   },
 };
 
+/**
+ * Top-level dashboard layout shell containing persistent sidebar, header, and main content landmark
+ */
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   onOpenComparison,
