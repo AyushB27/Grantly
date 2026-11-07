@@ -26,16 +26,16 @@ In India, educational financial assistance exists in abundance, yet eligible stu
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                        GRANTLY COMPREHENSIVE FEATURE BLUEPRINT                         │
 ├────────────────────────┬────────────────────────┬─────────────────────┬────────────────┤
-│ F1. SMART ONBOARDING   │ F2. PERSONALIZED FEED  │ F3. DETAIL VIEW     │ F4. GAP REPAIR │
+│ 1. SMART ONBOARDING    │ 2. PERSONALIZED FEED   │ 3. DETAIL VIEW      │ 4. GAP REPAIR  │
 │ • Multi-step Profile   │ • 20 Verified Schemes  │ • Plain-English     │ • "Almost      │
 │ • Inline Validation    │ • Mandatory "Why you   │   Breakdown         │   Eligible"    │
 │ • Local Persistence    │   match" explanation   │ • 3-Way Checklist   │ • Exact Short- │
 │ • Zero Duplicate Form  │ • Effort Estimates (⚡)│ • 3-5 Step Roadmap  │   fall & Fix   │
 ├────────────────────────┼────────────────────────┼─────────────────────┼────────────────┤
-│ F5. DOCUMENT VAULT     │ F6. 5-STAGE TRACKER    │ F7. DEADLINES RADAR │ STRETCH STACK  │
+│ 5. DOCUMENT VAULT      │ 6. PROGRESS TRACKER    │ 7. DEADLINES RADAR  │ STRETCH STACK  │
 │ • Reusable Paperwork   │ • Saved → Preparing    │ • Overdue Partition │ • Multi-grant  │
 │ • Live Readiness %     │ • Submitted → Review   │ • This Week (0-7d)  │   Concurrency  │
-│ • Expiry Tracking      │ • Result (Award/Regret)│ • Upcoming Portals  │ • Conflict Flag│
+│ • Expiry Tracking      │ • Results (Won/Closed) │ • Upcoming Portals  │ • Conflict Flag│
 └────────────────────────┴────────────────────────┴─────────────────────┴────────────────┘
 ```
 
@@ -43,16 +43,16 @@ In India, educational financial assistance exists in abundance, yet eligible stu
 
 ## 2. Feature-by-Feature Implementation Matrix
 
-| Code | Feature Name | Problem Statement Requirement | Grantly Implementation |
+| Module | Feature Name | Problem Statement Requirement | Grantly Implementation |
 |---|---|---|---|
-| **F1** | **Smart Onboarding Profile** | Multi-step form: course, year, category, income band, region, marks. Saved locally, zero refill. | [`OnboardingModal.tsx`](src/components/profile/OnboardingModal.tsx) with 4 validated steps, CGPA/percentage sync, EWS brackets, state domicile, and automatic recalculation. |
-| **F2** | **Personalized Scholarship Feed** | Title, provider, amount in INR (₹), deadline, effort estimate, match score, and mandatory **"Why you match" line**. | [`ScholarshipCard.tsx`](src/components/discovery/ScholarshipCard.tsx) with verified badges, effort estimates (`⚡ ~35 mins`), and instant "Why you match" rationales. |
-| **F3** | **Scholarship Detail View** | Plain-language summary, 3-way checklist (**met**, **unmet**, **partial**), required docs, 3–5 step process, verified badge, official link. | [`ScholarshipDetailModal.tsx`](src/components/details/ScholarshipDetailModal.tsx) with zero-legalese summary, color-coded criteria matrix, and sequential roadmap. |
-| **F4** | **"Almost Eligible" Gap Analysis** | For near-miss scholarships, show exact shortfall (*"0.3 CGPA below cutoff"*), suggest fix, surface matching alternatives. *(Signature Feature)* | [`GapAnalysisView.tsx`](src/components/gaps/GapAnalysisView.tsx) with diagnosis cards, remedy actions, and surfaced alternatives student already qualifies for. |
-| **F5** | **Document Vault & Readiness** | Checklist of common documents with uploaded, missing, expiring status. Reused across apps. Live **Application Readiness %**. *(Signature Feature)* | [`DocumentVaultView.tsx`](src/components/vault/DocumentVaultView.tsx) with live circular/bar readiness gauge, category filters, and status toggles. |
-| **F6** | **Application Tracker** | 5-stage board: **Saved → Preparing → Submitted → Under Review → Result**. Accessible controls, checklist progress, outcome tracking. | [`KanbanBoard.tsx`](src/components/tracker/KanbanBoard.tsx) and [`KanbanCard.tsx`](src/components/tracker/KanbanCard.tsx) with 5 columns, stage chevrons, and JSON export. |
-| **F7** | **Deadlines View** | Upcoming deadlines sorted by urgency with color/text badges. Clear separation: **overdue**, **this week**, and **later**. | [`DeadlinesRadarView.tsx`](src/components/deadlines/DeadlinesRadarView.tsx) partitioned into 3 urgency sections with live day countdowns. |
-| **Stretch** | **Scholarship Stack Planner** | Combine scholarships, flag concurrency conflicts (e.g. NSP Central vs State DBT), calculate net funding and out-of-pocket tuition. | [`ScholarshipStackPlanner.tsx`](src/components/stack/ScholarshipStackPlanner.tsx) with auto-conflict detection for government double-dipping rules. |
+| **1** | **Smart Onboarding Profile** | Multi-step form: course, year, category, income band, region, marks. Saved locally, zero refill. | [`OnboardingModal.tsx`](src/components/profile/OnboardingModal.tsx) with 4 validated steps, CGPA/percentage sync, EWS brackets, state domicile, and automatic recalculation. |
+| **2** | **Personalized Scholarship Feed** | Title, provider, amount in INR (₹), deadline, effort estimate, match score, and mandatory **"Why you match" line**. | [`ScholarshipCard.tsx`](src/components/discovery/ScholarshipCard.tsx) with verified badges, effort estimates (`⚡ ~35 mins`), and instant "Why you match" rationales. |
+| **3** | **Scholarship Detail View** | Plain-language summary, 3-way checklist (**met**, **unmet**, **partial**), required docs, 3–5 step process, verified badge, official link. | [`ScholarshipDetailModal.tsx`](src/components/details/ScholarshipDetailModal.tsx) with zero-legalese summary, color-coded criteria matrix, and sequential roadmap. |
+| **4** | **"Almost Eligible" Gap Advisor** | For near-miss scholarships, show exact shortfall (*"0.3 CGPA below cutoff"*), suggest fix, surface matching alternatives. *(Signature Feature)* | [`GapAnalysisView.tsx`](src/components/gaps/GapAnalysisView.tsx) with diagnosis cards, remedy actions, and surfaced alternatives student already qualifies for. |
+| **5** | **Document Vault & Readiness** | Checklist of common documents with uploaded, missing, expiring status. Reused across apps. Live **Application Readiness %**. *(Signature Feature)* | [`DocumentVaultView.tsx`](src/components/vault/DocumentVaultView.tsx) with live circular/bar readiness gauge, category filters, and status toggles. |
+| **6** | **Application Progress Tracker** | 5-stage board: **Saved → Preparing Docs → Submitted → Under Review → Awarded / Results**. Accessible controls, checklist progress, outcome tracking. | [`KanbanBoard.tsx`](src/components/tracker/KanbanBoard.tsx) and [`KanbanCard.tsx`](src/components/tracker/KanbanCard.tsx) with 5 columns, uniform `h-[230px]` card alignment, and JSON export. |
+| **7** | **Deadlines View** | Upcoming deadlines sorted by urgency with color/text badges. Clear separation: **overdue**, **this week**, and **later**. | [`DeadlinesRadarView.tsx`](src/components/deadlines/DeadlinesRadarView.tsx) partitioned into 3 urgency sections with live day countdowns. |
+| **Stretch** | **Multi-Scholarship Planner** | Combine scholarships, flag concurrency conflicts (e.g. NSP Central vs State DBT), calculate net funding and out-of-pocket tuition. | [`ScholarshipStackPlanner.tsx`](src/components/stack/ScholarshipStackPlanner.tsx) with auto-conflict detection for government double-dipping rules. |
 
 ---
 
@@ -84,10 +84,12 @@ Grantly features an instant dual-theme engine and modern institutional dashboard
 
 ## 5. Technical Documentation Index (`docs/`)
 
-Explore the dedicated documentation files:
-- 📖 [**Architecture & Engineering Blueprint**](docs/ARCHITECTURE.md): System design, pure functional match engine, state flow.
-- 📋 [**Feature Specifications (F1–F7)**](docs/FEATURES_SPECIFICATION.md): Functional and algorithmic specifications for every prompt pillar.
-- 🎨 [**Design System Specification**](docs/DESIGN_SYSTEM.md): StockFolio color tokens, typography, button classes, breakpoints.
+Explore the dedicated, comprehensive documentation suite:
+- 🏗️ [**Architecture & Engineering Blueprint**](docs/ARCHITECTURE.md): System decomposition, deterministic match engine, reactive state flow, Mermaid diagrams, and edge scaling.
+- 💡 [**Design Thinking (DT) Approach**](docs/DESIGN_THINKING.md): Empathize, Define, Ideate, Prototype, Test methodology, user personas, HMW statements, and iterative UX learnings.
+- 🤝 [**Stakeholder Analysis**](docs/STAKEHOLDER_ANALYSIS.md): Multi-sided ecosystem analysis covering Students, Parents, College FinAid/HODs, Govt Portals (NSP/DBT), CSR Trusts, and NEP 2020 alignment.
+- 📋 [**Functional Features Specification**](docs/FEATURES_SPECIFICATION.md): Deep-dive specifications for all platform modules and user workflows.
+- 🎨 [**Design System Specification**](docs/DESIGN_SYSTEM.md): Dual-theme tokens, CSS variables, typography, high-contrast accessible styling.
 - 🗄️ [**Data Model & Schemas**](docs/DATA_MODEL.md): TypeScript interfaces, JSON schemas, 20 verified Indian schemes.
 - ♿ [**Accessibility & WCAG 2.1 AA Audit**](docs/ACCESSIBILITY_AUDIT.md): ARIA landmark hierarchy, contrast audit, keyboard shortcuts.
 - 🗺️ [**Key User Flows & Personas**](docs/USER_FLOWS.md): First-generation, mobile-first, and final-year student journeys.
