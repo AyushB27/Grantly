@@ -543,3 +543,34 @@ html:not([data-theme="light"]) option {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-card-hover);
 }
+
+/* Print Stylesheet: Clean One-Page Aid Plan & Summary Output */
+@media print {
+  aside,
+  nav,
+  header,
+  footer,
+  button,
+  .btn-panel,
+  .btn-mint,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  body,
+  main,
+  #main-content {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  article,
+  section {
+    break-inside: avoid;
+    box-shadow: none !important;
+  }
+}
