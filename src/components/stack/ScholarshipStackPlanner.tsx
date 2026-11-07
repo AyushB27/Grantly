@@ -1,6 +1,7 @@
 import React from 'react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
 import { formatCurrency } from '../../utils/formatters';
+import { detectStackConflicts } from '../../utils/stackConflictDetector';
 import {
   Layers,
   AlertTriangle,
@@ -23,40 +24,7 @@ export const ScholarshipStackPlanner: React.FC = () => {
   const unstackedScholarships = scholarships.filter((s) => !stackScholarshipIds.includes(s.id));
 
   // Detect conflicts between any pair of stacked scholarships
-  const detectedConflicts: {
-    grantA: string;
-    grantB: string;
-    reason: string;
-  }[] = [];
-
-  for (let i = 0; i < stackedScholarships.length; i++) {
-    for (let j = i + 1; j < stackedScholarships.length; j++) {
-      const a = stackedScholarships[i];
-      const b = stackedScholarships[j];
-
-      const aConflictsWithB = a.stackConflicts?.includes(b.id);
-      const bConflictsWithA = b.stackConflicts?.includes(a.id);
-
-      // Central Govt concurrency rule check
-      const bothCentral =
-        a.organizationType === 'Central Govt (NSP)' && b.organizationType === 'Central Govt (NSP)';
-      const centralAndState =
-        (a.organizationType === 'Central Govt (NSP)' && b.organizationType === 'State Govt') ||
-        (a.organizationType === 'State Govt' && b.organizationType === 'Central Govt (NSP)');
-
-      if (aConflictsWithB || bConflictsWithA || bothCentral || centralAndState) {
-        detectedConflicts.push({
-          grantA: a.title,
-          grantB: b.title,
-          reason: bothCentral
-            ? 'Concurrent Central Govt grants prohibited under NSP guidelines.'
-            : centralAndState
-            ? 'State DBT and Central NSP schemes generally cannot be drawn together for tuition.'
-            : 'Explicit dual-benefit restriction defined by the granting authorities.',
-        });
-      }
-    }
-  }
+  const detectedConflicts = detectStackConflicts(stackedScholarships);
 
   const totalStackedFunding = stackedScholarships.reduce((acc, s) => acc + s.amount, 0);
   const targetTuition = profile.targetAnnualFees || 120000;
