@@ -125,7 +125,7 @@ export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ c
     ['ind-grant-01', 'ind-grant-03']
   );
 
-  const [theme, setThemeState] = useLocalStorage<AppTheme>('grantly_theme_v2', 'dark');
+  const [theme, setThemeState] = useLocalStorage<AppTheme>('grantly_theme_v3', 'light');
   const [currentView, setCurrentView] = useLocalStorage<AppView>('grantly_view_v2', 'landing');
   const [currentUser, setCurrentUser] = useLocalStorage<UserSession | null>(
     'grantly_current_user_v2',

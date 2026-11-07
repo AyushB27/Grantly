@@ -157,12 +157,12 @@ export const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090b0b] text-[#edf1ec] flex flex-col selection:bg-[#a9f46b] selection:text-[#090b0b]">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)] flex flex-col selection:bg-emerald-500/20 transition-colors">
       {/* Top Header */}
-      <header className="h-16 border-b border-[#222827] bg-[#090b0b]/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between">
+      <header className="h-16 border-b border-[var(--border-card)] bg-[var(--bg-app)]/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between transition-colors">
         <button
           onClick={() => setCurrentView('landing')}
-          className="flex items-center gap-2 text-xs font-mono font-medium text-[#89918c] hover:text-[#edf1ec] transition-colors p-2 rounded-xl hover:bg-[#141818]"
+          className="flex items-center gap-2 text-xs font-mono font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-2 rounded-xl hover:bg-[var(--bg-card-hover)] cursor-pointer"
           aria-label="Back to landing page"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -171,19 +171,19 @@ export const AuthPage: React.FC = () => {
 
         {/* Brand Logo */}
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b]">
+          <div className="w-7 h-7 rounded-lg bg-[var(--bg-card)] border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
             <GraduationCap className="w-4 h-4" />
           </div>
-          <span className="font-black text-base tracking-tight text-[#edf1ec]">GRANTLY</span>
+          <span className="font-black text-base tracking-tight text-[var(--text-primary)]">GRANTLY</span>
         </div>
 
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl bg-[#141818] border border-[#222827] text-[#89918c] hover:text-[#a9f46b] transition-colors"
+          className="p-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
           aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
         >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-500" />}
         </button>
       </header>
 

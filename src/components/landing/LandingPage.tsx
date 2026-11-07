@@ -120,20 +120,20 @@ export const LandingPage: React.FC = () => {
   }, [cgpa, category]);
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] flex flex-col selection:bg-emerald-500/20 font-sans">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)] flex flex-col selection:bg-emerald-500/20 font-sans transition-colors">
       {/* 1. Sleek Editorial Header (No Nav Links, Only Theme & Sign-in) */}
-      <header className="sticky top-0 z-40 h-16 border-b border-[#1e293b] bg-[#0b0f19]/90 backdrop-blur-md px-4 sm:px-8">
+      <header className="sticky top-0 z-40 h-16 border-b border-[var(--border-card)] bg-[var(--bg-app)]/90 backdrop-blur-md px-4 sm:px-8 transition-colors">
         <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
           {/* Brand Mark */}
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#111827] border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-lg bg-[var(--bg-card)] border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
               <GraduationCap className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-base tracking-tight text-[#f8fafc] block leading-tight">
+              <span className="font-bold text-base tracking-tight text-[var(--text-primary)] block leading-tight">
                 GRANTLY
               </span>
-              <span className="text-[10px] font-sans font-medium text-emerald-400 block tracking-wide">
+              <span className="text-[10px] font-sans font-medium text-emerald-600 dark:text-emerald-400 block tracking-wide">
                 Scholarship Co-Pilot
               </span>
             </div>
@@ -143,7 +143,7 @@ export const LandingPage: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-[#111827] border border-[#1e293b] text-[#94a3b8] hover:text-[#f8fafc] transition-colors cursor-pointer"
+              className="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer shadow-xs"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title="Toggle theme"
             >
@@ -152,7 +152,7 @@ export const LandingPage: React.FC = () => {
 
             <button
               onClick={handleGoToAuth}
-              className="btn-mint px-4 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+              className="btn-mint px-4 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <span>Sign In / Register</span>
               <ArrowRight className="w-3.5 h-3.5" />

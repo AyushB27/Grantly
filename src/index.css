@@ -6,30 +6,8 @@
    Strict High-Contrast Contrast Ratios in Both Dark & Light Modes
    ------------------------------------------------------------- */
 
-/* Dark Mode Tokens (Default when data-theme is dark or unset) */
+/* Light Mode Tokens (Default in :root and when data-theme is light) */
 :root,
-[data-theme="dark"],
-.dark {
-  --bg-app: #0b0f19; /* Executive Deep Midnight Slate */
-  --bg-card: #111827; /* Deep Slate 900 */
-  --bg-card-hover: #162032; /* Slate 800 */
-  --bg-card-subtle: #1e293b;
-  --border-card: #1e293b; /* Crisp Border */
-  --border-card-hover: #334155;
-  --text-primary: #f8fafc; /* Crisp Slate 50 */
-  --text-secondary: #94a3b8; /* Slate 400 */
-  --text-muted: #64748b; /* Slate 500 */
-  --brand-emerald: #10b981; /* High-trust Emerald */
-  --brand-emerald-hover: #059669;
-  --brand-emerald-subtle: rgba(16, 185, 129, 0.12);
-  --brand-blue: #38bdf8;
-  --brand-amber: #f59e0b;
-  --brand-red: #ef4444;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'DM Mono', monospace;
-}
-
-/* Light Mode Tokens (Active when data-theme="light") */
 [data-theme="light"],
 .light {
   --bg-app: #f8fafc; /* Crisp Clean Slate 50 */
@@ -47,6 +25,28 @@
   --brand-blue: #0284c7;
   --brand-amber: #d97706;
   --brand-red: #dc2626;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+/* Dark Mode Tokens (Active when data-theme="dark") */
+[data-theme="dark"],
+.dark {
+  --bg-app: #0b0f19; /* Executive Deep Midnight Slate */
+  --bg-card: #111827; /* Deep Slate 900 */
+  --bg-card-hover: #162032; /* Slate 800 */
+  --bg-card-subtle: #1e293b;
+  --border-card: #1e293b; /* Crisp Border */
+  --border-card-hover: #334155;
+  --text-primary: #f8fafc; /* Crisp Slate 50 */
+  --text-secondary: #94a3b8; /* Slate 400 */
+  --text-muted: #64748b; /* Slate 500 */
+  --brand-emerald: #10b981; /* High-trust Emerald */
+  --brand-emerald-hover: #059669;
+  --brand-emerald-subtle: rgba(16, 185, 129, 0.12);
+  --brand-blue: #38bdf8;
+  --brand-amber: #f59e0b;
+  --brand-red: #ef4444;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'DM Mono', monospace;
 }
@@ -129,96 +129,80 @@ body {
    DARK THEME SPECIFIC MAP (NO :root COLLISION)
    ------------------------------------------------------------- */
 [data-theme="dark"] .bg-\[\#090b0b\],
-.dark .bg-\[\#090b0b\],
-html:not([data-theme="light"]) .bg-\[\#090b0b\] {
+.dark .bg-\[\#090b0b\] {
   background-color: #0b0f19 !important;
 }
 
 [data-theme="dark"] .bg-\[\#101313\],
-.dark .bg-\[\#101313\],
-html:not([data-theme="light"]) .bg-\[\#101313\] {
+.dark .bg-\[\#101313\] {
   background-color: #111827 !important;
 }
 
 [data-theme="dark"] .bg-\[\#141818\],
-.dark .bg-\[\#141818\],
-html:not([data-theme="light"]) .bg-\[\#141818\] {
+.dark .bg-\[\#141818\] {
   background-color: #162032 !important;
 }
 
 [data-theme="dark"] .bg-\[\#161c1b\],
-.dark .bg-\[\#161c1b\],
-html:not([data-theme="light"]) .bg-\[\#161c1b\] {
+.dark .bg-\[\#161c1b\] {
   background-color: #1e293b !important;
 }
 
 [data-theme="dark"] .bg-\[\#0d1010\],
-.dark .bg-\[\#0d1010\],
-html:not([data-theme="light"]) .bg-\[\#0d1010\] {
+.dark .bg-\[\#0d1010\] {
   background-color: #0b0f19 !important;
 }
 
 [data-theme="dark"] .border-\[\#222827\],
-.dark .border-\[\#222827\],
-html:not([data-theme="light"]) .border-\[\#222827\] {
+.dark .border-\[\#222827\] {
   border-color: #1e293b !important;
 }
 
 [data-theme="dark"] .border-\[\#38423f\],
 .dark .border-\[\#38423f\],
-html:not([data-theme="light"]) .border-\[\#38423f\],
 [data-theme="dark"] .border-\[\#334155\],
-.dark .border-\[\#334155\],
-html:not([data-theme="light"]) .border-\[\#334155\] {
+.dark .border-\[\#334155\] {
   border-color: #334155 !important;
 }
 
 [data-theme="dark"] .border-\[\#1e293b\],
-.dark .border-\[\#1e293b\],
-html:not([data-theme="light"]) .border-\[\#1e293b\] {
+.dark .border-\[\#1e293b\] {
   border-color: #1e293b !important;
 }
 
 [data-theme="dark"] .bg-\[\#a9f46b\],
-.dark .bg-\[\#a9f46b\],
-html:not([data-theme="light"]) .bg-\[\#a9f46b\] {
+.dark .bg-\[\#a9f46b\] {
   background-color: #10b981 !important;
   color: #ffffff !important;
 }
 
 [data-theme="dark"] .bg-\[\#a9f46b\].text-\[\#090b0b\],
-.dark .bg-\[\#a9f46b\].text-\[\#090b0b\],
-html:not([data-theme="light"]) .bg-\[\#a9f46b\].text-\[\#090b0b\] {
+.dark .bg-\[\#a9f46b\].text-\[\#090b0b\] {
   color: #ffffff !important;
 }
 
 [data-theme="dark"] .text-\[\#a9f46b\],
-.dark .text-\[\#a9f46b\],
-html:not([data-theme="light"]) .text-\[\#a9f46b\] {
+.dark .text-\[\#a9f46b\] {
   color: #10b981 !important;
 }
 
 [data-theme="dark"] .border-\[\#a9f46b\],
-.dark .border-\[\#a9f46b\],
-html:not([data-theme="light"]) .border-\[\#a9f46b\] {
+.dark .border-\[\#a9f46b\] {
   border-color: #10b981 !important;
 }
 
 [data-theme="dark"] .text-\[\#edf1ec\],
-.dark .text-\[\#edf1ec\],
-html:not([data-theme="light"]) .text-\[\#edf1ec\] {
+.dark .text-\[\#edf1ec\] {
   color: #f8fafc !important;
 }
 
 [data-theme="dark"] .text-\[\#89918c\],
-.dark .text-\[\#89918c\],
-html:not([data-theme="light"]) .text-\[\#89918c\] {
+.dark .text-\[\#89918c\] {
   color: #94a3b8 !important;
 }
 
 [data-theme="dark"] .text-\[\#525c57\],
-.dark .text-\[\#525c57\],
-html:not([data-theme="light"]) .text-\[\#525c57\] {
+.dark .text-\[\#525c57\] {
   color: #64748b !important;
 }
 
@@ -248,6 +232,13 @@ html:not([data-theme="light"]) .text-\[\#525c57\] {
 [data-theme="light"] .bg-\[\#111827\]\/90,
 .light .bg-\[\#111827\]\/90 {
   background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="light"] .bg-\[\#0b0f19\]\/90,
+.light .bg-\[\#0b0f19\]\/90,
+[data-theme="light"] .bg-\[\#090b0b\]\/80,
+.light .bg-\[\#090b0b\]\/80 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
 }
 
 [data-theme="light"] .bg-\[\#141818\],

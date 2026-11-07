@@ -194,23 +194,23 @@ export const OnboardingFlow: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090b0b] text-[#edf1ec] flex flex-col selection:bg-[#a9f46b] selection:text-[#090b0b]">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-primary)] flex flex-col selection:bg-emerald-500/20 transition-colors">
       {/* Top Header */}
-      <header className="h-16 border-b border-[#222827] bg-[#090b0b]/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between">
+      <header className="h-16 border-b border-[var(--border-card)] bg-[var(--bg-app)]/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-[#141818] border border-[#222827] flex items-center justify-center text-[#a9f46b]">
+          <div className="w-7 h-7 rounded-lg bg-[var(--bg-card)] border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
             <GraduationCap className="w-4 h-4" />
           </div>
           <div>
-            <span className="font-black text-sm tracking-tight text-[#edf1ec] block">GRANTLY</span>
-            <span className="text-[10px] font-mono text-[#a9f46b] block">STUDENT ONBOARDING</span>
+            <span className="font-black text-sm tracking-tight text-[var(--text-primary)] block">GRANTLY</span>
+            <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 block">STUDENT ONBOARDING</span>
           </div>
         </div>
 
         {/* Skip to Dashboard CTA */}
         <button
           onClick={handleLaunchDashboard}
-          className="text-xs font-mono text-[#89918c] hover:text-[#a9f46b] transition-colors p-2 rounded-xl hover:bg-[#141818]"
+          className="text-xs font-mono text-[var(--text-secondary)] hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors p-2 rounded-xl hover:bg-[var(--bg-card-hover)] cursor-pointer"
         >
           Skip to Dashboard →
         </button>

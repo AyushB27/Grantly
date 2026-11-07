@@ -111,18 +111,18 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#111827] border-r border-[#1e293b] text-[#f8fafc] w-64 lg:w-72 selection:bg-emerald-500/20">
+    <div className="flex flex-col h-full bg-[var(--bg-card)] border-r border-[var(--border-card)] text-[var(--text-primary)] w-64 lg:w-72 selection:bg-emerald-500/20 transition-colors">
       {/* 1. Header: Branding & Portal Title */}
-      <div className="p-5 border-b border-[#1e293b] flex items-center justify-between">
+      <div className="p-5 border-b border-[var(--border-card)] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#162032] border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-sm">
+          <div className="w-9 h-9 rounded-xl bg-[var(--bg-card-hover)] border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
             <GraduationCap className="w-5 h-5" />
           </div>
           <div>
-            <span className="font-extrabold text-base tracking-tight text-[#f8fafc] block leading-tight">
+            <span className="font-extrabold text-base tracking-tight text-[var(--text-primary)] block leading-tight">
               GRANTLY
             </span>
-            <span className="text-[10px] font-sans font-medium text-emerald-400 block tracking-wide">
+            <span className="text-[10px] font-sans font-medium text-emerald-600 dark:text-emerald-400 block tracking-wide">
               Scholarship Portal
             </span>
           </div>
@@ -132,7 +132,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         {onMobileClose && (
           <button
             onClick={onMobileClose}
-            className="md:hidden p-1.5 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#162032]"
+            className="md:hidden p-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]"
             aria-label="Close navigation sidebar"
           >
             <X className="w-5 h-5" />
@@ -242,27 +242,27 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       </div>
 
       {/* 3. Footer: User Profile & Utility Bar */}
-      <div className="p-3 border-t border-[#1e293b] space-y-2 bg-[#0b0f19]">
+      <div className="p-3 border-t border-[var(--border-card)] space-y-2 bg-[var(--bg-card-subtle)]">
         {/* User Card */}
         <div
           onClick={handleEditProfile}
-          className="p-2.5 rounded-xl bg-[#111827] border border-[#1e293b] hover:border-emerald-500/30 flex items-center justify-between cursor-pointer transition-all group"
+          className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-card)] hover:border-emerald-500/30 flex items-center justify-between cursor-pointer transition-all group shadow-xs"
           title="Click to calibrate your university & academic profile"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
               {currentUser?.avatarText || 'ST'}
             </div>
             <div className="min-w-0">
-              <span className="text-xs font-bold text-[#f8fafc] group-hover:text-emerald-400 block truncate transition-colors">
+              <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 block truncate transition-colors">
                 {currentUser?.name || 'Aarav Sharma'}
               </span>
-              <span className="text-[10px] text-[#94a3b8] block truncate">
+              <span className="text-[10px] text-[var(--text-secondary)] block truncate">
                 {profile.university || 'IIT Delhi'}
               </span>
             </div>
           </div>
-          <User className="w-3.5 h-3.5 text-[#64748b] group-hover:text-emerald-400 shrink-0" />
+          <User className="w-3.5 h-3.5 text-[var(--text-muted)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 shrink-0" />
         </div>
 
         {/* Action Controls Row */}
@@ -270,7 +270,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="flex-1 py-1.5 px-2 bg-[#111827] hover:bg-[#162032] border border-[#1e293b] rounded-lg text-xs font-sans text-[#94a3b8] hover:text-[#f8fafc] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            className="flex-1 py-1.5 px-2 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg text-xs font-sans text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           >
             {theme === 'dark' ? (
@@ -293,7 +293,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 resetAllToSeedData();
               }
             }}
-            className="p-2 bg-[#111827] hover:bg-[#162032] border border-[#1e293b] rounded-lg text-[#94a3b8] hover:text-[#f8fafc] transition-colors cursor-pointer"
+            className="p-2 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer shadow-xs"
             title="Reset to default benchmark data"
             aria-label="Reset demo data"
           >
@@ -303,7 +303,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           {/* Sign Out (Returns to Landing Page) */}
           <button
             onClick={handleSignOut}
-            className="p-2 bg-[#111827] hover:bg-red-500/10 border border-[#1e293b] hover:border-red-500/30 rounded-lg text-[#94a3b8] hover:text-red-400 transition-colors cursor-pointer"
+            className="p-2 bg-[var(--bg-card)] hover:bg-red-500/10 border border-[var(--border-card)] hover:border-red-500/30 rounded-lg text-[var(--text-secondary)] hover:text-red-500 transition-colors cursor-pointer shadow-xs"
             title="Sign Out to Landing Page"
             aria-label="Sign out"
           >
