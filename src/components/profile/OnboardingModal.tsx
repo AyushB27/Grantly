@@ -137,7 +137,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
       isOpen={isOpen}
       onClose={onClose}
       title="Smart Onboarding Profile"
-      eyebrow="F1 • PROFILE CO-PILOT"
+      eyebrow="SMART PROFILE SETUP"
       maxWidth="2xl"
     >
       <div className="space-y-6">

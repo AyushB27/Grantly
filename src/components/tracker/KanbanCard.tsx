@@ -34,26 +34,26 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
 
   return (
     <article
-      className="bg-[#141818] rounded-xl border border-[#222827] hover:border-[#38423f] p-4 transition-all space-y-3"
+      className="bg-[var(--bg-card)] rounded-xl border border-[var(--border-card)] hover:border-[var(--border-card-hover)] p-4 transition-all space-y-3 shadow-xs"
       aria-labelledby={`kanban-card-${scholarship.id}`}
     >
       {/* Title & Provider */}
       <div className="flex items-start justify-between gap-2">
-        <div>
-          <span className="eyebrow text-[#89918c] block text-[9px]">
+        <div className="min-w-0">
+          <span className="eyebrow text-[var(--text-muted)] block text-[9px] truncate">
             {scholarship.provider}
           </span>
           <h4
             id={`kanban-card-${scholarship.id}`}
             onClick={() => onOpenWorkspace(scholarship.id)}
-            className="text-xs sm:text-sm font-bold text-[#edf1ec] line-clamp-1 mt-0.5 hover:text-[#a9f46b] cursor-pointer"
+            className="text-xs sm:text-sm font-bold text-[var(--text-primary)] line-clamp-1 mt-0.5 hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer transition-colors"
           >
             {scholarship.title}
           </h4>
         </div>
         <button
           onClick={() => removeTrackedApplication(scholarship.id)}
-          className="text-[#89918c] hover:text-[#ff8e91] p-1 transition-colors"
+          className="text-[var(--text-muted)] hover:text-red-500 p-1 transition-colors rounded-md"
           title="Remove from tracking"
           aria-label={`Remove ${scholarship.title} from tracker`}
         >
@@ -63,36 +63,36 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
 
       {/* Award & Urgency */}
       <div className="flex items-center justify-between text-xs font-mono">
-        <span className="font-bold text-[#a9f46b]">
+        <span className="font-bold text-emerald-600 dark:text-emerald-400">
           {formatCurrency(scholarship.amount)}
         </span>
-        <span className="px-2 py-0.5 rounded text-[10px] bg-[#101313] border border-[#222827] text-[#89918c]">
+        <span className="px-2 py-0.5 rounded text-[10px] bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)]">
           {urgency.label}
         </span>
       </div>
 
       {/* Requirements status */}
-      <div className="flex items-center justify-between text-[11px] font-mono text-[#89918c] bg-[#101313] px-2.5 py-1.5 rounded-lg border border-[#222827]">
+      <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-secondary)] bg-[var(--bg-card-hover)] px-2.5 py-1.5 rounded-lg border border-[var(--border-card)]">
         <span className="flex items-center gap-1.5">
-          <CheckCircle2 className="w-3.5 h-3.5 text-[#a9f46b]" />
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           <span>Docs: {completedTasks}/{totalTasks}</span>
         </span>
         {application.essayDraft && (
-          <span className="text-[#70b4ff]">Draft active</span>
+          <span className="text-sky-600 dark:text-sky-400 font-medium">Draft active</span>
         )}
       </div>
 
       {/* Result outcome selector if in 'result' stage */}
       {application.stage === 'result' && (
-        <div className="p-2 bg-[#101313] border border-[#222827] rounded-lg flex items-center justify-between text-xs">
-          <span className="eyebrow text-[#89918c] text-[9px]">OUTCOME:</span>
+        <div className="p-2 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-lg flex items-center justify-between text-xs">
+          <span className="eyebrow text-[var(--text-muted)] text-[9px]">OUTCOME:</span>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setApplicationStage(scholarship.id, 'result', 'awarded')}
-              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors ${
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer ${
                 application.resultOutcome === 'awarded'
-                  ? 'bg-[#a9f46b] text-[#090b0b]'
-                  : 'bg-[#141818] text-[#a9f46b] border border-[#a9f46b]/30'
+                  ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                  : 'bg-[var(--bg-card)] text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30'
               }`}
             >
               <Award className="w-3 h-3" />
@@ -100,10 +100,10 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
             </button>
             <button
               onClick={() => setApplicationStage(scholarship.id, 'result', 'regret')}
-              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors ${
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer ${
                 application.resultOutcome === 'regret'
-                  ? 'bg-[#ff8e91] text-[#090b0b]'
-                  : 'bg-[#141818] text-[#ff8e91] border border-[#ff8e91]/30'
+                  ? 'bg-red-600 text-white dark:bg-red-500 dark:text-slate-950 shadow-xs'
+                  : 'bg-[var(--bg-card)] text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/30'
               }`}
             >
               <XCircle className="w-3 h-3" />
@@ -114,13 +114,13 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
       )}
 
       {/* Card Action Controls */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#222827] text-xs">
+      <div className="flex items-center justify-between pt-2 border-t border-[var(--border-card)] text-xs">
         {/* Stage Navigation */}
         <div className="flex items-center gap-1">
           {currentIndex > 0 && (
             <button
               onClick={() => setApplicationStage(scholarship.id, STAGES[currentIndex - 1])}
-              className="p-1 text-[#89918c] hover:text-[#edf1ec] hover:bg-[#191f1e] rounded-md transition-colors"
+              className="p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] rounded-md transition-colors cursor-pointer"
               title={`Move back to ${STAGES[currentIndex - 1].replace('_', ' ')}`}
               aria-label={`Move ${scholarship.title} back to ${STAGES[currentIndex - 1]}`}
             >
@@ -131,7 +131,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
           {currentIndex < STAGES.length - 1 && (
             <button
               onClick={() => setApplicationStage(scholarship.id, STAGES[currentIndex + 1])}
-              className="px-2 py-0.5 text-[#89918c] hover:text-[#a9f46b] hover:bg-[#191f1e] rounded-md font-mono text-[10px] flex items-center transition-colors"
+              className="px-2 py-0.5 text-[var(--text-secondary)] hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-[var(--bg-card-hover)] rounded-md font-mono text-[10px] flex items-center transition-colors cursor-pointer"
               title={`Advance to ${STAGES[currentIndex + 1].replace('_', ' ')}`}
               aria-label={`Advance ${scholarship.title} to ${STAGES[currentIndex + 1]}`}
             >
@@ -144,7 +144,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         {/* Open Workspace */}
         <button
           onClick={() => onOpenWorkspace(scholarship.id)}
-          className="btn-mint inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-[11px]"
+          className="btn-mint inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-[11px] cursor-pointer"
           aria-label={`Open application checklist and workspace for ${scholarship.title}`}
         >
           <FileText className="w-3 h-3" />

@@ -213,20 +213,20 @@ const WorkspaceContent: React.FC<{
         />
       </div>
 
-      {/* F6: 5-Stage Pipeline Transitions Footer */}
-      <div className="pt-4 border-t border-[#222827] flex flex-col sm:flex-row items-center justify-between gap-3">
+      {/* 5-Stage Pipeline Transitions Footer */}
+      <div className="pt-4 border-t border-[var(--border-card)] flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="eyebrow text-[#89918c] mr-1">MOVE TO:</span>
+          <span className="eyebrow text-[var(--text-muted)] mr-1">MOVE TO:</span>
           {(['saved', 'preparing', 'submitted', 'under_review', 'result'] as ApplicationStage[]).map(
             (stg) => (
               <button
                 key={stg}
                 type="button"
                 onClick={() => setApplicationStage(scholarship.id, stg)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
                   currentStage === stg
-                    ? 'bg-[#a9f46b] text-[#090b0b]'
-                    : 'bg-[#141818] border border-[#222827] text-[#89918c] hover:text-[#edf1ec]'
+                    ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                    : 'bg-[var(--bg-card-hover)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 {stg.replace('_', ' ')}
@@ -260,7 +260,7 @@ export const ApplicationWorkspaceModal: React.FC<ApplicationWorkspaceModalProps>
       isOpen={!!scholarship}
       onClose={onClose}
       title="Application Workspace & Document Checklist"
-      eyebrow="F6 • APPLICATION COMPANION"
+      eyebrow="APPLICATION WORKSPACE"
       maxWidth="4xl"
     >
       <WorkspaceContent key={scholarship.id} scholarship={scholarship} onClose={onClose} />

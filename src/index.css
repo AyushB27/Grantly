@@ -282,7 +282,19 @@ body {
 }
 
 [data-theme="light"] .bg-\[\#191f1e\],
-.light .bg-\[\#191f1e\] {
+.light .bg-\[\#191f1e\],
+[data-theme="light"] .bg-\[\#1e293b\],
+.light .bg-\[\#1e293b\] {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .hover\:bg-\[\#162032\]:hover,
+.light .hover\:bg-\[\#162032\]:hover {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .hover\:bg-\[\#191f1e\]:hover,
+.light .hover\:bg-\[\#191f1e\]:hover {
   background-color: #e2e8f0 !important;
 }
 

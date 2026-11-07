@@ -144,7 +144,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       <div className="flex-1 overflow-y-auto p-3 space-y-6">
         {/* Core Workspaces */}
         <div className="space-y-1">
-          <span className="px-3 text-[10px] font-mono uppercase tracking-wider text-[#64748b] block mb-2 font-semibold">
+          <span className="px-3 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-2 font-semibold">
             Workspaces
           </span>
           {primaryNavItems.map((item) => {
@@ -156,23 +156,37 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 onClick={() => handleSelectTab(item.id)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all group cursor-pointer ${
                   isActive
-                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-semibold shadow-xs'
-                    : 'text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#162032] border border-transparent'
+                    ? 'bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-400 font-semibold shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] border border-transparent'
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                       isActive
-                        ? 'bg-emerald-500/20 text-emerald-400'
-                        : 'bg-[#162032] text-[#94a3b8] group-hover:text-[#f8fafc]'
+                        ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400'
+                        : 'bg-[var(--bg-card-hover)] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="truncate">
-                    <span className="text-xs font-sans block leading-snug">{item.label}</span>
-                    <span className="text-[10px] text-[#64748b] block truncate">
+                    <span
+                      className={`text-xs font-sans block leading-snug ${
+                        isActive
+                          ? 'text-emerald-900 dark:text-emerald-300 font-semibold'
+                          : 'text-[var(--text-primary)]'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className={`text-[10px] block truncate ${
+                        isActive
+                          ? 'text-emerald-700 dark:text-emerald-400/80 font-medium'
+                          : 'text-[var(--text-muted)]'
+                      }`}
+                    >
                       {item.description}
                     </span>
                   </div>
@@ -180,10 +194,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
                 {item.badge !== undefined && (
                   <span
-                    className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shrink-0 ${
+                    className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold shrink-0 transition-colors ${
                       isActive
-                        ? 'bg-emerald-500 text-slate-950'
-                        : 'bg-[#1e293b] text-[#94a3b8]'
+                        ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                        : 'bg-[var(--bg-card-hover)] text-[var(--text-secondary)] border border-[var(--border-card)]'
                     }`}
                   >
                     {item.badge}
@@ -196,7 +210,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
         {/* Financial Tools */}
         <div className="space-y-1">
-          <span className="px-3 text-[10px] font-mono uppercase tracking-wider text-[#64748b] block mb-2 font-semibold">
+          <span className="px-3 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-2 font-semibold">
             Planning & Deadlines
           </span>
           {financialToolItems.map((tool) => {
@@ -208,11 +222,15 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 onClick={() => handleSelectTab(tool.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-xs font-sans transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-semibold'
-                    : 'text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#162032]'
+                    ? 'bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-400 font-semibold shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] border border-transparent'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-[#64748b]'}`} />
+                <Icon
+                  className={`w-4 h-4 ${
+                    isActive ? 'text-emerald-800 dark:text-emerald-400' : 'text-[var(--text-muted)]'
+                  }`}
+                />
                 <span>{tool.label}</span>
               </button>
             );
@@ -227,13 +245,13 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                 onOpenComparison();
                 if (onMobileClose) onMobileClose();
               }}
-              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-sans font-medium hover:bg-blue-500/20 transition-all cursor-pointer"
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-sky-50 dark:bg-blue-500/10 border border-sky-200 dark:border-blue-500/30 text-sky-800 dark:text-blue-400 text-xs font-sans font-medium hover:bg-sky-100 dark:hover:bg-blue-500/20 transition-all cursor-pointer"
             >
               <span className="flex items-center gap-2">
                 <Layers className="w-4 h-4" />
                 Compare Schemes
               </span>
-              <span className="px-2 py-0.5 rounded-full bg-blue-500 text-slate-950 text-[10px] font-mono font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-sky-600 text-white dark:bg-blue-500 dark:text-slate-950 text-[10px] font-mono font-bold">
                 {comparisonIds.length}
               </span>
             </button>
@@ -250,11 +268,11 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
           title="Click to calibrate your university & academic profile"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
               {currentUser?.avatarText || 'ST'}
             </div>
             <div className="min-w-0">
-              <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 block truncate transition-colors">
+              <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-emerald-700 dark:group-hover:text-emerald-400 block truncate transition-colors">
                 {currentUser?.name || 'Aarav Sharma'}
               </span>
               <span className="text-[10px] text-[var(--text-secondary)] block truncate">
@@ -262,7 +280,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               </span>
             </div>
           </div>
-          <User className="w-3.5 h-3.5 text-[var(--text-muted)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 shrink-0" />
+          <User className="w-3.5 h-3.5 text-[var(--text-muted)] group-hover:text-emerald-700 dark:group-hover:text-emerald-400 shrink-0" />
         </div>
 
         {/* Action Controls Row */}

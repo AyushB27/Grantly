@@ -29,31 +29,31 @@ const COLUMNS: {
     id: 'saved',
     title: 'Saved',
     icon: Bookmark,
-    badgeBg: 'bg-[#191f1e] text-[#89918c] border-[#222827]',
+    badgeBg: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
   },
   {
     id: 'preparing',
     title: 'Preparing',
     icon: Hourglass,
-    badgeBg: 'bg-[#f7ba53]/15 text-[#f7ba53] border-[#f7ba53]/30',
+    badgeBg: 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30',
   },
   {
     id: 'submitted',
     title: 'Submitted',
     icon: Send,
-    badgeBg: 'bg-[#70b4ff]/15 text-[#70b4ff] border-[#70b4ff]/30',
+    badgeBg: 'bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-400 border-sky-200 dark:border-sky-500/30',
   },
   {
     id: 'under_review',
     title: 'Under Review',
     icon: Eye,
-    badgeBg: 'bg-[#c084fc]/15 text-[#c084fc] border-[#c084fc]/30',
+    badgeBg: 'bg-purple-50 dark:bg-purple-500/15 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-500/30',
   },
   {
     id: 'result',
     title: 'Result',
     icon: Award,
-    badgeBg: 'bg-[#a9f46b]/15 text-[#a9f46b] border-[#a9f46b]/30',
+    badgeBg: 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
   },
 ];
 
@@ -106,40 +106,40 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   return (
     <section aria-label="Application Pipeline Tracker" className="space-y-6">
       {/* Top Pipeline Analytics Strip */}
-      <div className="p-6 bg-[#101313] border border-[#222827] rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xs">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="eyebrow text-[#a9f46b]">F6 CORE CAPABILITY</span>
-            <span className="text-[#525c57]">•</span>
-            <span className="eyebrow text-[#89918c]">5-STAGE KANBAN PIPELINE</span>
+            <span className="eyebrow text-emerald-600 dark:text-emerald-400">SCHOLARSHIP WORKSPACE</span>
+            <span className="text-[var(--text-muted)]">•</span>
+            <span className="eyebrow text-[var(--text-muted)]">5-STAGE KANBAN PIPELINE</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#edf1ec] tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight">
             Application Pipeline & Status Tracker
           </h1>
-          <p className="text-xs text-[#89918c]">
+          <p className="text-xs text-[var(--text-secondary)]">
             Track opportunities across 5 progressive stages with automatic document progress persistence.
           </p>
         </div>
 
         {/* Aggregated Pipeline Metrics */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="px-4 py-2.5 bg-[#141818] border border-[#222827] rounded-xl">
-            <span className="eyebrow text-[#89918c] block text-[9px]">TOTAL PIPELINE VALUE</span>
-            <span className="text-lg font-bold font-mono text-[#edf1ec]">
+          <div className="px-4 py-2.5 bg-[var(--bg-card-hover)] border border-[var(--border-card)] rounded-xl">
+            <span className="eyebrow text-[var(--text-muted)] block text-[9px]">TOTAL PIPELINE VALUE</span>
+            <span className="text-lg font-bold font-mono text-[var(--text-primary)]">
               {formatCurrency(totalPipelinePotential)}
             </span>
           </div>
 
-          <div className="px-4 py-2.5 bg-[#141818] border border-[#222827] rounded-xl">
-            <span className="eyebrow text-[#a9f46b] block text-[9px]">CONFIRMED WON & AWARDED</span>
-            <span className="text-lg font-bold font-mono text-[#a9f46b]">
+          <div className="px-4 py-2.5 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-xl">
+            <span className="eyebrow text-emerald-700 dark:text-emerald-400 block text-[9px]">CONFIRMED WON & AWARDED</span>
+            <span className="text-lg font-bold font-mono text-emerald-700 dark:text-emerald-400">
               {formatCurrency(totalAwardedFunding)}
             </span>
           </div>
 
           <button
             onClick={handleExportJson}
-            className="btn-panel px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5"
+            className="btn-panel px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
             title="Download JSON Portfolio Export"
             aria-label="Export tracked applications as JSON file"
           >
@@ -162,14 +162,14 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           return (
             <div
               key={col.id}
-              className="bg-[#101313] border border-[#222827] rounded-2xl p-4 flex flex-col space-y-3 min-h-[420px]"
+              className="bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl p-4 flex flex-col space-y-3 min-h-[420px] shadow-xs"
               aria-label={`${col.title} column with ${colApps.length} applications`}
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-[#222827]">
+              <div className="flex items-center justify-between pb-3 border-b border-[var(--border-card)]">
                 <div className="flex items-center gap-2">
-                  <Icon className="w-4 h-4 text-[#89918c]" />
-                  <h2 className="text-xs font-mono font-bold text-[#edf1ec] uppercase tracking-wider">
+                  <Icon className="w-4 h-4 text-[var(--text-muted)]" />
+                  <h2 className="text-xs font-mono font-bold text-[var(--text-primary)] uppercase tracking-wider">
                     {col.title}
                   </h2>
                 </div>
@@ -182,7 +182,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
 
               {/* Sub-total funding for column */}
               {colFunding > 0 && (
-                <div className="text-[10px] font-mono text-[#525c57] text-right">
+                <div className="text-[10px] font-mono text-[var(--text-muted)] text-right">
                   Pool: {formatCurrency(colFunding)}
                 </div>
               )}
@@ -190,7 +190,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               {/* Card List in Column */}
               <div className="space-y-3 flex-1">
                 {colApps.length === 0 ? (
-                  <div className="py-8 text-center border border-dashed border-[#222827] rounded-xl text-[11px] text-[#525c57] px-2">
+                  <div className="py-8 text-center border border-dashed border-[var(--border-card)] rounded-xl text-[11px] text-[var(--text-muted)] px-2">
                     No schemes in {col.title.toLowerCase()}
                   </div>
                 ) : (
@@ -215,15 +215,15 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
 
       {/* Bottom Hint Banner */}
       {trackedApplications.length === 0 && (
-        <div className="p-8 text-center bg-[#101313] border border-[#222827] rounded-2xl space-y-3">
-          <Sparkles className="w-8 h-8 text-[#a9f46b] mx-auto" />
-          <h2 className="text-base font-bold text-[#edf1ec]">Your Application Pipeline is Clean</h2>
-          <p className="text-xs text-[#89918c] max-w-md mx-auto">
+        <div className="p-8 text-center bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl space-y-3 shadow-xs">
+          <Sparkles className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mx-auto" />
+          <h2 className="text-base font-bold text-[var(--text-primary)]">Your Application Pipeline is Clean</h2>
+          <p className="text-xs text-[var(--text-secondary)] max-w-md mx-auto">
             Browse verified scholarships in the feed and tap "Track" to organize deadlines, document checklists, and outcomes.
           </p>
           <button
             onClick={onNavigateDiscovery}
-            className="btn-mint px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5"
+            className="btn-mint px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
           >
             <PlusCircle className="w-4 h-4" />
             <span>Discover Opportunities</span>
