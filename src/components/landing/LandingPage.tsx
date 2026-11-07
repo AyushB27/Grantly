@@ -243,6 +243,9 @@ export const LandingPage: React.FC = () => {
                     <img
                       src={heroImage}
                       alt="Grantly Student Financial Co-Pilot"
+                      width={96}
+                      height={96}
+                      loading="eager"
                       className="w-full h-full object-contain"
                     />
                   </div>
