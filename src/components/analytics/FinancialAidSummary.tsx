@@ -35,7 +35,7 @@ export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
     }
   });
 
-  const targetTuition = profile.targetTuitionAnnual || 20000;
+  const targetTuition = profile.targetAnnualFees || 180000;
   const remainingGap = Math.max(0, targetTuition - totalAwardedAmount);
 
   const awardedPercent = Math.min(100, Math.round((totalAwardedAmount / targetTuition) * 100));
@@ -68,21 +68,21 @@ export const FinancialAidSummary: React.FC<FinancialAidSummaryProps> = ({
               htmlFor="target-tuition-input"
               className="text-xs font-bold text-slate-700 whitespace-nowrap"
             >
-              Target Annual Tuition:
+              Annual College Fees:
             </label>
             <div className="relative">
-              <span className="absolute left-2.5 top-2 text-xs font-bold text-slate-400">$</span>
+              <span className="absolute left-2.5 top-2 text-xs font-bold text-slate-400">₹</span>
               <input
                 id="target-tuition-input"
                 type="number"
-                min="1000"
-                step="500"
+                min="5000"
+                step="5000"
                 value={targetTuition}
                 onChange={(e) =>
-                  updateProfile({ targetTuitionAnnual: parseInt(e.target.value) || 0 })
+                  updateProfile({ targetAnnualFees: parseInt(e.target.value) || 0 })
                 }
-                className="w-28 pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-extrabold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                aria-label="Set target annual tuition amount in dollars"
+                className="w-32 pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-extrabold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                aria-label="Set target annual college fee in Indian Rupees"
               />
             </div>
           </div>

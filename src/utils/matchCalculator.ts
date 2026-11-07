@@ -1,9 +1,9 @@
 import type { Scholarship, StudentProfile, MatchScoreBreakdown } from '../types/scholarship';
 
 /**
- * Deterministic Eligibility & Match Scoring Engine for GRANTLY
+ * Deterministic Eligibility & Match Scoring Engine for Indian Scholarship Ecosystem
  * Computes a weighted 0-100% suitability index between student credentials
- * and scholarship requirements with explainable reasoning.
+ * and scholarship requirements with transparent, explainable reasoning.
  */
 export function calculateMatchScore(
   scholarship: Scholarship,
@@ -12,152 +12,185 @@ export function calculateMatchScore(
   const reasons: string[] = [];
   const warningFlags: string[] = [];
 
-  // 1. GPA Evaluation (Weight: 30%)
-  let gpaScore = 0;
-  let gpaMatch = false;
+  // 1. CGPA & Academic Merit Evaluation (Weight: 30%)
+  let cgpaScore = 0;
+  let cgpaMatch = false;
 
-  if (profile.gpa >= scholarship.minGpa) {
-    gpaMatch = true;
-    gpaScore = 30;
-    const surplus = (profile.gpa - scholarship.minGpa).toFixed(2);
-    if (parseFloat(surplus) > 0.3) {
-      reasons.push(`GPA ${profile.gpa.toFixed(2)} exceeds min requirement (${scholarship.minGpa.toFixed(2)}) by +${surplus}`);
+  if (profile.cgpa >= scholarship.minCgpa) {
+    cgpaMatch = true;
+    cgpaScore = 30;
+    const surplus = (profile.cgpa - scholarship.minCgpa).toFixed(2);
+    if (parseFloat(surplus) > 0.5) {
+      reasons.push(
+        `CGPA ${profile.cgpa.toFixed(2)} comfortably clears eligibility cutoff (${scholarship.minCgpa.toFixed(2)}) by +${surplus}`
+      );
     } else {
-      reasons.push(`GPA ${profile.gpa.toFixed(2)} meets min requirement (${scholarship.minGpa.toFixed(2)})`);
+      reasons.push(`CGPA ${profile.cgpa.toFixed(2)} meets minimum cutoff (${scholarship.minCgpa.toFixed(2)})`);
     }
-  } else if (profile.gpa >= scholarship.minGpa - 0.2) {
-    // Within competitive margin
-    gpaScore = 15;
-    warningFlags.push(`GPA ${profile.gpa.toFixed(2)} is slightly below ${scholarship.minGpa.toFixed(2)} threshold`);
+  } else if (profile.cgpa >= scholarship.minCgpa - 0.4) {
+    cgpaScore = 15;
+    warningFlags.push(
+      `CGPA ${profile.cgpa.toFixed(2)} is near the ${scholarship.minCgpa.toFixed(2)} benchmark; selection may be competitive`
+    );
   } else {
-    gpaScore = 0;
-    warningFlags.push(`Requires min GPA ${scholarship.minGpa.toFixed(2)} (Current: ${profile.gpa.toFixed(2)})`);
+    cgpaScore = 0;
+    warningFlags.push(
+      `Requires minimum ${scholarship.minCgpa.toFixed(2)} CGPA or ~${(scholarship.minCgpa * 9.5).toFixed(0)}% board score`
+    );
   }
 
-  // 2. Academic Level Evaluation (Weight: 25%)
+  // 2. Academic Level & Program Eligibility (Weight: 25%)
   let levelScore = 0;
   let levelMatch = false;
   if (scholarship.educationLevel.includes(profile.academicLevel)) {
     levelMatch = true;
     levelScore = 25;
-    reasons.push(`Enrolled as ${profile.academicLevel}`);
+    reasons.push(`Eligible enrolled status: ${profile.academicLevel}`);
   } else {
     warningFlags.push(`Targeted for ${scholarship.educationLevel.join(', ')}`);
   }
 
-  // 3. Field of Study / Major Match (Weight: 20%)
-  let majorScore = 0;
-  let majorMatch = false;
-  const isAllMajors = scholarship.majors.some((m) =>
-    ['All Majors', 'Any', 'General'].includes(m)
+  // 3. Branch of Study / Specialization (Weight: 20%)
+  let branchScore = 0;
+  let branchMatch = false;
+  const isAllStreams = scholarship.branches.some((b) =>
+    ['All Streams', 'Any Discipline', 'All Branches', 'General'].includes(b)
   );
 
-  if (isAllMajors) {
-    majorMatch = true;
-    majorScore = 20;
-    reasons.push(`Open to all academic disciplines`);
+  if (isAllStreams) {
+    branchMatch = true;
+    branchScore = 20;
+    reasons.push(`Open to all academic streams and degree programs`);
   } else if (
-    scholarship.majors.some(
-      (m) =>
-        m.toLowerCase() === profile.major.toLowerCase() ||
-        profile.major.toLowerCase().includes(m.toLowerCase())
+    scholarship.branches.some(
+      (b) =>
+        b.toLowerCase() === profile.branch.toLowerCase() ||
+        profile.branch.toLowerCase().includes(b.toLowerCase())
     )
   ) {
-    majorMatch = true;
-    majorScore = 20;
-    reasons.push(`Direct major match: ${profile.major}`);
-  } else if (scholarship.categories.includes('STEM') && isStemMajor(profile.major)) {
-    majorMatch = true;
-    majorScore = 18;
-    reasons.push(`STEM discipline alignment: ${profile.major}`);
+    branchMatch = true;
+    branchScore = 20;
+    reasons.push(`Direct branch alignment: ${profile.branch}`);
+  } else if (scholarship.categories.includes('STEM') && isStemBranch(profile.branch)) {
+    branchMatch = true;
+    branchScore = 18;
+    reasons.push(`STEM engineering/science stream: ${profile.branch}`);
   } else {
-    majorScore = 5;
-    warningFlags.push(`Priority for majors: ${scholarship.majors.join(', ')}`);
+    branchScore = 5;
+    warningFlags.push(`Preference for streams: ${scholarship.branches.join(', ')}`);
   }
 
-  // 4. Financial Need & Income Bracket (Weight: 15%)
-  let needScore = 0;
-  let needMatch = false;
+  // 4. Family Annual Income & EWS Assessment (Weight: 15%)
+  let incomeScore = 0;
+  let incomeMatch = false;
 
-  if (!scholarship.financialNeedRequired) {
-    needMatch = true;
-    needScore = 15;
-    reasons.push(`No financial need restrictions (Merit-based)`);
+  if (scholarship.familyIncomeCapMax === 0) {
+    // Pure merit scheme with no income ceiling
+    incomeMatch = true;
+    incomeScore = 15;
+    reasons.push(`No family income ceiling (Pure Merit / Talent Fellowship)`);
   } else {
-    if (profile.householdIncomeBracket === '<$30k') {
-      needMatch = true;
-      needScore = 15;
-      reasons.push(`Strong priority for high financial need (<$30k bracket)`);
-    } else if (profile.householdIncomeBracket === '$30k-$60k') {
-      needMatch = true;
-      needScore = 12;
-      reasons.push(`Eligible under moderate need guidelines`);
-    } else if (profile.householdIncomeBracket === '$60k-$100k') {
-      needScore = 6;
-      warningFlags.push(`Financial need criteria may favor lower income brackets`);
+    const isEwsHighPriority = profile.familyAnnualIncome.includes('< ₹2.5 Lakhs');
+    const isModerateIncome = profile.familyAnnualIncome.includes('₹2.5L - ₹5 Lakhs');
+
+    if (scholarship.familyIncomeCapMax <= 250000) {
+      if (isEwsHighPriority) {
+        incomeMatch = true;
+        incomeScore = 15;
+        reasons.push(`Meets strict EWS / BPL income ceiling (< ₹2.5 Lakhs/year)`);
+      } else {
+        incomeScore = 2;
+        warningFlags.push(`Strict income ceiling of ₹2.5 Lakhs/year (Income Certificate required)`);
+      }
+    } else if (scholarship.familyIncomeCapMax <= 600000) {
+      if (isEwsHighPriority || isModerateIncome) {
+        incomeMatch = true;
+        incomeScore = 15;
+        reasons.push(`Qualifies under CSR family income ceiling (< ₹6 Lakhs/year)`);
+      } else {
+        incomeScore = 5;
+        warningFlags.push(`Family income must be below ₹6 Lakhs/year`);
+      }
     } else {
-      needScore = 2;
-      warningFlags.push(`Strict need-based aid qualification`);
+      if (!profile.familyAnnualIncome.includes('> ₹8 Lakhs')) {
+        incomeMatch = true;
+        incomeScore = 15;
+        reasons.push(`Within Non-Creamy Layer / Central Govt quota limit (< ₹8 Lakhs)`);
+      } else {
+        incomeScore = 4;
+        warningFlags.push(`Income cap of ₹8 Lakhs applies`);
+      }
     }
   }
 
-  // 5. Citizenship & Demographic Factors (Weight: 10%)
-  let citizenshipScore = 0;
-  let citizenshipMatch = false;
+  // 5. Social Category / Reservation / Affirmative Diversity (Weight: 10%)
+  let categoryScore = 0;
+  let categoryMatch = false;
 
-  if (scholarship.citizenship.includes(profile.citizenship)) {
-    citizenshipMatch = true;
-    citizenshipScore = 10;
-    reasons.push(`Verified ${profile.citizenship} residency eligibility`);
+  if (
+    scholarship.eligibleCategories.includes(profile.socialCategory) ||
+    scholarship.eligibleCategories.includes('General' as any)
+  ) {
+    categoryMatch = true;
+    categoryScore = 10;
+    reasons.push(`Qualifies under category: ${profile.socialCategory}`);
   } else {
-    warningFlags.push(`Restricted to ${scholarship.citizenship.join(', ')}`);
+    warningFlags.push(`Restricted to ${scholarship.eligibleCategories.join(', ')} categories`);
   }
 
-  // Bonus: First-Gen or specific diversity category boosts
-  if (profile.isFirstGen && scholarship.categories.includes('First-Generation')) {
-    reasons.push(`First-generation student qualification bonus`);
+  // Indian context diversity bonuses
+  if (profile.isSingleGirlChild && scholarship.categories.includes('Single Girl Child')) {
+    reasons.push(`Eligible for Single Girl Child affirmative priority quota`);
+  }
+
+  if (profile.isFirstGen && scholarship.categories.includes('First-Generation Learner')) {
+    reasons.push(`First-generation higher education learner priority`);
   }
 
   const overallPercentage = Math.min(
     100,
-    Math.round(gpaScore + levelScore + majorScore + needScore + citizenshipScore)
+    Math.round(cgpaScore + levelScore + branchScore + incomeScore + categoryScore)
   );
 
   return {
     overallPercentage,
-    gpaMatch,
-    gpaScore,
+    cgpaMatch,
+    cgpaScore,
     levelMatch,
     levelScore,
-    majorMatch,
-    majorScore,
-    needMatch,
-    needScore,
-    citizenshipMatch,
-    citizenshipScore,
+    branchMatch,
+    branchScore,
+    incomeMatch,
+    incomeScore,
+    categoryMatch,
+    categoryScore,
     reasons,
     warningFlags,
   };
 }
 
 /**
- * Check if a major name belongs to STEM field
+ * Check if branch belongs to Engineering / Science / Tech in Indian universities
  */
-function isStemMajor(major: string): boolean {
+function isStemBranch(branch: string): boolean {
   const stemKeywords = [
     'computer',
-    'software',
+    'information',
+    'b.tech',
     'engineering',
-    'data',
-    'math',
+    'science',
     'physics',
     'chemistry',
-    'biology',
-    'biotech',
-    'cyber',
-    'information',
-    'statistics',
+    'mathematics',
+    'data',
+    'artificial intelligence',
+    'electronics',
+    'mechanical',
+    'civil',
+    'biotechnology',
+    'm.tech',
+    'mca',
   ];
-  const lower = major.toLowerCase();
+  const lower = branch.toLowerCase();
   return stemKeywords.some((keyword) => lower.includes(keyword));
 }

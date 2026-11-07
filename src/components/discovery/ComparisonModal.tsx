@@ -102,13 +102,13 @@ export const ComparisonModal: React.FC<ComparisonModalProps> = ({
               })}
             </tr>
             <tr>
-              <td className="py-3 px-4 font-semibold text-slate-500">Min GPA</td>
+              <td className="py-3 px-4 font-semibold text-slate-500">Min CGPA</td>
               {comparedScholarships.map((grant) => {
-                const meetsGpa = profile.gpa >= grant.minGpa;
+                const meetsCgpa = profile.cgpa >= grant.minCgpa;
                 return (
                   <td key={grant.id} className="py-3 px-4">
-                    <span className={meetsGpa ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
-                      {grant.minGpa.toFixed(2)} (You: {profile.gpa.toFixed(2)})
+                    <span className={meetsCgpa ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
+                      {grant.minCgpa.toFixed(2)} (You: {profile.cgpa.toFixed(2)})
                     </span>
                   </td>
                 );

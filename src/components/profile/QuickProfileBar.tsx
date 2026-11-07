@@ -21,7 +21,7 @@ export const QuickProfileBar: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700">
-                Active Student Persona
+                Active Student Persona • Indian Education Ecosystem
               </span>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
                 <Sparkles className="w-3 h-3" /> Live Scoring Active
@@ -31,17 +31,20 @@ export const QuickProfileBar: React.FC = () => {
               <span className="font-bold text-slate-900 text-sm">{profile.fullName}</span>
               <span className="text-slate-300">•</span>
               <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-800 text-xs font-bold border border-indigo-100">
-                GPA {profile.gpa.toFixed(2)}
+                {profile.cgpa.toFixed(2)} CGPA (~{(profile.cgpa * 9.5).toFixed(0)}%)
               </span>
               <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-medium">
-                {profile.academicLevel}
+                {profile.academicLevel.split(' ')[0]}
               </span>
               <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-medium">
-                {profile.major}
+                {profile.branch}
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-xs font-medium border border-emerald-100">
+                {profile.socialCategory}
               </span>
               {profile.isFirstGen && (
                 <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-xs font-medium border border-purple-100">
-                  First-Gen
+                  First-Gen Learner
                 </span>
               )}
             </div>
@@ -62,7 +65,7 @@ export const QuickProfileBar: React.FC = () => {
             aria-controls="profile-simulator-controls"
           >
             <Sliders className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>{isExpanded ? 'Close Simulator' : 'Test Other Profile Criteria'}</span>
+            <span>{isExpanded ? 'Close Simulator' : 'Test Other Indian Profile Criteria'}</span>
             {isExpanded ? (
               <ChevronUp className="w-3.5 h-3.5" />
             ) : (
@@ -78,31 +81,31 @@ export const QuickProfileBar: React.FC = () => {
           id="profile-simulator-controls"
           className="mt-5 pt-5 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-in fade-in duration-200"
         >
-          {/* GPA Slider */}
+          {/* CGPA Slider (10-point scale) */}
           <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
             <div className="flex justify-between items-center mb-1.5">
-              <label htmlFor="sim-gpa" className="text-xs font-bold text-slate-700">
-                Cumulative GPA
+              <label htmlFor="sim-cgpa" className="text-xs font-bold text-slate-700">
+                Academic Score (CGPA)
               </label>
               <span className="text-sm font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
-                {profile.gpa.toFixed(2)}
+                {profile.cgpa.toFixed(2)} CGPA
               </span>
             </div>
             <input
-              id="sim-gpa"
+              id="sim-cgpa"
               type="range"
-              min="2.0"
-              max="4.0"
+              min="5.0"
+              max="10.0"
               step="0.05"
-              value={profile.gpa}
-              onChange={(e) => updateProfile({ gpa: parseFloat(e.target.value) })}
+              value={profile.cgpa}
+              onChange={(e) => updateProfile({ cgpa: parseFloat(e.target.value) })}
               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              aria-label="Adjust student GPA"
+              aria-label="Adjust student CGPA on 10 point scale"
             />
             <div className="flex justify-between text-[10px] text-slate-600 font-semibold mt-1.5">
-              <span>2.00</span>
-              <span>3.00</span>
-              <span>4.00</span>
+              <span>5.00 (Pass)</span>
+              <span>7.50 (1st Div)</span>
+              <span>10.00 (Topper)</span>
             </div>
           </div>
 
@@ -112,7 +115,7 @@ export const QuickProfileBar: React.FC = () => {
               htmlFor="sim-level"
               className="block text-xs font-bold text-slate-700 mb-1.5"
             >
-              Academic Level
+              Academic Course Level
             </label>
             <select
               id="sim-level"
@@ -123,69 +126,68 @@ export const QuickProfileBar: React.FC = () => {
               className="w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
               aria-label="Select academic level"
             >
-              <option value="High School Senior">High School Senior</option>
-              <option value="Undergraduate">Undergraduate</option>
-              <option value="Graduate">Graduate</option>
-              <option value="Doctoral">Doctoral</option>
+              <option value="Class 11-12">Class 11-12 (Higher Secondary)</option>
+              <option value="Undergraduate (B.Tech / B.Sc / B.Com / MBBS)">Undergraduate (B.Tech / B.Sc / MBBS)</option>
+              <option value="Postgraduate (M.Tech / M.Sc / MBA)">Postgraduate (M.Tech / M.Sc / MBA)</option>
+              <option value="PhD / Doctoral Research">PhD / Doctoral Research (PMRF)</option>
             </select>
           </div>
 
-          {/* Major / Field of Study */}
+          {/* Branch / Stream */}
           <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">
             <label
-              htmlFor="sim-major"
+              htmlFor="sim-branch"
               className="block text-xs font-bold text-slate-700 mb-1.5"
             >
-              Major / Degree Field
+              Degree Stream / Branch
             </label>
             <select
-              id="sim-major"
-              value={profile.major}
-              onChange={(e) => updateProfile({ major: e.target.value })}
+              id="sim-branch"
+              value={profile.branch}
+              onChange={(e) => updateProfile({ branch: e.target.value })}
               className="w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs"
-              aria-label="Select student major"
+              aria-label="Select student branch"
             >
-              <option value="Computer Science">Computer Science (STEM)</option>
-              <option value="Software Engineering">Software Engineering (STEM)</option>
-              <option value="Biology">Biology (Healthcare/STEM)</option>
-              <option value="Nursing">Nursing (Healthcare)</option>
-              <option value="Education">Education (Teaching)</option>
-              <option value="Design">Design (Creative Arts)</option>
+              <option value="Computer Science & Engineering">Computer Science & Engg (STEM)</option>
+              <option value="Electronics & Communication">Electronics & Comm (STEM)</option>
+              <option value="Mechanical Engineering">Mechanical Engineering (STEM)</option>
               <option value="Civil Engineering">Civil Engineering (STEM)</option>
-              <option value="Business Administration">Business / General</option>
+              <option value="MBBS / Medical Sciences">MBBS / Nursing (Medical)</option>
+              <option value="Physics / Basic Sciences">Pure Sciences (INSPIRE)</option>
+              <option value="Commerce & Business">Commerce / B.Com / BBA</option>
             </select>
           </div>
 
-          {/* Income & Background Toggles */}
+          {/* Annual Family Income & Quotas */}
           <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 flex flex-col justify-between">
             <div>
               <label
                 htmlFor="sim-income"
                 className="block text-xs font-bold text-slate-700 mb-1"
               >
-                Household Income Bracket
+                Annual Family Income (EWS Cutoff)
               </label>
               <select
                 id="sim-income"
-                value={profile.householdIncomeBracket}
+                value={profile.familyAnnualIncome}
                 onChange={(e) =>
                   updateProfile({
-                    householdIncomeBracket: e.target.value as IncomeBracket,
+                    familyAnnualIncome: e.target.value as IncomeBracket,
                   })
                 }
                 className="w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-2 py-1 text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-xs mb-2"
-                aria-label="Select household income bracket"
+                aria-label="Select family annual income bracket"
               >
-                <option value="<$30k">&lt;$30k (High Need)</option>
-                <option value="$30k-$60k">$30k-$60k (Pell Eligible)</option>
-                <option value="$60k-$100k">$60k-$100k</option>
-                <option value=">$100k">&gt;$100k (Low Need)</option>
+                <option value="< ₹2.5 Lakhs (Full EWS)">&lt; ₹2.5 Lakhs (EWS / BPL Priority)</option>
+                <option value="₹2.5L - ₹5 Lakhs">₹2.5L - ₹5 Lakhs (Moderate Need)</option>
+                <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)">₹5L - ₹8 Lakhs (Non-Creamy Limit)</option>
+                <option value="> ₹8 Lakhs (General / Creamy Layer)">&gt; ₹8 Lakhs (Creamy Layer)</option>
               </select>
             </div>
 
             <div className="flex items-center justify-between pt-1 border-t border-slate-200/60">
               <label htmlFor="sim-firstgen" className="text-xs font-medium text-slate-700 cursor-pointer">
-                First-Generation
+                First-Gen Learner
               </label>
               <input
                 id="sim-firstgen"
@@ -193,7 +195,7 @@ export const QuickProfileBar: React.FC = () => {
                 checked={profile.isFirstGen}
                 onChange={(e) => updateProfile({ isFirstGen: e.target.checked })}
                 className="w-4 h-4 text-indigo-600 rounded-sm border-slate-300 focus:ring-indigo-500"
-                aria-label="Toggle first-generation student status"
+                aria-label="Toggle first-generation learner status"
               />
             </div>
           </div>

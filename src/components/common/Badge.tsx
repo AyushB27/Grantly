@@ -25,23 +25,23 @@ export const Badge: React.FC<BadgeProps> = ({
       case 'Women in Tech':
         variantStyles = 'bg-purple-50 text-purple-800 border-purple-200';
         break;
-      case 'Need-Based':
+      case 'Need-Based (EWS)':
         variantStyles = 'bg-emerald-50 text-emerald-800 border-emerald-200';
         break;
-      case 'Merit':
+      case 'Merit-Based':
         variantStyles = 'bg-amber-50 text-amber-900 border-amber-200';
         break;
-      case 'First-Generation':
+      case 'First-Generation Learner':
         variantStyles = 'bg-teal-50 text-teal-800 border-teal-200';
         break;
-      case 'Minority':
+      case 'SC / ST / OBC':
         variantStyles = 'bg-indigo-50 text-indigo-800 border-indigo-200';
         break;
-      case 'Healthcare':
+      case 'Healthcare & Medical':
         variantStyles = 'bg-rose-50 text-rose-800 border-rose-200';
         break;
-      case 'Community Service':
-        variantStyles = 'bg-sky-50 text-sky-800 border-sky-200';
+      case 'Single Girl Child':
+        variantStyles = 'bg-pink-50 text-pink-800 border-pink-200';
         break;
       default:
         variantStyles = 'bg-slate-100 text-slate-800 border-slate-300';

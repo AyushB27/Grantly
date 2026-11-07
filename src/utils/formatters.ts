@@ -1,17 +1,26 @@
 /**
- * Formatting and calculation utilities for GRANTLY
- * High contrast, deterministic helpers for currency, deadlines, and percentages
+ * Formatting and calculation utilities for GRANTLY (Indian Educational Ecosystem)
+ * Formats Indian Rupee (INR ₹), CGPA / Percentage, deadlines, and essay metrics
  */
 
 /**
- * Format a number as USD currency without decimals
+ * Format a number as Indian Rupee (₹) with Indian digit grouping (Lakhs / Crores)
+ * e.g. ₹50,000, ₹1,50,000, ₹2,00,000
  */
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+/**
+ * Format CGPA and show estimated percentage equivalent (CBSE / AICTE formula: CGPA * 9.5)
+ */
+export function formatCgpa(cgpa: number): string {
+  const percentageApprox = (cgpa * 9.5).toFixed(1);
+  return `${cgpa.toFixed(2)} CGPA (~${percentageApprox}%)`;
 }
 
 /**
@@ -33,22 +42,22 @@ export function getDeadlineUrgency(deadlineIso: string): {
   if (daysRemaining < 0) {
     return {
       daysRemaining,
-      label: 'Deadline Passed',
+      label: 'Portal Closed',
       isUrgent: false,
       colorClass: 'text-neutral-500',
       badgeBg: 'bg-neutral-100 text-neutral-700 border-neutral-300',
-      ariaAnnouncement: 'Deadline has passed',
+      ariaAnnouncement: 'Application deadline has passed',
     };
   }
 
   if (daysRemaining === 0) {
     return {
       daysRemaining: 0,
-      label: 'Due Today',
+      label: 'Closes Today!',
       isUrgent: true,
       colorClass: 'text-rose-700',
       badgeBg: 'bg-rose-50 text-rose-800 border-rose-300',
-      ariaAnnouncement: 'Due today. High urgency.',
+      ariaAnnouncement: 'Closes today on portal. Urgent.',
     };
   }
 
@@ -59,7 +68,7 @@ export function getDeadlineUrgency(deadlineIso: string): {
       isUrgent: true,
       colorClass: 'text-amber-800',
       badgeBg: 'bg-amber-50 text-amber-800 border-amber-300',
-      ariaAnnouncement: `Due in ${daysRemaining} days. Urgent deadline.`,
+      ariaAnnouncement: `Portal closing in ${daysRemaining} days. Urgent deadline.`,
     };
   }
 
@@ -76,7 +85,7 @@ export function getDeadlineUrgency(deadlineIso: string): {
 
   return {
     daysRemaining,
-    label: new Date(deadlineIso).toLocaleDateString('en-US', {
+    label: new Date(deadlineIso).toLocaleDateString('en-IN', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -84,7 +93,7 @@ export function getDeadlineUrgency(deadlineIso: string): {
     isUrgent: false,
     colorClass: 'text-emerald-800',
     badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    ariaAnnouncement: `Due on ${new Date(deadlineIso).toLocaleDateString()}`,
+    ariaAnnouncement: `Due on ${new Date(deadlineIso).toLocaleDateString('en-IN')}`,
   };
 }
 
@@ -97,7 +106,7 @@ export function truncateText(text: string, maxLength: number): string {
 }
 
 /**
- * Calculate word count and reading time for essay draft
+ * Calculate word count and reading time for Statement of Purpose (SOP) / Essay draft
  */
 export function calculateEssayMetrics(text: string): {
   wordCount: number;
@@ -107,6 +116,6 @@ export function calculateEssayMetrics(text: string): {
   const trimmed = text.trim();
   const words = trimmed ? trimmed.split(/\s+/).length : 0;
   const charCount = text.length;
-  const estimatedMinutes = Math.ceil(words / 200); // 200 wpm avg reading/writing speed
+  const estimatedMinutes = Math.ceil(words / 200);
   return { wordCount: words, charCount, estimatedMinutes };
 }

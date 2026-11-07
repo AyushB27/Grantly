@@ -113,7 +113,7 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
         <div className="flex flex-wrap items-center gap-2 mb-4 text-[11px] font-medium text-slate-600">
           <span className="inline-flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg">
             <GraduationCap className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />
-            <span>Min GPA {scholarship.minGpa.toFixed(1)}</span>
+            <span>Min {scholarship.minCgpa.toFixed(1)} CGPA</span>
           </span>
           <span
             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border font-semibold ${urgency.badgeBg}`}

@@ -27,16 +27,16 @@ export function useScholarships() {
   // 2. Filter scholarships based on user search and facet criteria
   const filteredScholarships = useMemo<EnrichedScholarship[]>(() => {
     return enrichedScholarships.filter((item) => {
-      // Keyword search (case-insensitive across title, provider, description, majors)
+      // Keyword search (case-insensitive across title, provider, description, branches)
       if (filters.searchQuery.trim()) {
         const query = filters.searchQuery.toLowerCase();
         const matchesTitle = item.title.toLowerCase().includes(query);
         const matchesProvider = item.provider.toLowerCase().includes(query);
         const matchesDesc = item.description.toLowerCase().includes(query);
-        const matchesMajor = item.majors.some((m) => m.toLowerCase().includes(query));
+        const matchesBranch = item.branches.some((b) => b.toLowerCase().includes(query));
         const matchesCategory = item.categories.some((c) => c.toLowerCase().includes(query));
 
-        if (!matchesTitle && !matchesProvider && !matchesDesc && !matchesMajor && !matchesCategory) {
+        if (!matchesTitle && !matchesProvider && !matchesDesc && !matchesBranch && !matchesCategory) {
           return false;
         }
       }
@@ -62,8 +62,8 @@ export function useScholarships() {
         return false;
       }
 
-      // Max GPA requirement
-      if (item.minGpa > filters.maxGpaRequirement) {
+      // Max CGPA requirement
+      if (item.minCgpa > filters.maxCgpaRequirement) {
         return false;
       }
 
@@ -102,14 +102,13 @@ export function useScholarships() {
     }
   }, [filteredScholarships, filters.sortBy]);
 
-  // 4. Financial Aid & Portfolio Aggregates
+  // 4. Financial Aid & Portfolio Aggregates in INR (₹)
   const aidAnalytics = useMemo(() => {
     let totalPotentialFunding = 0;
     let totalAppliedFunding = 0;
     let totalAwardedFunding = 0;
     let urgentDeadlineCount = 0;
 
-    // Track map for fast status check
     const statusMap = new Map(
       trackedApplications.map((app) => [app.scholarshipId, app.stage])
     );
@@ -134,12 +133,12 @@ export function useScholarships() {
 
     const netTuitionNeedRemaining = Math.max(
       0,
-      profile.targetTuitionAnnual - totalAwardedFunding
+      profile.targetAnnualFees - totalAwardedFunding
     );
 
     const fundingCoveragePercentage = Math.min(
       100,
-      Math.round((totalAwardedFunding / (profile.targetTuitionAnnual || 1)) * 100)
+      Math.round((totalAwardedFunding / (profile.targetAnnualFees || 1)) * 100)
     );
 
     return {
@@ -152,7 +151,7 @@ export function useScholarships() {
       totalCount: scholarships.length,
       filteredCount: sortedScholarships.length,
     };
-  }, [scholarships, sortedScholarships.length, trackedApplications, profile.targetTuitionAnnual]);
+  }, [scholarships, sortedScholarships.length, trackedApplications, profile.targetAnnualFees]);
 
   return {
     scholarships: sortedScholarships,

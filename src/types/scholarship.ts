@@ -1,76 +1,78 @@
 /**
- * Core domain types for GRANTLY - Scholarship Discovery & Management Platform
- * Aligned with FAIE v3.1 Static Analysis & Problem Statement Specifications
+ * Core domain types for GRANTLY - Indian Scholarship & Educational Financial Aid Platform
+ * Tailored for the Indian higher education ecosystem (NSP, CSR, State Portals, Merit & EWS)
  */
 
 export type EducationLevel =
-  | 'High School Senior'
-  | 'Undergraduate'
-  | 'Graduate'
-  | 'Doctoral';
+  | 'Class 11-12'
+  | 'Undergraduate (B.Tech / B.Sc / B.Com / MBBS)'
+  | 'Postgraduate (M.Tech / M.Sc / MBA)'
+  | 'PhD / Doctoral Research';
 
 export type CategoryTag =
   | 'STEM'
-  | 'Need-Based'
-  | 'Merit'
+  | 'Need-Based (EWS)'
+  | 'Merit-Based'
   | 'Women in Tech'
-  | 'First-Generation'
-  | 'Minority'
-  | 'Community Service'
-  | 'Healthcare';
+  | 'SC / ST / OBC'
+  | 'First-Generation Learner'
+  | 'Healthcare & Medical'
+  | 'Single Girl Child';
 
 export type AwardType =
-  | 'Tuition & Fees'
-  | 'Living Stipend'
-  | 'Research Grant'
-  | 'Books & Supplies'
-  | 'Full Ride';
-
-export type CitizenshipStatus =
-  | 'US Citizen'
-  | 'Permanent Resident'
-  | 'DACA'
-  | 'International';
+  | 'Tuition Fee Waiver'
+  | 'Annual Maintenance Allowance'
+  | 'Direct Cash Grant'
+  | 'Equipment & Laptop Grant'
+  | 'Research Fellowship';
 
 export type IncomeBracket =
-  | '<$30k'
-  | '$30k-$60k'
-  | '$60k-$100k'
-  | '>$100k';
+  | '< ₹2.5 Lakhs (Full EWS)'
+  | '₹2.5L - ₹5 Lakhs'
+  | '₹5L - ₹8 Lakhs (Non-Creamy Limit)'
+  | '> ₹8 Lakhs (General / Creamy Layer)';
+
+export type SocialCategory =
+  | 'General'
+  | 'General (EWS)'
+  | 'OBC (Non-Creamy Layer)'
+  | 'SC'
+  | 'ST';
 
 export interface Scholarship {
   id: string;
   title: string;
   provider: string;
-  organizationType: 'Corporate' | 'Foundation' | 'Government' | 'Non-Profit' | 'University';
-  amount: number;
+  organizationType: 'Central Govt (NSP)' | 'State Govt' | 'CSR Foundation' | 'Private Trust' | 'University';
+  amount: number; // in INR (₹)
   awardType: AwardType;
   renewable: boolean;
   deadline: string; // ISO date format YYYY-MM-DD
   educationLevel: EducationLevel[];
-  minGpa: number;
+  minCgpa: number; // On 10.0 scale (or equivalent board % / 10)
   categories: CategoryTag[];
-  majors: string[];
-  citizenship: CitizenshipStatus[];
-  financialNeedRequired: boolean;
+  branches: string[]; // e.g. Computer Science, Mechanical, Medical, All Streams
+  eligibleCategories: SocialCategory[];
+  familyIncomeCapMax: number; // in INR (e.g. 250000, 600000, 800000, or 0 for no cap)
   description: string;
   plainEnglishSummary: string;
   eligibilityCriteria: string[];
   requiredDocuments: string[];
-  applicationUrl: string;
+  portalUrl: string;
   estimatedCompletionMinutes: number;
   acceptanceRateEstimate: string;
 }
 
 export interface StudentProfile {
   fullName: string;
-  gpa: number;
+  cgpa: number; // 0.0 to 10.0 scale
   academicLevel: EducationLevel;
-  major: string;
-  householdIncomeBracket: IncomeBracket;
-  citizenship: CitizenshipStatus;
+  branch: string; // Engineering, Medical, Arts, Commerce
+  familyAnnualIncome: IncomeBracket;
+  socialCategory: SocialCategory;
   isFirstGen: boolean;
-  targetTuitionAnnual: number;
+  isSingleGirlChild: boolean;
+  targetAnnualFees: number; // Target annual college fees in INR
 }
 
 export type ApplicationStage =
@@ -94,7 +96,7 @@ export interface FilterState {
   academicLevel: string;
   category: string;
   minAmount: number;
-  maxGpaRequirement: number;
+  maxCgpaRequirement: number;
   onlyRenewable: boolean;
   onlyEligible: boolean;
   sortBy: 'match' | 'deadline' | 'amount_desc' | 'amount_asc' | 'title';
@@ -102,16 +104,16 @@ export interface FilterState {
 
 export interface MatchScoreBreakdown {
   overallPercentage: number;
-  gpaMatch: boolean;
-  gpaScore: number;
+  cgpaMatch: boolean;
+  cgpaScore: number;
   levelMatch: boolean;
   levelScore: number;
-  majorMatch: boolean;
-  majorScore: number;
-  needMatch: boolean;
-  needScore: number;
-  citizenshipMatch: boolean;
-  citizenshipScore: number;
+  branchMatch: boolean;
+  branchScore: number;
+  incomeMatch: boolean;
+  incomeScore: number;
+  categoryMatch: boolean;
+  categoryScore: number;
   reasons: string[];
   warningFlags: string[];
 }

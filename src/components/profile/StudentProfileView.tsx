@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useScholarshipContext } from '../../context/ScholarshipContext';
-import type { EducationLevel, IncomeBracket, CitizenshipStatus } from '../../types/scholarship';
-import { User, CheckCircle2, Save, RotateCcw } from 'lucide-react';
+import type { EducationLevel, IncomeBracket, SocialCategory } from '../../types/scholarship';
+import { CheckCircle2, Save, RotateCcw } from 'lucide-react';
 import { DEFAULT_STUDENT_PROFILE } from '../../data/mockScholarships';
 
 export const StudentProfileView: React.FC = () => {
@@ -16,18 +16,18 @@ export const StudentProfileView: React.FC = () => {
 
   return (
     <section aria-label="Student Profile Settings" className="max-w-3xl mx-auto space-y-6">
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs">
         <div className="flex items-center justify-between pb-6 border-b border-slate-200 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700">
-              <User className="w-6 h-6" aria-hidden="true" />
+            <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-700 font-extrabold text-base">
+              {profile.fullName.split(' ').map((n) => n[0]).join('')}
             </div>
             <div>
               <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
-                Student Eligibility Profile
+                Student Profile • Indian Scholarship Portal
               </h2>
               <p className="text-xs text-slate-500">
-                Grantly uses these credentials to deterministically score and personalize every grant.
+                Grantly matches central NSP, state DBT schemes, and corporate CSR grants against these verified credentials.
               </p>
             </div>
           </div>
@@ -36,11 +36,11 @@ export const StudentProfileView: React.FC = () => {
             type="button"
             onClick={() => updateProfile(DEFAULT_STUDENT_PROFILE)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
-            title="Reset to default benchmark student"
-            aria-label="Reset profile to benchmark student Alex Chen"
+            title="Reset to benchmark Indian student Aarav Sharma"
+            aria-label="Reset profile to benchmark student Aarav Sharma"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Profile</span>
+            <span>Reset Demo Profile</span>
           </button>
         </div>
 
@@ -50,7 +50,7 @@ export const StudentProfileView: React.FC = () => {
             className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-xs font-bold text-emerald-800"
           >
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span>Student profile saved successfully! All match scores updated in real time.</span>
+            <span>Student profile updated! Central, state, and CSR scholarship matches recalculated in real time.</span>
           </div>
         )}
 
@@ -59,7 +59,7 @@ export const StudentProfileView: React.FC = () => {
             {/* Full Name */}
             <div>
               <label htmlFor="prof-name" className="block text-xs font-bold text-slate-700 mb-1">
-                Student Full Name
+                Student Full Name (As per Aadhaar Card)
               </label>
               <input
                 id="prof-name"
@@ -71,28 +71,31 @@ export const StudentProfileView: React.FC = () => {
               />
             </div>
 
-            {/* GPA */}
+            {/* CGPA */}
             <div>
-              <label htmlFor="prof-gpa" className="block text-xs font-bold text-slate-700 mb-1">
-                Cumulative GPA (4.0 scale)
+              <label htmlFor="prof-cgpa" className="block text-xs font-bold text-slate-700 mb-1">
+                Cumulative CGPA (10.0 scale) / Percentage
               </label>
               <input
-                id="prof-gpa"
+                id="prof-cgpa"
                 type="number"
-                step="0.01"
+                step="0.05"
                 min="0.0"
-                max="4.0"
-                value={profile.gpa}
-                onChange={(e) => updateProfile({ gpa: parseFloat(e.target.value) || 0 })}
+                max="10.0"
+                value={profile.cgpa}
+                onChange={(e) => updateProfile({ cgpa: parseFloat(e.target.value) || 0 })}
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
                 required
               />
+              <span className="text-[10px] text-slate-500 mt-1 block">
+                Approx percentage: ~{(profile.cgpa * 9.5).toFixed(1)}% (AICTE/CBSE formula)
+              </span>
             </div>
 
             {/* Academic Level */}
             <div>
               <label htmlFor="prof-level" className="block text-xs font-bold text-slate-700 mb-1">
-                Enrolled Academic Level
+                Current Course / Academic Program
               </label>
               <select
                 id="prof-level"
@@ -102,74 +105,75 @@ export const StudentProfileView: React.FC = () => {
                 }
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
               >
-                <option value="High School Senior">High School Senior</option>
-                <option value="Undergraduate">Undergraduate</option>
-                <option value="Graduate">Graduate</option>
-                <option value="Doctoral">Doctoral</option>
+                <option value="Class 11-12">Class 11-12 (Higher Secondary)</option>
+                <option value="Undergraduate (B.Tech / B.Sc / B.Com / MBBS)">Undergraduate (B.Tech / B.Sc / B.Com / MBBS)</option>
+                <option value="Postgraduate (M.Tech / M.Sc / MBA)">Postgraduate (M.Tech / M.Sc / MBA)</option>
+                <option value="PhD / Doctoral Research">PhD / Doctoral Research (PMRF Scheme)</option>
               </select>
             </div>
 
-            {/* Major */}
+            {/* Branch / Stream */}
             <div>
-              <label htmlFor="prof-major" className="block text-xs font-bold text-slate-700 mb-1">
-                Primary Major / Field of Study
+              <label htmlFor="prof-branch" className="block text-xs font-bold text-slate-700 mb-1">
+                Branch / Specialization
               </label>
               <input
-                id="prof-major"
+                id="prof-branch"
                 type="text"
-                value={profile.major}
-                onChange={(e) => updateProfile({ major: e.target.value })}
+                value={profile.branch}
+                onChange={(e) => updateProfile({ branch: e.target.value })}
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
-                placeholder="e.g. Computer Science, Nursing, Biology"
+                placeholder="e.g. Computer Science & Engg, Mechanical, MBBS"
                 required
               />
             </div>
 
-            {/* Income Bracket */}
+            {/* Annual Family Income */}
             <div>
               <label htmlFor="prof-income" className="block text-xs font-bold text-slate-700 mb-1">
-                Household Income Bracket
+                Annual Family Income (As per Tehsildar Certificate)
               </label>
               <select
                 id="prof-income"
-                value={profile.householdIncomeBracket}
+                value={profile.familyAnnualIncome}
                 onChange={(e) =>
                   updateProfile({
-                    householdIncomeBracket: e.target.value as IncomeBracket,
+                    familyAnnualIncome: e.target.value as IncomeBracket,
                   })
                 }
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
               >
-                <option value="<$30k">&lt;$30,000 (Maximum Need)</option>
-                <option value="$30k-$60k">$30,000 - $60,000 (Pell Grant Range)</option>
-                <option value="$60k-$100k">$60,000 - $100,000 (Moderate Need)</option>
-                <option value=">$100k">&gt;$100,000 (Low Financial Need)</option>
+                <option value="< ₹2.5 Lakhs (Full EWS)">&lt; ₹2.5 Lakhs (Full EWS / BPL Priority)</option>
+                <option value="₹2.5L - ₹5 Lakhs">₹2.5L - ₹5 Lakhs (Pell / CSR eligible)</option>
+                <option value="₹5L - ₹8 Lakhs (Non-Creamy Limit)">₹5L - ₹8 Lakhs (OBC-NCL / EWS limit)</option>
+                <option value="> ₹8 Lakhs (General / Creamy Layer)">&gt; ₹8 Lakhs (General / Creamy Layer)</option>
               </select>
             </div>
 
-            {/* Citizenship */}
+            {/* Social Category */}
             <div>
-              <label htmlFor="prof-citizen" className="block text-xs font-bold text-slate-700 mb-1">
-                Citizenship / Residency Status
+              <label htmlFor="prof-category" className="block text-xs font-bold text-slate-700 mb-1">
+                Reservation / Social Category
               </label>
               <select
-                id="prof-citizen"
-                value={profile.citizenship}
+                id="prof-category"
+                value={profile.socialCategory}
                 onChange={(e) =>
-                  updateProfile({ citizenship: e.target.value as CitizenshipStatus })
+                  updateProfile({ socialCategory: e.target.value as SocialCategory })
                 }
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
               >
-                <option value="US Citizen">US Citizen</option>
-                <option value="Permanent Resident">Permanent Resident (Green Card)</option>
-                <option value="DACA">DACA / Undocumented</option>
-                <option value="International">International Student (F-1 / J-1)</option>
+                <option value="General">General (Unreserved)</option>
+                <option value="General (EWS)">General (EWS - Economically Weaker Section)</option>
+                <option value="OBC (Non-Creamy Layer)">OBC (Non-Creamy Layer)</option>
+                <option value="SC">SC (Scheduled Caste)</option>
+                <option value="ST">ST (Scheduled Tribe)</option>
               </select>
             </div>
           </div>
 
-          {/* First Gen Checkbox */}
-          <div className="pt-2">
+          {/* Additional Quota Toggles */}
+          <div className="pt-2 space-y-2 border-t border-slate-100">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -178,7 +182,19 @@ export const StudentProfileView: React.FC = () => {
                 className="w-4 h-4 text-indigo-600 rounded-sm border-slate-300 focus:ring-indigo-500"
               />
               <span className="text-xs font-medium text-slate-700">
-                I am a first-generation college student (neither parent completed a 4-year degree)
+                First-Generation Learner (First in immediate family to attend university)
+              </span>
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={profile.isSingleGirlChild}
+                onChange={(e) => updateProfile({ isSingleGirlChild: e.target.checked })}
+                className="w-4 h-4 text-indigo-600 rounded-sm border-slate-300 focus:ring-indigo-500"
+              />
+              <span className="text-xs font-medium text-slate-700">
+                Single Girl Child (Eligible for special UGC / CSR female empowerment grants)
               </span>
             </label>
           </div>
@@ -189,7 +205,7 @@ export const StudentProfileView: React.FC = () => {
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors shadow-sm focus:ring-2 focus:ring-indigo-500"
             >
               <Save className="w-4 h-4" />
-              <span>Update Profile & Re-index Grants</span>
+              <span>Update Profile & Re-index Indian Grants</span>
             </button>
           </div>
         </form>

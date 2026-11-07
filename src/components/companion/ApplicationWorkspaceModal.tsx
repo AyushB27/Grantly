@@ -261,7 +261,7 @@ const WorkspaceContent: React.FC<{
         </div>
 
         <a
-          href={scholarship.applicationUrl}
+          href={scholarship.portalUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors shadow-xs"

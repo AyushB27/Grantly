@@ -132,7 +132,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenComparison }) => {
               </div>
               <span className="text-slate-800">{profile.fullName}</span>
               <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200">
-                {profile.gpa.toFixed(2)}
+                {profile.cgpa.toFixed(2)} CGPA
               </span>
             </button>
 

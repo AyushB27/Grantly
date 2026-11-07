@@ -15,8 +15,8 @@ export const Footer: React.FC = () => {
               <span className="font-bold text-lg text-white tracking-tight">GRANTLY</span>
             </div>
             <p className="text-sm text-slate-400 max-w-md leading-relaxed">
-              Rethinking the scholarship journey. Transforming complex financial aid applications
-              into an intuitive, transparent, and accessible digital experience for every student.
+              Rethinking the Indian scholarship journey. Connecting students across India to Central NSP schemes,
+              state DBT portals, and premier CSR foundations with transparent matching and guided document vaults.
             </p>
             <div className="flex items-center gap-4 pt-2 text-xs text-slate-400">
               <span className="flex items-center gap-1">

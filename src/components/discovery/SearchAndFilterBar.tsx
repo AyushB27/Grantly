@@ -10,12 +10,13 @@ interface SearchAndFilterBarProps {
 const CATEGORIES: ('All' | CategoryTag)[] = [
   'All',
   'STEM',
-  'Need-Based',
-  'Merit',
+  'Need-Based (EWS)',
+  'Merit-Based',
   'Women in Tech',
-  'First-Generation',
-  'Healthcare',
-  'Community Service',
+  'SC / ST / OBC',
+  'First-Generation Learner',
+  'Healthcare & Medical',
+  'Single Girl Child',
 ];
 
 export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalResults }) => {
@@ -28,7 +29,7 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
         {/* Search Bar */}
         <div className="relative flex-1">
           <label htmlFor="scholarship-search" className="sr-only">
-            Search scholarships by title, provider, major or keyword
+            Search scholarships by title, provider, branch or scheme
           </label>
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
             <Search className="w-4 h-4" aria-hidden="true" />
@@ -38,7 +39,7 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
             type="text"
             value={filters.searchQuery}
             onChange={(e) => updateFilters({ searchQuery: e.target.value })}
-            placeholder="Search by scholarship name, provider, STEM, pre-med, computer science..."
+            placeholder="Search by scheme name, Reliance, Tata, NSP, PMRF, B.Tech, MBBS..."
             className="w-full pl-11 pr-10 py-3 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-xs transition-all"
             aria-label="Search scholarships"
           />
@@ -63,14 +64,14 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
             id="filter-academic-level"
             value={filters.academicLevel}
             onChange={(e) => updateFilters({ academicLevel: e.target.value })}
-            className="px-3.5 py-3 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs cursor-pointer"
+            className="px-3.5 py-3 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs cursor-pointer max-w-[200px]"
             aria-label="Filter by academic level"
           >
             <option value="All">All Education Levels</option>
-            <option value="High School Senior">High School Senior</option>
-            <option value="Undergraduate">Undergraduate</option>
-            <option value="Graduate">Graduate</option>
-            <option value="Doctoral">Doctoral</option>
+            <option value="Class 11-12">Class 11-12</option>
+            <option value="Undergraduate (B.Tech / B.Sc / B.Com / MBBS)">Undergraduate (B.Tech/MBBS)</option>
+            <option value="Postgraduate (M.Tech / M.Sc / MBA)">Postgraduate (M.Tech/MBA)</option>
+            <option value="PhD / Doctoral Research">PhD / PMRF Research</option>
           </select>
 
           {/* Sort Selector */}
@@ -87,8 +88,8 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
             >
               <option value="match">Best Match Score</option>
               <option value="deadline">Soonest Deadline</option>
-              <option value="amount_desc">Highest Award Amount</option>
-              <option value="amount_asc">Lowest Award Amount</option>
+              <option value="amount_desc">Highest Award (₹)</option>
+              <option value="amount_asc">Lowest Award (₹)</option>
               <option value="title">Alphabetical (A-Z)</option>
             </select>
             <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-4 pointer-events-none" />
@@ -135,7 +136,7 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
               className="w-4 h-4 text-indigo-600 rounded-sm border-slate-300 focus:ring-indigo-500 accent-indigo-600"
               aria-label="Show renewable scholarships only"
             />
-            <span>Renewable Only</span>
+            <span>Renewable (Annual)</span>
           </label>
 
           <label className="flex items-center gap-1.5 cursor-pointer hover:text-indigo-600 select-none">
@@ -165,10 +166,10 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
       {/* Dynamic Results Counter with aria-live */}
       <div className="flex items-center justify-between pt-2 pb-1 text-xs text-slate-500 border-b border-slate-200/70">
         <p aria-live="polite" role="status" className="font-semibold text-slate-700">
-          Showing <span className="font-extrabold text-indigo-600">{totalResults}</span> matching opportunities
+          Showing <span className="font-extrabold text-indigo-600">{totalResults}</span> verified scholarship schemes
         </p>
         <span className="text-[11px] text-slate-600">
-          Ranked deterministically by GPA, level, and major fit
+          Ranked by CGPA, income limit, and reservation entitlement
         </span>
       </div>
     </aside>

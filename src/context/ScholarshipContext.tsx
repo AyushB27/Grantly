@@ -20,7 +20,7 @@ const INITIAL_FILTERS: FilterState = {
   academicLevel: 'All',
   category: 'All',
   minAmount: 0,
-  maxGpaRequirement: 4.0,
+  maxCgpaRequirement: 10.0,
   onlyRenewable: false,
   onlyEligible: false,
   sortBy: 'match',
