@@ -1,0 +1,17 @@
+{
+  "name": "GRANTLY · Scholarship Co-Pilot",
+  "short_name": "Grantly",
+  "description": "Intelligent educational financial assistance co-pilot with deterministic eligibility scoring, gap analysis, document readiness, and application tracking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "32x32 48x48 72x72 96x96 128x128 256x256",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
