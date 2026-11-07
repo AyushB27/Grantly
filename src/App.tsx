@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScholarshipProvider, useScholarshipContext } from './context/ScholarshipContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { HeroSection } from './components/discovery/HeroSection';
 import { QuickProfileBar } from './components/profile/QuickProfileBar';
 import { SearchAndFilterBar } from './components/discovery/SearchAndFilterBar';
 import { ScholarshipGrid } from './components/discovery/ScholarshipGrid';
@@ -25,7 +26,7 @@ const MainAppContent: React.FC = () => {
     scholarships: allRawScholarships,
   } = useScholarshipContext();
 
-  const { scholarships: filteredScholarships } = useScholarships();
+  const { scholarships: filteredScholarships, aidAnalytics } = useScholarships();
   const [comparisonModalOpen, setComparisonModalOpen] = useState(false);
 
   // Active workspace scholarship lookup
@@ -49,7 +50,7 @@ const MainAppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
+    <div className="flex flex-col min-h-screen bg-[#f8fafc] text-slate-900 selection:bg-indigo-600 selection:text-white">
       {/* Accessible Navbar & Skip Landmark */}
       <Navbar onOpenComparison={() => setComparisonModalOpen(true)} />
 
@@ -57,6 +58,12 @@ const MainAppContent: React.FC = () => {
       <main id="main-content" className="flex-1 responsive-container py-6" tabIndex={-1}>
         {activeTab === 'discovery' && (
           <>
+            {/* Inspiring Hero Banner */}
+            <HeroSection
+              totalAvailableFunding={aidAnalytics.totalPotentialFunding}
+              totalGrantsCount={allRawScholarships.length}
+            />
+
             {/* Interactive Profile Simulator */}
             <QuickProfileBar />
 

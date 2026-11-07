@@ -24,6 +24,7 @@ const COLUMNS: {
   icon: React.ElementType;
   colorClass: string;
   badgeBg: string;
+  containerBg: string;
 }[] = [
   {
     id: 'bookmarked',
@@ -31,27 +32,31 @@ const COLUMNS: {
     icon: Bookmark,
     colorClass: 'text-slate-700',
     badgeBg: 'bg-slate-100 text-slate-700 border-slate-300',
+    containerBg: 'bg-slate-100/70 border-slate-200/90',
   },
   {
     id: 'in_progress',
     title: 'In Progress',
     icon: Hourglass,
     colorClass: 'text-amber-800',
-    badgeBg: 'bg-amber-50 text-amber-800 border-amber-300',
+    badgeBg: 'bg-amber-100 text-amber-900 border-amber-300',
+    containerBg: 'bg-amber-50/40 border-amber-200/80',
   },
   {
     id: 'submitted',
     title: 'Submitted',
     icon: Send,
     colorClass: 'text-blue-800',
-    badgeBg: 'bg-blue-50 text-blue-800 border-blue-300',
+    badgeBg: 'bg-blue-100 text-blue-900 border-blue-300',
+    containerBg: 'bg-blue-50/40 border-blue-200/80',
   },
   {
     id: 'awarded',
     title: 'Awarded & Won',
     icon: Award,
     colorClass: 'text-emerald-800',
-    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-300',
+    badgeBg: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    containerBg: 'bg-emerald-50/40 border-emerald-200/80',
   },
 ];
 
@@ -168,7 +173,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           return (
             <div
               key={column.id}
-              className="bg-slate-100/70 border border-slate-200/90 rounded-2xl p-4 flex flex-col min-h-[450px]"
+              className={`${column.containerBg} border rounded-2xl p-4 flex flex-col min-h-[450px] transition-all`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">

@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   Clock,
   ArrowRight,
+  BookmarkPlus,
+  Repeat,
 } from 'lucide-react';
 
 interface ScholarshipCardProps {
@@ -34,46 +36,43 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   const trackedApp = trackedApplications.find((app) => app.scholarshipId === scholarship.id);
   const urgency = getDeadlineUrgency(scholarship.deadline);
 
-  // Match score visual variant
-  const getMatchStyles = (score: number) => {
+  // Match score visual styling
+  const getMatchBadge = (score: number) => {
     if (score >= 85) {
       return {
-        badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-300',
-        barBg: 'bg-emerald-600',
-        label: 'Top Match',
+        bg: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs',
+        label: 'High Match',
       };
     }
     if (score >= 70) {
       return {
-        badgeBg: 'bg-blue-50 text-blue-800 border-blue-300',
-        barBg: 'bg-blue-600',
-        label: 'Strong Match',
+        bg: 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-xs',
+        label: 'Good Match',
       };
     }
     return {
-      badgeBg: 'bg-slate-100 text-slate-700 border-slate-300',
-      barBg: 'bg-slate-500',
-      label: 'Moderate Match',
+      bg: 'bg-slate-100 text-slate-700 border border-slate-200',
+      label: 'Fair Match',
     };
   };
 
-  const matchStyles = getMatchStyles(scholarship.matchScore);
+  const matchBadge = getMatchBadge(scholarship.matchScore);
 
   return (
     <article
       aria-labelledby={`grant-title-${scholarship.id}`}
-      className="bg-white rounded-2xl border border-slate-200/90 hover:border-indigo-300 hover:shadow-xl transition-all duration-200 flex flex-col justify-between overflow-hidden group focus-within:ring-2 focus-within:ring-indigo-500"
+      className="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-xl hover:border-indigo-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between overflow-hidden group focus-within:ring-2 focus-within:ring-indigo-500"
     >
-      {/* Top Header Strip: Provider & Match Index */}
       <div className="p-5 pb-0">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <div>
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
-              {scholarship.provider}
+        {/* Top Header: Provider & Match Gauge */}
+        <div className="flex items-start justify-between gap-3 mb-2.5">
+          <div className="space-y-0.5">
+            <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block">
+              {scholarship.provider} • {scholarship.organizationType}
             </span>
             <h3
               id={`grant-title-${scholarship.id}`}
-              className="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 mt-0.5"
+              className="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug"
             >
               {scholarship.title}
             </h3>
@@ -81,45 +80,46 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
 
           {/* Match Score Badge */}
           <div
-            className={`shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-xs font-extrabold ${matchStyles.badgeBg}`}
-            title={`Suitability Index: ${scholarship.matchScore}% - ${matchStyles.label}`}
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black tracking-tight ${matchBadge.bg}`}
+            title={`Algorithmic Match Score: ${scholarship.matchScore}%`}
           >
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
             <span>{scholarship.matchScore}% Match</span>
           </div>
         </div>
 
-        {/* Award Amount & Renewable Status */}
-        <div className="flex items-baseline gap-2 mt-3 mb-3">
+        {/* Award Amount & Terms */}
+        <div className="flex flex-wrap items-baseline gap-2 mt-3 mb-3">
           <span className="text-2xl font-black text-slate-900 tracking-tight">
             {formatCurrency(scholarship.amount)}
           </span>
-          <span className="text-xs font-medium text-slate-500">
-            {scholarship.awardType}
+          <span className="text-xs font-semibold text-slate-500">
+            / {scholarship.awardType}
           </span>
           {scholarship.renewable && (
-            <span className="ml-auto inline-flex items-center text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              <Repeat className="w-3 h-3" />
               Renewable
             </span>
           )}
         </div>
 
         {/* Plain-English summary excerpt */}
-        <p className="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed bg-slate-50/80 p-2.5 rounded-xl border border-slate-100">
           {scholarship.plainEnglishSummary}
         </p>
 
-        {/* Quick Requirement Chips */}
-        <div className="flex flex-wrap items-center gap-2 mb-4 text-[11px] text-slate-600">
-          <span className="inline-flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-md">
+        {/* Key Metrics Chips */}
+        <div className="flex flex-wrap items-center gap-2 mb-4 text-[11px] font-medium text-slate-600">
+          <span className="inline-flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg">
             <GraduationCap className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />
-            Min GPA {scholarship.minGpa.toFixed(1)}
+            <span>Min GPA {scholarship.minGpa.toFixed(1)}</span>
           </span>
           <span
-            className={`inline-flex items-center gap-1 px-2 py-1 rounded-md border font-medium ${urgency.badgeBg}`}
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border font-semibold ${urgency.badgeBg}`}
           >
             <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-            {urgency.label}
+            <span>{urgency.label}</span>
           </span>
         </div>
 
@@ -131,7 +131,7 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
             </Badge>
           ))}
           {scholarship.categories.length > 3 && (
-            <span className="text-[10px] text-slate-400 self-center">
+            <span className="text-[10px] text-slate-600 self-center font-medium">
               +{scholarship.categories.length - 3} more
             </span>
           )}
@@ -139,19 +139,19 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
       </div>
 
       {/* Card Action Footer */}
-      <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+      <div className="p-3.5 bg-slate-50/90 border-t border-slate-100 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {/* Compare toggle */}
           <button
             type="button"
             onClick={() => toggleComparison(scholarship.id)}
-            className={`p-2 rounded-lg text-xs font-semibold flex items-center gap-1 border transition-colors ${
+            className={`p-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
               isCompared
-                ? 'bg-indigo-600 text-white border-indigo-600'
-                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
             }`}
-            title="Compare with other scholarships"
-            aria-label={`${isCompared ? 'Remove' : 'Add'} ${scholarship.title} to comparison`}
+            title="Compare up to 3 grants side-by-side"
+            aria-label={`${isCompared ? 'Remove' : 'Add'} ${scholarship.title} to comparison drawer`}
           >
             <Layers className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="hidden sm:inline">{isCompared ? 'Comparing' : 'Compare'}</span>
@@ -162,8 +162,8 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
             <button
               type="button"
               onClick={() => onOpenWorkspace(scholarship.id)}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100"
-              aria-label={`Open application workspace for ${scholarship.title}. Status: ${trackedApp.stage}`}
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 transition-colors"
+              aria-label={`Open application workspace for ${scholarship.title}`}
             >
               <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
               <span className="capitalize">{trackedApp.stage.replace('_', ' ')}</span>
@@ -172,10 +172,11 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
             <button
               type="button"
               onClick={() => setApplicationStage(scholarship.id, 'bookmarked')}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 hover:text-slate-900 transition-colors"
               aria-label={`Bookmark ${scholarship.title}`}
             >
-              + Track
+              <BookmarkPlus className="w-3.5 h-3.5 text-slate-500" />
+              <span>Track</span>
             </button>
           )}
         </div>
@@ -184,11 +185,11 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
         <button
           type="button"
           onClick={() => onOpenDetails(scholarship)}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-xs focus:ring-2 focus:ring-indigo-500"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-xs group-hover:shadow-md focus:ring-2 focus:ring-indigo-500"
           aria-label={`Understand options and view full breakdown for ${scholarship.title}`}
         >
           <span>Understand</span>
-          <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
         </button>
       </div>
     </article>
