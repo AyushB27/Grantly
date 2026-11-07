@@ -648,7 +648,7 @@ export const MOCK_SCHOLARSHIPS: Scholarship[] = [
 ];
 
 /**
- * Common documents in the Indian scholarship vault (F5. Document Vault and Readiness Score)
+ * Common documents in the Indian scholarship vault (Document Vault and Readiness Score)
  */
 export const DEFAULT_DOCUMENT_VAULT: DocumentVaultItem[] = [
   {
@@ -740,7 +740,7 @@ export const DEFAULT_STUDENT_PROFILE: StudentProfile = {
 };
 
 /**
- * Initial seeded tracked applications (F6. 5-Stage Application Tracker)
+ * Initial seeded tracked applications (5-Stage Application Tracker)
  * Stages: saved → preparing → submitted → under_review → result
  */
 export const DEFAULT_TRACKED_APPLICATIONS: TrackedApplication[] = [

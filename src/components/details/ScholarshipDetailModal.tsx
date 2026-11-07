@@ -139,7 +139,7 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
           </div>
         </div>
 
-        {/* F3: Plain-English Summary (No Legalese) */}
+        {/* Plain-English Summary (No Legalese) */}
         <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-2">
           <span className="eyebrow text-[#a9f46b] flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
@@ -150,7 +150,7 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
           </p>
         </div>
 
-        {/* F3: 3-Way Eligibility Checklist (Met ✓, Partial ▲, Unmet ✕) */}
+        {/* 3-Way Eligibility Checklist (Met ✓, Partial ▲, Unmet ✕) */}
         <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="eyebrow text-[#a9f46b] flex items-center gap-1.5">
@@ -196,7 +196,7 @@ export const ScholarshipDetailModal: React.FC<ScholarshipDetailModalProps> = ({
           </div>
         </div>
 
-        {/* F3: 3-5 Step Application Process Roadmap */}
+        {/* Guided Application Process Roadmap */}
         <div className="bg-[#101313] border border-[#222827] rounded-2xl p-5 space-y-3">
           <span className="eyebrow text-[#70b4ff] block">
             APPLICATION ROADMAP ({scholarship.applicationSteps?.length || 4} GUIDED STEPS)

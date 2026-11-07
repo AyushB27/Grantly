@@ -77,7 +77,7 @@ export function useScholarships() {
         return false;
       }
 
-      // F4 Almost Eligible Filter
+      // Almost Eligible Filter
       if (filters.onlyAlmostEligible && !item.matchBreakdown.isAlmostEligible) {
         return false;
       }

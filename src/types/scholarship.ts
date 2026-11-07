@@ -1,6 +1,6 @@
 /**
  * Core domain types for GRANTLY: From Scholarship Search to Scholarship Success
- * Covers F1-F7 Core Features, Indian Educational Ecosystem, and Stretch Capabilities
+ * Covers Core Features, Indian Educational Ecosystem, and Financial Aid Strategy
  */
 
 export type EducationLevel =
@@ -70,11 +70,11 @@ export interface Scholarship {
   familyIncomeCapMax: number; // 0 for no cap, or ceiling in INR
   description: string;
   plainEnglishSummary: string;
-  whyYouMatchSummary: string; // Default template for F2 "Why you match"
+  whyYouMatchSummary: string; // Default template for "Why you match"
   eligibilityCriteria: EligibilityRuleItem[];
   requiredDocuments: string[];
-  applicationSteps: ApplicationStepItem[]; // F3: 3-5 step application process
-  verifiedSource: boolean; // F3: Verified source badge
+  applicationSteps: ApplicationStepItem[]; // 3-5 step application process
+  verifiedSource: boolean; // Verified source badge
   portalUrl: string;
   acceptanceRateEstimate: string;
   stackConflicts: string[]; // Stretch: Stack planner conflicts
@@ -110,7 +110,7 @@ export interface DocumentVaultItem {
   expiryNote?: string;
 }
 
-// F6. 5-Stage Application Tracker: Saved → Preparing → Submitted → Under Review → Result
+// 5-Stage Application Tracker: Saved → Preparing → Submitted → Under Review → Result
 export type ApplicationStage =
   | 'saved'
   | 'preparing'
@@ -137,7 +137,7 @@ export interface FilterState {
   maxEffortMinutes: number;
   onlyRenewable: boolean;
   onlyEligible: boolean;
-  onlyAlmostEligible: boolean; // F4 Gap Analysis filter
+  onlyAlmostEligible: boolean; // Gap Analysis filter
   sortBy: 'match' | 'deadline' | 'amount_desc' | 'amount_asc' | 'effort';
 }
 
@@ -155,8 +155,8 @@ export interface MatchScoreBreakdown {
   categoryScore: number;
   regionMatch: boolean;
   reasons: string[];
-  whyYouMatchLine: string; // F2 mandatory "Why you match" line
+  whyYouMatchLine: string; // "Why you match" summary line
   warningFlags: string[];
-  isAlmostEligible: boolean; // F4 Signature feature
+  isAlmostEligible: boolean; // Almost Eligible flag
   gaps: { requirement: string; gapDescription: string; suggestedFix: string }[];
 }

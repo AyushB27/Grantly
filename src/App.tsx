@@ -76,7 +76,7 @@ const MainAppContent: React.FC = () => {
 
   return (
     <DashboardLayout onOpenComparison={() => setComparisonModalOpen(true)}>
-      {/* F2: Personalized Scholarship Feed */}
+      {/* Personalized Scholarship Feed */}
       {activeTab === 'discovery' && (
         <>
           <HeroSection
@@ -96,7 +96,7 @@ const MainAppContent: React.FC = () => {
         </>
       )}
 
-      {/* F4: Almost Eligible Gap Analysis */}
+      {/* Almost Eligible Gap Analysis */}
       {activeTab === 'gaps' && (
         <GapAnalysisView
           onOpenDetails={handleOpenDetails}
@@ -104,10 +104,10 @@ const MainAppContent: React.FC = () => {
         />
       )}
 
-      {/* F5: Universal Document Vault & Readiness Score */}
+      {/* Universal Document Vault & Readiness Score */}
       {activeTab === 'vault' && <DocumentVaultView />}
 
-      {/* F6: 5-Stage Application Tracker */}
+      {/* 5-Stage Application Tracker */}
       {activeTab === 'tracker' && (
         <KanbanBoard
           onOpenWorkspace={handleOpenWorkspace}
@@ -115,7 +115,7 @@ const MainAppContent: React.FC = () => {
         />
       )}
 
-      {/* F7: Deadlines Radar View */}
+      {/* Deadlines Radar View */}
       {activeTab === 'deadlines' && (
         <DeadlinesRadarView
           onOpenDetails={handleOpenDetails}
@@ -123,7 +123,7 @@ const MainAppContent: React.FC = () => {
         />
       )}
 
-      {/* Stretch: Scholarship Stack Planner */}
+      {/* Scholarship Stack Planner */}
       {activeTab === 'stack' && <ScholarshipStackPlanner />}
 
       {/* Tuition Gap Visualizer */}
@@ -137,13 +137,13 @@ const MainAppContent: React.FC = () => {
         onClose={() => setIsAuthModalOpen(false)}
       />
 
-      {/* F1: Smart Onboarding Profile Modal */}
+      {/* Smart Onboarding Profile Modal */}
       <OnboardingModal
         isOpen={isOnboardingOpen}
         onClose={() => setIsOnboardingOpen(false)}
       />
 
-      {/* F3: Scholarship Detail View Modal */}
+      {/* Scholarship Detail View Modal */}
       <ScholarshipDetailModal
         scholarship={selectedScholarship}
         onClose={() => setSelectedScholarship(null)}

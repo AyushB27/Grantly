@@ -18,12 +18,12 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export type ActiveTab =
   | 'discovery'
-  | 'gaps' // F4 Almost Eligible Gap Analysis
-  | 'vault' // F5 Document Vault & Readiness
-  | 'tracker' // F6 5-Stage Kanban Board
-  | 'deadlines' // F7 Urgency Radar
-  | 'stack' // Stretch: Stack Planner
-  | 'calculator'; // Tuition Gap visualizer
+  | 'gaps'
+  | 'vault'
+  | 'tracker'
+  | 'deadlines'
+  | 'stack'
+  | 'calculator';
 
 export type AppView = 'landing' | 'auth' | 'onboarding' | 'app';
 export type AppTheme = 'dark' | 'light';

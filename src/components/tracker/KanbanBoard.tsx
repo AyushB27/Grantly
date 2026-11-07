@@ -181,11 +181,10 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               </div>
 
               {/* Sub-total funding for column */}
-              {colFunding > 0 && (
-                <div className="text-[10px] font-mono text-[var(--text-muted)] text-right">
-                  Pool: {formatCurrency(colFunding)}
-                </div>
-              )}
+              <div className="text-[10px] font-mono text-[var(--text-muted)] flex items-center justify-between h-4">
+                <span>Total Pool</span>
+                <span className="font-semibold">{colFunding > 0 ? formatCurrency(colFunding) : '₹0'}</span>
+              </div>
 
               {/* Card List in Column */}
               <div className="space-y-3 flex-1">

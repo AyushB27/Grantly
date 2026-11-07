@@ -150,15 +150,15 @@ export const SearchAndFilterBar: React.FC<SearchAndFilterBarProps> = ({ totalRes
             <span>High Match (≥75%)</span>
           </label>
 
-          <label className="flex items-center gap-1.5 cursor-pointer hover:text-[#f7ba53] select-none">
+          <label className="flex items-center gap-1.5 cursor-pointer hover:text-amber-600 dark:hover:text-amber-400 select-none">
             <input
               type="checkbox"
               checked={filters.onlyAlmostEligible}
               onChange={(e) => updateFilters({ onlyAlmostEligible: e.target.checked })}
-              className="w-4 h-4 accent-[#f7ba53] rounded"
+              className="w-4 h-4 accent-amber-500 rounded cursor-pointer"
               aria-label="Filter to almost eligible opportunities"
             />
-            <span className="text-[#f7ba53]">Almost Eligible (F4)</span>
+            <span className="text-amber-600 dark:text-amber-400 font-semibold">Almost Eligible (Gap Match)</span>
           </label>
 
           <button

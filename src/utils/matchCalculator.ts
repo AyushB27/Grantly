@@ -2,7 +2,7 @@ import type { Scholarship, StudentProfile, MatchScoreBreakdown } from '../types/
 
 /**
  * Deterministic Eligibility & Match Scoring Engine
- * Powers F2 ("Why you match" lines) and F4 ("Almost Eligible" Gap Analysis)
+ * Powers matching criteria, "Why you match" lines, and "Almost Eligible" Gap Analysis
  */
 export function calculateMatchScore(
   scholarship: Scholarship,
@@ -197,13 +197,13 @@ export function calculateMatchScore(
     Math.round(cgpaScore + levelScore + branchScore + incomeScore + categoryScore)
   );
 
-  // F4 Signature Feature: Almost Eligible detection
+  // Almost Eligible detection
   // A scholarship is "Almost Eligible" if score is 50-74% OR has 1-2 fixable gaps
   const isAlmostEligible =
     (overallPercentage >= 50 && overallPercentage < 75) ||
     (gaps.length > 0 && gaps.length <= 2 && overallPercentage >= 45);
 
-  // F2 Signature Feature: "Why you match" one-liner
+  // "Why you match" summary one-liner
   const whyYouMatchLine =
     reasons.length > 0
       ? `Why you match: ${reasons.slice(0, 2).join(' • ')}`

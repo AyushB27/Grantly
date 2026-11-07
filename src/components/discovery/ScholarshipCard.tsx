@@ -116,7 +116,7 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           )}
         </div>
 
-        {/* F2 Mandatory "Why you match" Line */}
+        {/* Mandatory "Why you match" Line */}
         <div className="p-3 bg-[#141818] rounded-xl border border-[#222827] mb-3 flex items-start gap-2">
           <Zap className="w-3.5 h-3.5 text-[#a9f46b] shrink-0 mt-0.5" />
           <div className="space-y-0.5">

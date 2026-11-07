@@ -158,21 +158,19 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
   return (
     <section aria-label="Deadlines Radar and Timeline" className="space-y-6">
       {/* Top Banner */}
-      <div className="p-6 bg-[#101313] border border-[#222827] rounded-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#ff8e91]/10 via-[#f7ba53]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+      <div className="p-6 bg-[var(--bg-card)] border border-[var(--border-card)] rounded-2xl relative overflow-hidden shadow-xs">
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="flex items-center gap-2">
-            <span className="eyebrow text-[#f7ba53]">F7 CORE CAPABILITY</span>
-            <span className="text-[#525c57]">•</span>
-            <span className="eyebrow text-[#89918c]">DEADLINES RADAR</span>
+            <span className="eyebrow text-amber-600 dark:text-amber-400">URGENCY RADAR</span>
+            <span className="text-[var(--text-muted)]">•</span>
+            <span className="eyebrow text-[var(--text-muted)]">DEADLINES RADAR</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#edf1ec] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">
             Urgency Timeline & Deadlines Radar
           </h1>
 
-          <p className="text-sm text-[#89918c] leading-relaxed">
+          <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             Never miss an educational grant due to buried dates. Partitioned transparently into
             urgent (this week), upcoming, and archived schemes with live countdown indicators.
           </p>
@@ -181,10 +179,10 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
           <div className="pt-2 flex flex-wrap items-center gap-2">
             <button
               onClick={() => setFilterMode('all')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-colors ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer ${
                 filterMode === 'all'
-                  ? 'bg-[#a9f46b] text-[#090b0b]'
-                  : 'bg-[#141818] border border-[#222827] text-[#89918c] hover:text-[#edf1ec]'
+                  ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                  : 'bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]'
               }`}
             >
               All Catalog Grants ({allEnriched.length})
@@ -192,10 +190,10 @@ export const DeadlinesRadarView: React.FC<DeadlinesRadarViewProps> = ({
 
             <button
               onClick={() => setFilterMode('tracked')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-colors ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer ${
                 filterMode === 'tracked'
-                  ? 'bg-[#a9f46b] text-[#090b0b]'
-                  : 'bg-[#141818] border border-[#222827] text-[#89918c] hover:text-[#edf1ec]'
+                  ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-xs'
+                  : 'bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)]'
               }`}
             >
               My Tracked Pipeline ({trackedApplications.length})

@@ -50,9 +50,9 @@ export const GapAnalysisView: React.FC<GapAnalysisViewProps> = ({
 
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="flex items-center gap-2">
-            <span className="eyebrow text-[#f7ba53]">SIGNATURE CAPABILITY • F4</span>
-            <span className="text-[#525c57]">•</span>
-            <span className="eyebrow text-[#a9f46b]">GAP ANALYSIS ENGINE</span>
+            <span className="eyebrow text-amber-600 dark:text-amber-400">GAP DIAGNOSTICS</span>
+            <span className="text-[var(--text-muted)]">•</span>
+            <span className="eyebrow text-[var(--text-muted)]">ELIGIBILITY ADVISOR</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#edf1ec] tracking-tight">
