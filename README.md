@@ -5,7 +5,7 @@
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38b2ac?logo=tailwind-css)](https://tailwindcss.com/)
 [![Ecosystem](https://img.shields.io/badge/Ecosystem-Indian%20Higher%20Education-orange)](https://scholarships.gov.in)
-[![Design System](https://img.shields.io/badge/Design-StockFolio%20Dark%20Precision-a9f46b)](#stockfolio-precision-dark-aesthetic)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FAyushB27%2FGrantly)
 [![Accessibility](https://img.shields.io/badge/A11y-WCAG%202.1%20AA-success)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Code Quality](https://img.shields.io/badge/Quality-Zero%20Defect%20Build-emerald)](#architectural--quality-engineering-standards)
 
@@ -121,6 +121,18 @@ npm run lint
 # Run strict TypeScript compilation and production Vite build
 npm run build
 ```
+
+### Live Vercel Deployment Guide
+Grantly is pre-configured with [`vercel.json`](vercel.json) for zero-configuration, continuous production deployment:
+1. **GitHub Continuous Deployment**:
+   - Go to [vercel.com/new](https://vercel.com/new).
+   - Select and import the repository: [`AyushB27/Grantly`](https://github.com/AyushB27/Grantly).
+   - Framework preset: **Vite** (auto-detected).
+   - Build Command: `npm run build` (auto-detected).
+   - Output Directory: `dist` (auto-detected).
+   - Click **Deploy**. Vercel will build and assign an instant production URL (e.g. `https://grantly-*.vercel.app`).
+2. **Every Future Push**:
+   - Any commit pushed to the `main` branch automatically triggers an optimized Vercel CI preview and production deployment.
 
 ---
 
