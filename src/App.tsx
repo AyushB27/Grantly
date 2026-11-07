@@ -21,8 +21,6 @@ import { ScholarshipStackPlanner } from './components/stack/ScholarshipStackPlan
 import { FinancialAidSummary } from './components/analytics/FinancialAidSummary';
 import { useScholarships } from './hooks/useScholarships';
 import type { EnrichedScholarship } from './hooks/useScholarships';
-import { Clock, Layers, Calculator, CheckSquare } from 'lucide-react';
-import type { ActiveTab } from './context/ScholarshipContext';
 
 const MainAppContent: React.FC = () => {
   const {
@@ -63,13 +61,6 @@ const MainAppContent: React.FC = () => {
     }
   };
 
-  const trackerSubNavs: { id: ActiveTab; label: string; icon: React.ElementType }[] = [
-    { id: 'tracker', label: '5-Stage Pipeline', icon: CheckSquare },
-    { id: 'deadlines', label: 'Deadlines Radar', icon: Clock },
-    { id: 'stack', label: 'Stack Planner', icon: Layers },
-    { id: 'calculator', label: 'Tuition Fee Gap', icon: Calculator },
-  ];
-
   // Standalone dedicated views with zero app navbar
   if (currentView === 'landing') {
     return <LandingPage />;
@@ -85,33 +76,6 @@ const MainAppContent: React.FC = () => {
 
   return (
     <DashboardLayout onOpenComparison={() => setComparisonModalOpen(true)}>
-      {/* If inside Tracker hub (pipeline, deadlines, stack, or calculator), show clean sub-nav pill */}
-      {(activeTab === 'tracker' ||
-        activeTab === 'deadlines' ||
-        activeTab === 'stack' ||
-        activeTab === 'calculator') && (
-        <div className="mb-6 flex flex-wrap items-center gap-2 p-1.5 bg-[#111827] border border-[#1e293b] rounded-2xl w-fit">
-          {trackerSubNavs.map((sub) => {
-            const Icon = sub.icon;
-            const isActive = activeTab === sub.id;
-            return (
-              <button
-                key={sub.id}
-                onClick={() => setActiveTab(sub.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-medium transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold shadow-xs'
-                    : 'text-[#94a3b8] hover:text-[#f8fafc]'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{sub.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-
       {/* F2: Personalized Scholarship Feed */}
       {activeTab === 'discovery' && (
         <>
