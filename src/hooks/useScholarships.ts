@@ -7,16 +7,10 @@
 import { useMemo } from 'react';
 import { useScholarshipContext } from '../context/ScholarshipContext';
 import { calculateMatchScore } from '../utils/matchCalculator';
-import type { Scholarship, MatchScoreBreakdown } from '../types/scholarship';
+import type { EnrichedScholarship } from '../types';
 import { getDeadlineUrgency } from '../utils/formatters';
 
-/**
- * Enriched scholarship model containing computed match score and factor breakdown
- */
-export interface EnrichedScholarship extends Scholarship {
-  matchBreakdown: MatchScoreBreakdown;
-  matchScore: number;
-}
+export type { EnrichedScholarship };
 
 /**
  * Primary reactive hook exposing filtered scholarship collections, sorted tiers,

@@ -3,22 +3,13 @@ import { useScholarshipContext } from '../../context/ScholarshipContext';
 import { Search, X, ArrowUpDown, RotateCcw, Zap } from 'lucide-react';
 import type { CategoryTag } from '../../types/scholarship';
 import { sanitizeInput } from '../../utils/security';
+import { CATEGORY_TAGS } from '../../constants';
 
 interface SearchAndFilterBarProps {
   totalResults: number;
 }
 
-const CATEGORIES: ('All' | CategoryTag)[] = [
-  'All',
-  'STEM',
-  'Need-Based (EWS)',
-  'Merit-Based',
-  'Women in Tech',
-  'SC / ST / OBC',
-  'First-Generation Learner',
-  'Healthcare & Medical',
-  'Single Girl Child',
-];
+const CATEGORIES: ('All' | CategoryTag)[] = ['All', ...CATEGORY_TAGS];
 
 /**
  * Interactive search, sort, and multi-facet filtering bar

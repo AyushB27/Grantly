@@ -15,6 +15,7 @@ import {
   DEFAULT_DOCUMENT_VAULT,
 } from '../data/mockScholarships';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { STORAGE_KEYS } from '../constants';
 
 export type ActiveTab =
   | 'discovery'
@@ -106,29 +107,29 @@ const ScholarshipContext = createContext<ScholarshipContextValue | undefined>(un
 
 export const ScholarshipProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useLocalStorage<StudentProfile>(
-    'grantly_student_profile_v2',
+    STORAGE_KEYS.PROFILE,
     DEFAULT_STUDENT_PROFILE
   );
 
   const [trackedApplications, setTrackedApplications] = useLocalStorage<TrackedApplication[]>(
-    'grantly_tracked_applications_v2',
+    STORAGE_KEYS.APPLICATIONS,
     DEFAULT_TRACKED_APPLICATIONS
   );
 
   const [documentVault, setDocumentVault] = useLocalStorage<DocumentVaultItem[]>(
-    'grantly_document_vault_v2',
+    STORAGE_KEYS.VAULT,
     DEFAULT_DOCUMENT_VAULT
   );
 
   const [stackScholarshipIds, setStackScholarshipIds] = useLocalStorage<string[]>(
-    'grantly_stack_ids_v2',
+    STORAGE_KEYS.STACK_IDS,
     ['ind-grant-01', 'ind-grant-03']
   );
 
-  const [theme, setThemeState] = useLocalStorage<AppTheme>('grantly_theme_v3', 'light');
-  const [currentView, setCurrentView] = useLocalStorage<AppView>('grantly_view_v2', 'landing');
+  const [theme, setThemeState] = useLocalStorage<AppTheme>(STORAGE_KEYS.THEME, 'light');
+  const [currentView, setCurrentView] = useLocalStorage<AppView>(STORAGE_KEYS.VIEW, 'landing');
   const [currentUser, setCurrentUser] = useLocalStorage<UserSession | null>(
-    'grantly_current_user_v2',
+    STORAGE_KEYS.CURRENT_USER,
     DEFAULT_USER
   );
 

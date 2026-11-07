@@ -160,3 +160,21 @@ export interface MatchScoreBreakdown {
   isAlmostEligible: boolean; // Almost Eligible flag
   gaps: { requirement: string; gapDescription: string; suggestedFix: string }[];
 }
+
+/**
+ * Concurrency conflict record detailing competing awards and institutional policy rationale
+ */
+export interface StackConflict {
+  grantA: string;
+  grantB: string;
+  reason: string;
+}
+
+/**
+ * Enriched scholarship model containing computed match score and factor breakdown
+ */
+export interface EnrichedScholarship extends Scholarship {
+  matchBreakdown: MatchScoreBreakdown;
+  matchScore: number;
+}
+

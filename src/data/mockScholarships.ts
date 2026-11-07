@@ -1,6 +1,5 @@
 import type {
   Scholarship,
-  StudentProfile,
   TrackedApplication,
   DocumentVaultItem,
 } from '../types/scholarship';
@@ -719,25 +718,9 @@ export const DEFAULT_DOCUMENT_VAULT: DocumentVaultItem[] = [
 ];
 
 /**
- * Benchmark Indian student profile
+ * Benchmark Indian student profile (centralized in constants)
  */
-export const DEFAULT_STUDENT_PROFILE: StudentProfile = {
-  fullName: 'Aarav Sharma',
-  university: 'IIT Delhi',
-  course: 'B.Tech Computer Science & Engineering',
-  currentYear: '2nd Year',
-  academicLevel: 'Undergraduate',
-  branch: 'Computer Science & Engineering',
-  marksCgpa: 8.65,
-  marksPercentage: 82.2,
-  socialCategory: 'General (EWS)',
-  familyAnnualIncome: '₹2.5L - ₹5 Lakhs',
-  regionState: 'Delhi',
-  isFirstGen: true,
-  isSingleGirlChild: false,
-  targetAnnualFees: 180000,
-  isOnboardingCompleted: true,
-};
+export { DEFAULT_STUDENT_PROFILE } from '../constants';
 
 /**
  * Initial seeded tracked applications (5-Stage Application Tracker)

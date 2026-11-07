@@ -15,6 +15,12 @@ import {
   AlertCircle,
   IndianRupee,
 } from 'lucide-react';
+import {
+  ACADEMIC_YEARS as CURRENT_YEARS,
+  SOCIAL_CATEGORIES,
+  INCOME_BRACKETS,
+  POPULAR_INDIAN_STATES as POPULAR_STATES,
+} from '../../constants';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -26,46 +32,6 @@ const EDUCATION_LEVELS: EducationLevel[] = [
   'Postgraduate',
   'PhD / Research',
   'Class 11-12',
-];
-
-const CURRENT_YEARS: StudentProfile['currentYear'][] = [
-  '1st Year',
-  '2nd Year',
-  '3rd Year',
-  'Final Year',
-  'Postgraduate',
-];
-
-const SOCIAL_CATEGORIES: SocialCategory[] = [
-  'General',
-  'General (EWS)',
-  'OBC (Non-Creamy Layer)',
-  'SC',
-  'ST',
-];
-
-const INCOME_BRACKETS: IncomeBracket[] = [
-  '< ₹2.5 Lakhs (Full EWS)',
-  '₹2.5L - ₹5 Lakhs',
-  '₹5L - ₹8 Lakhs (Non-Creamy Limit)',
-  '> ₹8 Lakhs (General / Creamy Layer)',
-];
-
-const POPULAR_STATES = [
-  'All India',
-  'Delhi',
-  'Karnataka',
-  'Maharashtra',
-  'Tamil Nadu',
-  'Uttar Pradesh',
-  'West Bengal',
-  'Telangana',
-  'Gujarat',
-  'Rajasthan',
-  'Kerala',
-  'Bihar',
-  'Madhya Pradesh',
-  'Punjab',
 ];
 
 /**

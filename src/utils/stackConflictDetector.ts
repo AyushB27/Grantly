@@ -4,16 +4,9 @@
  * State Govt DBT schemes, and private CSR trusts to prevent disqualifications.
  */
 
-import type { Scholarship } from '../types/scholarship';
+import type { Scholarship, StackConflict } from '../types';
 
-/**
- * Concurrency conflict record detailing competing awards and policy rationale
- */
-export interface StackConflict {
-  grantA: string;
-  grantB: string;
-  reason: string;
-}
+export type { StackConflict };
 
 /**
  * Pure evaluation function that detects legal and policy concurrency conflicts
